@@ -1,0 +1,7 @@
+{
+  "EntityDirectory": "Business",
+  "DataSourceDirectory": "DataSource",
+  "DataAccessDirectory": "DataAccess",
+  "CodeTableSourceName": "",
+  "CheckForNewResources": true
+}

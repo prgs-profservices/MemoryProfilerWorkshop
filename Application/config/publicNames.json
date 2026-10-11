@@ -1,0 +1,44 @@
+{"publicNames": {
+  "entityNames": [
+    {
+      "category": "Table",
+      "name": "purchaseOrderLine",
+      "sourceName": "POLine"
+    },
+    {
+      "category": "Table",
+      "name": "inventoryTransaction",
+      "sourceName": "inventoryTrans"
+    }
+  ],
+  "propertyNames": [
+    {
+      "sourceName": "POLineStatus",
+      "name": "lineStatus"
+    },
+    {
+      "sourceName": "PONum",
+      "name": "purchaseOrderNum"
+    },
+    {
+      "sourceName": "AMTimeIn",
+      "name": "timeInAM"
+    },
+    {
+      "sourceName": "AMTimeOut",
+      "name": "timeOutAM"
+    },
+    {
+      "sourceName": "PMTimeIn",
+      "name": "timeInPM"
+    },
+    {
+      "sourceName": "PMTimeOut",
+      "name": "timeOutPM"
+    },
+    {
+      "sourceName": "qty",
+      "name": "quantity"
+    }
+  ]
+}}
