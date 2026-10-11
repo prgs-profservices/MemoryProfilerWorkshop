@@ -1,0 +1,13 @@
+ -db C:/db/sports2020 -H localhost -S 8700
+ -mmax 65534
+ -catchStop 1
+ -D 300
+ -s 200
+-inp 32000
+-tok 4096
+-l 1024
+-rereadnolock
+-cpinternal UTF-8
+-cpstream   UTF-8
+-cpcoll     ICU_48-fr_CA
+ -profileMemory memProfConfig.config
