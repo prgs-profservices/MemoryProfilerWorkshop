@@ -1,0 +1,1413 @@
+{
+  "info": {
+    "_postman_id": "f70bd6b6-b488-492a-a624-861658e0cb13",
+    "name": "Update data",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57401998",
+    "_collection_link": "https://go.postman.co/collection/57401998-f70bd6b6-b488-492a-a624-861658e0cb13?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Update benefits",
+      "item": [
+        {
+          "name": "Post benefits",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "if (pm.response.code===200) {\r",
+                  "        pm.collectionVariables.set(\r",
+                  "        \"BenefitDeleteBody\",\r",
+                  "        JSON.stringify(response.response)   \r",
+                  "    );\r",
+                  "};"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"benefits\": [\r\n      {\r\n        \"dependentCare\": 1500,\r\n        \"empNum\": 30,\r\n        \"healthCare\": \"BlueCross\",\r\n        \"lifeInsurance\": 160000,\r\n        \"medicalSpending\": 1000,\r\n        \"pension401K\": 15,\r\n        \"stockPurchase\": 10\r\n      },\r\n      {\r\n        \"dependentCare\": 5000,\r\n        \"empNum\": 31,\r\n        \"healthCare\": \"BlueCross\",\r\n        \"lifeInsurance\": 150000,\r\n        \"medicalSpending\": 3500,\r\n        \"pension401K\": 15,\r\n        \"stockPurchase\": 25\r\n      },\r\n      {\r\n        \"dependentCare\": 10000,\r\n        \"empNum\": 32,\r\n        \"healthCare\": \"BlueCross\",\r\n        \"lifeInsurance\": 100000,\r\n        \"medicalSpending\": 20000,\r\n        \"pension401K\": 5,\r\n        \"stockPurchase\": 10\r\n      }\r\n    ]\r\n \r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}benefits",
+              "host": [
+                "{{BaseUrl}}benefits"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete benefits",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{BenefitDeleteBody}}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}benefits",
+              "host": [
+                "{{BaseUrl}}benefits"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update bill tos",
+      "item": [
+        {
+          "name": "Post bill tos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.collectionVariables.set(\r",
+                  " \"BillToDeleteBody\",\r",
+                  " JSON.stringify(response.response)\r",
+                  ");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"billTos\": [\r\n      {\r\n        \"address\": \"5000 Alabama St\",\r\n        \"address2\": \"Suite 278\",\r\n        \"billToID\": 3,\r\n        \"city\": \"Montgomery\",\r\n        \"contact\": \"Flint Stone\",\r\n        \"custNum\": 3005,\r\n        \"name\": \"AL - Finance Office\",\r\n        \"phone\": \"(334) 123-1234\",\r\n        \"postalCode\": \"36117\",\r\n        \"state\": \"AL\"\r\n      },\r\n      {\r\n        \"address\": \"313 Peachtree St.\",\r\n        \"address2\": \"Suite 1200\",\r\n        \"billToID\": 4,\r\n        \"city\": \"Atanta\",\r\n        \"contact\": \"Sally Horn\",\r\n        \"custNum\": 3005,\r\n        \"name\": \"GA - Finance Offc.\",\r\n        \"phone\": \"(770) 432-4321\",\r\n        \"postalCode\": \"30123\",\r\n        \"state\": \"GA\"\r\n      }\r\n    ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}billTos",
+              "host": [
+                "{{BaseUrl}}billTos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete bill tos",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{BillToDeleteBody}}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}billTos",
+              "host": [
+                "{{BaseUrl}}billTos"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update bins",
+      "item": [
+        {
+          "name": "Post bins",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.collectionVariables.set(\r",
+                  "  \"BinDeleteBody\",\r",
+                  "   JSON.stringify(response.response)\r",
+                  ");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{  \r\n  \"bins\": \r\n    [\r\n\r\n      {\r\n        \"binName\": \"899891-F\",\r\n        \"binNum\": 0,\r\n        \"itemNum\": 51,\r\n        \"quantity\": 0,\r\n        \"warehouseNum\": 14\r\n      },\r\n      {\r\n        \"binName\": \"400059-G\",\r\n        \"binNum\": 1,\r\n        \"itemNum\": 52,\r\n        \"quantity\": 0,\r\n        \"warehouseNum\": 14\r\n      },\r\n      {\r\n        \"binName\": \"265324-T\",\r\n        \"binNum\": 2,\r\n        \"itemNum\": 53,\r\n        \"quantity\": 449,\r\n        \"warehouseNum\": 14\r\n      },\r\n      {\r\n        \"binName\": \"123435-E\",\r\n        \"binNum\": 3,\r\n        \"itemNum\": 54,\r\n        \"quantity\": 640,\r\n        \"warehouseNum\": 14\r\n      },\r\n      {\r\n        \"binName\": \"564321-T\",\r\n        \"binNum\": 4,\r\n        \"itemNum\": 55,\r\n        \"quantity\": 0,\r\n        \"warehouseNum\": 14\r\n      }\r\n    ]\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}bins",
+              "host": [
+                "{{BaseUrl}}bins"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete bins",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{BinDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}bins",
+              "host": [
+                "{{BaseUrl}}bins"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update customers",
+      "item": [
+        {
+          "name": "Post customers",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.collectionVariables.set(\r",
+                  " \"CustomerDeleteBody\",\r",
+                  " JSON.stringify(response.response)\r",
+                  ");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": " {\"customers\": \r\n    [\r\n      {\r\n        \"address\": \"333 North Drive\",\r\n        \"address2\": \"\",\r\n        \"balance\": 234,\r\n        \"city\": \"Burlington\",\r\n        \"comments\": \"This customer is on credit hold.\",\r\n        \"contact\": \"Gloria Shepley\",\r\n        \"country\": \"USA\",\r\n        \"creditLimit\": 30000,\r\n        \"custNum\": 1,\r\n        \"discount\": 35,\r\n        \"emailAddress\": \"\",\r\n        \"fax\": \"\",\r\n        \"name\": \"Stomper\",\r\n        \"phone\": \"(617) 332-0006\",\r\n        \"postalCode\": \"01730\",\r\n        \"salesRep\": \"HXM\",\r\n        \"state\": \"MA\",\r\n        \"terms\": \"Net30\"\r\n      },\r\n      {\r\n        \"address\": \"42 Main Street\",\r\n        \"address2\": \"\",\r\n        \"balance\": 0,\r\n        \"city\": \"Burlington\",\r\n        \"comments\": \"This customer is weird.\",\r\n        \"contact\": \"Damian Naper\",\r\n        \"country\": \"USA\",\r\n         \"custNum\": 2,\r\n        \"creditLimit\": 1200,\r\n        \"discount\": 10,\r\n        \"emailAddress\": \"\",\r\n        \"fax\": \"\",\r\n        \"name\": \"Vintage Funk\",\r\n        \"phone\": \"(617) 442-0344\",\r\n        \"postalCode\": \"01730\",\r\n        \"salesRep\": \"HXM\",\r\n        \"state\": \"MA\",\r\n        \"terms\": \"Net30\"\r\n      }\r\n  ]\r\n} \r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}customers",
+              "host": [
+                "{{BaseUrl}}customers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete customers",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{CustomerDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}customers",
+              "host": [
+                "{{BaseUrl}}customers"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update departments",
+      "item": [
+        {
+          "name": "Post departments",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.collectionVariables.set(\r",
+                  " \"DepartmentDeleteBody\",\r",
+                  " JSON.stringify(response.response)\r",
+                  ");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"departments\": [\r\n      {\r\n        \"deptCode\": \"900\",\r\n        \"deptName\": \"Human Resources\"\r\n      },\r\n      {\r\n        \"deptCode\": \"910\",\r\n        \"deptName\": \"Security\"\r\n      },\r\n      {\r\n        \"deptCode\": \"920\",\r\n        \"deptName\": \"Procurement\"\r\n      }\r\n    ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}departments",
+              "host": [
+                "{{BaseUrl}}departments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete departments",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{DepartmentDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}departments",
+              "host": [
+                "{{BaseUrl}}departments"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update employees",
+      "item": [
+        {
+          "name": "Post employees",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.collectionVariables.set(\r",
+                  " \"EmployeeDeleteBody\",\r",
+                  " JSON.stringify(response.response)\r",
+                  ");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"employees\": [\r\n      {\r\n        \"address\": \"53 Main Street\",\r\n        \"address2\": \"Apt 304\",\r\n        \"birthDate\": \"1967-10-28\",\r\n        \"city\": \"Houston\",\r\n        \"deptCode\": \"100\",\r\n        \"empNum\": 1,\r\n        \"firstName\": \"Alan\",\r\n        \"homePhone\": \"(214) 644-4657\",\r\n        \"lastName\": \"Angelo\",\r\n        \"position\": \"Consultant\",\r\n        \"postalCode\": \"75024\",\r\n        \"sickDaysLeft\": 5,\r\n        \"startDate\": \"2019-05-06\",\r\n        \"state\": \"TX\",\r\n        \"vacationDaysLeft\": 8,\r\n        \"workPhone\": \"(214) 399-4600\"\r\n      },\r\n      {\r\n        \"address\": \"20 Smith St\",\r\n        \"address2\": \"\",\r\n        \"birthDate\": \"1980-12-12\",\r\n        \"city\": \"Bedford\",\r\n        \"deptCode\": \"100\",\r\n        \"empNum\": 2,\r\n        \"firstName\": \"Maria\",\r\n        \"homePhone\": \"(617) 555-1111\",\r\n        \"lastName\": \"D'Delangelo\",\r\n        \"position\": \"Consultant\",\r\n        \"postalCode\": \"66766\",\r\n        \"sickDaysLeft\": 0,\r\n        \"startDate\": \"2024-11-03\",\r\n        \"state\": \"GA\",\r\n        \"vacationDaysLeft\": 0,\r\n        \"workPhone\": \"(617) 280-4599\"\r\n      } \r\n    ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}employees",
+              "host": [
+                "{{BaseUrl}}employees"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete employees",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{EmployeeDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}employees",
+              "host": [
+                "{{BaseUrl}}employees"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update families",
+      "item": [
+        {
+          "name": "Post families",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "if (pm.response.code===200) {\r",
+                  "        pm.collectionVariables.set(\r",
+                  "        \"FamilyDeleteBody\",\r",
+                  "        JSON.stringify(response.response)   \r",
+                  "    );\r",
+                  "};\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"families\": [\r\n      {\r\n        \"benefitDate\": \"2024-01-15\",\r\n        \"birthDate\": \"2009-01-15\",\r\n        \"coveredOnBenefits\": true,\r\n        \"empNum\": 23,\r\n        \"relation\": \"Daughter\",\r\n        \"relativeName\": \"Miranda Bring\"\r\n      },\r\n      {\r\n        \"benefitDate\": \"2018-03-16\",\r\n        \"birthDate\": \"2011-12-07\",\r\n        \"coveredOnBenefits\": true,\r\n        \"empNum\": 23,\r\n        \"relation\": \"Son\",\r\n        \"relativeName\": \"John Bring\"\r\n      }\r\n   ]   \r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}families",
+              "host": [
+                "{{BaseUrl}}families"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete families",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{FamilyDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}families",
+              "host": [
+                "{{BaseUrl}}families"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update invoices",
+      "item": [
+        {
+          "name": "Post invoices",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let response = pm.response.json();\r\n\r\npm.collectionVariables.set(\r\n \"InvoiceDeleteBody\",\r\n JSON.stringify(response.response)\r\n);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"invoices\": [\r\n  \r\n      {\r\n        \"invoicenum\": 1,\r\n        \"orderNum\": 10670\r\n      },\r\n      {\r\n        \"invoicenum\": 2,\r\n        \"orderNum\": 10675 \r\n      },\r\n      {\r\n        \"invoicenum\": 3,\r\n        \"orderNum\": 10685\r\n      }\r\n   ]\r\n }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}invoices",
+              "host": [
+                "{{BaseUrl}}invoices"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete invoices",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{InvoiceDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}invoices",
+              "host": [
+                "{{BaseUrl}}invoices"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update items",
+      "item": [
+        {
+          "name": "Post items",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.collectionVariables.set(\r",
+                  " \"ItemDeleteBody\",\r",
+                  " JSON.stringify(response.response)\r",
+                  ");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"items\": [\r\n    {\r\n        \"allocated\": 20,\r\n        \"catDescription\": \"Eexcellent light action graphite fishing rod for trout fishing\",\r\n        \"category1\": \"Fishing\",\r\n        \"category2\": \"Equipment\",\r\n        \"catPage\": 1,\r\n        \"itemImage\": null,\r\n        \"itemName\": \"Fishing Rod\",\r\n        \"itemNum\": 1,\r\n        \"minQuantity\": 5,\r\n        \"onHand\": 20,\r\n        \"onOrder\": 12,\r\n        \"price\": 240.0,\r\n        \"reOrder\": 8,\r\n        \"special\": \"1\",\r\n        \"weight\": 1.0\r\n      },\r\n      {\r\n        \"allocated\": 100,\r\n        \"catDescription\": \"Catch the largest fish in the lake wth this fantastic spinner\",\r\n        \"category1\": \"Fishing\",\r\n        \"category2\": \"Equipment\",\r\n        \"catPage\": 2,\r\n        \"itemImage\": null,\r\n        \"itemName\": \"Spinner\",\r\n        \"itemNum\": 2,\r\n        \"minQuantity\": 5,\r\n        \"onHand\": 9,\r\n        \"onOrder\": 5,\r\n        \"price\": 25,\r\n        \"reOrder\": 7,\r\n        \"special\": \"2\",\r\n        \"weight\": 0.02\r\n      }\r\n    ]\r\n }   ",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}items",
+              "host": [
+                "{{BaseUrl}}items"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete items",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{ItemDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}items",
+              "host": [
+                "{{BaseUrl}}items"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update local defaults",
+      "item": [
+        {
+          "name": "Post local defaults",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.collectionVariables.set(\r",
+                  " \"LocalDefaultDeleteBody\",\r",
+                  " JSON.stringify(response.response)\r",
+                  ");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"localDefaults\": [\r\n      {\r\n        \"country\": \"Norge\",\r\n        \"currencySymbol\": \"NOK\",\r\n        \"dateFormat\": \"DMY\",\r\n        \"localDefNum\": 1,\r\n        \"postalFormat\": \"9999\",\r\n        \"postalLabel\": \"Post Nummer\",\r\n        \"region1Label\": \"By\",\r\n        \"region2Label\": \"Kommune\",\r\n        \"telFormat\": \"999 99 999\"\r\n      },\r\n      {\r\n        \"country\": \"Danmark\",\r\n        \"currencySymbol\": \"DKK\",\r\n        \"dateFormat\": \"DMY\",\r\n        \"localDefNum\": 2,\r\n        \"postalFormat\": \"9999\",\r\n         \"postalLabel\": \"Post Nummer\",\r\n        \"region1Label\": \"By\",\r\n        \"region2Label\": \"Kommune\",\r\n        \"telFormat\": \"99 99 99 99\"\r\n      }\r\n  ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}localDefaults",
+              "host": [
+                "{{BaseUrl}}localDefaults"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete local defaults",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{LocalDefaultDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}localDefaults",
+              "host": [
+                "{{BaseUrl}}localDefaults"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update orders",
+      "item": [
+        {
+          "name": "Post orders",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let response = pm.response.json();\r\n\r\npm.collectionVariables.set(\r\n \"OrderDeleteBody\",\r\n JSON.stringify(response.response)\r\n);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"orders\": [\r\n      {\r\n        \"billToID\": 0,\r\n        \"carrier\": \"\",\r\n        \"creditCard\": \"American Express\",\r\n        \"custNum\": 3045,\r\n        \"instructions\": \"\",\r\n        \"orderDate\": \"2026-10-02\",\r\n        \"orderNum\": 0,\r\n        \"orderStatus\": \"Ordered\",\r\n        \"purchaseOrder\": \"PO0927890999\",\r\n        \"promiseDate\": \"2026-10-29\",\r\n        \"salesRep\": \"BBB\",\r\n        \"shipToID\": 0,\r\n        \"terms\": \"Net30\",\r\n        \"warehouseNum\": 0,\r\n        \"orderLines\": [\r\n          {\r\n            \"discount\": 10,\r\n            \"itemNum\": 54,\r\n            \"lineNum\": 1,\r\n            \"orderLineStatus\": \"Shipped\",\r\n            \"price\": 4.86,\r\n            \"quantity\": 30\r\n          },\r\n          {\r\n            \"discount\": 10,\r\n            \"itemNum\": 55,\r\n            \"lineNum\": 2,\r\n            \"orderLineStatus\": \"Shipped\",\r\n            \"price\": 23.85,\r\n            \"quantity\": 21\r\n          },\r\n          {\r\n            \"discount\": 10,\r\n            \"itemNum\": 53,\r\n            \"lineNum\": 3,\r\n            \"orderLineStatus\": \"Shipped\",\r\n            \"price\": 8.77,\r\n            \"quantity\": 80\r\n          },\r\n          {\r\n            \"discount\": 10,\r\n            \"itemNum\": 28,\r\n            \"lineNum\": 4,\r\n            \"orderLineStatus\": \"Shipped\",\r\n            \"price\": 23.0,\r\n            \"quantity\": 40\r\n          },\r\n          {\r\n            \"discount\": 10,\r\n            \"itemNum\": 39,\r\n            \"lineNum\": 5,\r\n            \"orderLineStatus\": \"Shipped\",\r\n            \"price\": 34.0,\r\n            \"quantity\": 75\r\n          },\r\n          {\r\n            \"discount\": 10,\r\n            \"itemNum\": 26,\r\n            \"lineNum\": 6,\r\n            \"orderLineStatus\": \"Shipped\",\r\n            \"price\": 4.99,\r\n            \"quantity\": 30\r\n          }\r\n        ]\r\n      }  \r\n    ]\r\n \r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}orders",
+              "host": [
+                "{{BaseUrl}}orders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete orders",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{OrderDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}orders",
+              "host": [
+                "{{BaseUrl}}orders"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update purchase orders",
+      "item": [
+        {
+          "name": "Post purchase orders",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.collectionVariables.set(\r",
+                  " \"PurchaseOrderDeleteBody\",\r",
+                  " JSON.stringify(response.response)\r",
+                  ");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n \"purchaseOrders\": [\r\n      {\r\n        \"dateEntered\": \"2025-10-30\",\r\n        \"purchaseOrderNum\": 1,\r\n        \"purchaseOrderStatus\": \"Received\",\r\n        \"receiveDate\": \"2026-01-24\",\r\n        \"supplierIDNum\": 1,\r\n        \"purchaseOrderLines\": [\r\n          {\r\n            \"discount\": 0,\r\n            \"extendedPrice\": 49.65,\r\n            \"itemNum\": 3,\r\n            \"lineNum\": 1,\r\n            \"lineStatus\": \"Received\",\r\n            \"price\": 16.55,\r\n            \"quantity\": 3\r\n          },\r\n          {\r\n            \"discount\": 0,\r\n            \"extendedPrice\": 405.0,\r\n            \"itemNum\": 45,\r\n            \"lineNum\": 2,\r\n            \"lineStatus\": \"Received\",\r\n            \"price\": 81.0,\r\n            \"quantity\": 5\r\n          },\r\n          {\r\n            \"discount\": 0,\r\n            \"extendedPrice\": 634.0,\r\n            \"itemNum\": 46,\r\n            \"lineNum\": 3,\r\n            \"lineStatus\": \"Received\",\r\n            \"price\": 317.0,\r\n            \"quantity\": 2\r\n          },\r\n          {\r\n            \"discount\": 0,\r\n            \"extendedPrice\": 58.85,\r\n            \"itemNum\": 47,\r\n            \"lineNum\": 4,\r\n            \"lineStatus\": \"Received\",\r\n            \"price\": 11.77,\r\n            \"quantity\": 5\r\n          }\r\n        ]\r\n     }\r\n   ]\r\n}\r\n   \r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}purchaseOrders",
+              "host": [
+                "{{BaseUrl}}purchaseOrders"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete purchase orders",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{PurchaseOrderDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}purchaseOrders",
+              "host": [
+                "{{BaseUrl}}purchaseOrders"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update reference calls",
+      "item": [
+        {
+          "name": "Post reference calls",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.collectionVariables.set(\r",
+                  " \"RefCallDeleteBody\",\r",
+                  " JSON.stringify(response.response)\r",
+                  ");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"refCalls\": [\r\n     \r\n      {\r\n        \"callDate\": \"2025-02-15\",\r\n        \"callNum\": \"1\",\r\n        \"custNum\": 3010,\r\n        \"parent\": \"000002\",\r\n        \"salesRep\": \"HXM\",\r\n        \"txt\": \"Corrected order and sent a free box of Pearl Izumi gel gloves. They agreed to give us another chance.\"\r\n      },\r\n      {\r\n        \"callDate\": \"2025-02-09\",\r\n        \"callNum\": \"2\",\r\n        \"custNum\": 3015,\r\n        \"parent\": \"000007\",\r\n        \"salesRep\": \"GPE\",\r\n        \"txt\": \"Merlin is such a high end product, they will deal with them directly. Passed along account info to Dave at Merlin.\"\r\n      },\r\n      {\r\n        \"callDate\": \"2025-01-02\",\r\n        \"callNum\": \"3\",\r\n        \"custNum\": 3020,\r\n        \"parent\": \"000003\",\r\n        \"salesRep\": \"DKP\",\r\n        \"txt\": \"Contract went out to Super Golf today agreeing to drop ship sets of golf clubs if they guarantee us they will buy as much as they did last year. They will continue to warehouse shoes and balls.\"\r\n      }\r\n    ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}refCalls",
+              "host": [
+                "{{BaseUrl}}refCalls"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete reference calls",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{RefCallDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}refCalls",
+              "host": [
+                "{{BaseUrl}}refCalls"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update sales representatives",
+      "item": [
+        {
+          "name": "Post sales representatives",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let response = pm.response.json();\r\n\r\npm.collectionVariables.set(\r\n \"SalesRepDeleteBody\",\r\n JSON.stringify(response.response)\r\n);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"salesReps\": [\r\n      {\r\n        \"region\": \"East\",\r\n        \"repName\": \"Brown, Leroy\",\r\n        \"salesRep\": \"BRL\",\r\n        \"salesRepQuotas\": [\r\n          {\r\n            \"month\": 1,\r\n            \"quota\": 1600\r\n          },\r\n          {\r\n            \"month\": 2,\r\n            \"quota\": 1600\r\n          },\r\n          {\r\n            \"month\": 3,\r\n            \"quota\": 1600\r\n          },\r\n          {\r\n            \"month\": 4,\r\n            \"quota\": 1600\r\n          },\r\n          {\r\n            \"month\": 5,\r\n            \"quota\": 1600\r\n          },\r\n          {\r\n            \"month\": 6,\r\n            \"quota\": 1600\r\n          },\r\n          {\r\n            \"month\": 7,\r\n            \"quota\": 1600\r\n          },\r\n          {\r\n            \"month\": 8,\r\n            \"quota\": 1600\r\n          },\r\n          {\r\n            \"month\": 9,\r\n            \"quota\": 1600\r\n          },\r\n          {\r\n            \"month\": 10,\r\n            \"quota\": 1600\r\n          },\r\n          {\r\n            \"month\": 11,\r\n            \"quota\": 2000\r\n          },\r\n          {\r\n            \"month\": 12,\r\n            \"quota\": 2000\r\n          }\r\n        ]\r\n      },\r\n      {\r\n        \"region\": \"Central\",\r\n        \"repName\": \"Durham, Frank M.\",\r\n        \"salesRep\": \"DFM\",\r\n        \"salesRepQuotas\": [\r\n          {\r\n            \"month\": 1,\r\n            \"quota\": 1600\r\n          },\r\n          {\r\n            \"month\": 2,\r\n            \"quota\": 1600\r\n          },\r\n          {\r\n            \"month\": 3,\r\n            \"quota\": 1600\r\n          },\r\n          {\r\n            \"month\": 4,\r\n            \"quota\": 1600\r\n          },\r\n          {\r\n            \"month\": 5,\r\n            \"quota\": 1600\r\n          },\r\n          {\r\n            \"month\": 6,\r\n            \"quota\": 1854\r\n          },\r\n          {\r\n            \"month\": 7,\r\n            \"quota\": 1910\r\n          },\r\n          {\r\n            \"month\": 8,\r\n            \"quota\": 1967\r\n          },\r\n          {\r\n            \"month\": 9,\r\n            \"quota\": 2026\r\n          },\r\n          {\r\n            \"month\": 10,\r\n            \"quota\": 2087\r\n          },\r\n          {\r\n            \"month\": 11,\r\n            \"quota\": 2150\r\n          },\r\n          {\r\n            \"month\": 12,\r\n            \"quota\": 2215\r\n          }\r\n        ]\r\n      }\r\n    ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}salesReps",
+              "host": [
+                "{{BaseUrl}}salesReps"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete sales representatives",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{SalesRepDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}salesReps",
+              "host": [
+                "{{BaseUrl}}salesReps"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update ship tos",
+      "item": [
+        {
+          "name": "Post ship tos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.collectionVariables.set(\r",
+                  " \"ShipToDeleteBody\",\r",
+                  " JSON.stringify(response.response)\r",
+                  ");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"shipTos\": [\r\n      {\r\n       \"address\": \"276 North Drive\",\r\n        \"address2\": \"\",\r\n        \"city\": \"Burlington\",\r\n        \"comments\": \"This is a rush shipment\",\r\n        \"custNum\": 3000,\r\n        \"name\": \"MA - Branch\",\r\n        \"phone\": \"(617) 234-2345\",\r\n        \"postalCode\": \"01730\",\r\n        \"shipToID\": 1,\r\n        \"state\": \"MA\"\r\n      },\r\n      {\r\n        \"address\": \"456 5th St.\",\r\n        \"address2\": \"\",\r\n        \"city\": \"Duluth\",\r\n        \"comments\": \"\",\r\n        \"contact\": \"Arnold James\",\r\n        \"custNum\": 5,\r\n        \"name\": \"GA - Branch\",\r\n        \"phone\": \"(770) 567-9877\",\r\n        \"postalCode\": \"30243\",\r\n        \"shipToID\": 40,\r\n        \"state\": \"GA\"\r\n      }\r\n    ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}shipTos",
+              "host": [
+                "{{BaseUrl}}shipTos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete ship tos",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{ShipToDeleteBody}}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}shipTos",
+              "host": [
+                "{{BaseUrl}}shipTos"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update suppliers",
+      "item": [
+        {
+          "name": "Post suppliers",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.collectionVariables.set(\r",
+                  " \"SupplierDeleteBody\",\r",
+                  " JSON.stringify(response.response)\r",
+                  ");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"suppliers\": [\r\n      {\r\n        \"address\": \"333 North Street\",\r\n        \"address2\": \"-\",\r\n        \"city\": \"Boston\",\r\n        \"comments\": \"Ship all products 2nd Day Air.\",\r\n        \"country\": \"USA\",\r\n        \"discount\": 47,\r\n        \"loginDate\": \"2024-03-26\",\r\n        \"name\": \"Golf Eldorado\",\r\n        \"password\": \"demo\",\r\n        \"phone\": \"(617) 321-0187\",\r\n        \"postalCode\": \"02114\",\r\n        \"shipAmount\": 100,\r\n        \"state\": \"MA\",\r\n        \"supplierIDNum\": 1,\r\n        \"items\": [\r\n          {\r\n            \"allocated\": 10582,\r\n            \"catDescription\": \"Keep your cool with this Progress golf umbrella.\",\r\n            \"category1\": \"Golf\",\r\n            \"category2\": \"Equipment\",\r\n            \"catPage\": 3,\r\n            \"itemImage\": null,\r\n            \"itemName\": \"Golf Umbrella\",\r\n            \"itemNum\": 3,\r\n            \"minQuantity\": 50,\r\n            \"onHand\": 12906,\r\n            \"onOrder\": 654,\r\n            \"price\": 16.55,\r\n            \"reOrder\": 59,\r\n            \"special\": \"3\",\r\n            \"weight\": 0.25\r\n          },\r\n          {\r\n            \"allocated\": 9234,\r\n            \"catDescription\": \"Available golf shoe sizes are 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, and 11.\",\r\n            \"category1\": \"Golf\",\r\n            \"category2\": \"Footwear\",\r\n            \"catPage\": 60,\r\n            \"itemImage\": null,\r\n            \"itemName\": \"Golf shoes\",\r\n            \"itemNum\": 45,\r\n            \"minQuantity\": 5,\r\n            \"onHand\": 9816,\r\n            \"onOrder\": 427,\r\n            \"price\": 81.0,\r\n            \"reOrder\": 2,\r\n            \"special\": \"3\",\r\n            \"weight\": 5.0\r\n          },\r\n          {\r\n            \"allocated\": 9570,\r\n            \"catDescription\": \"A carrying case is included with the purchase of a full set of golf clubs.  The actual color of the case may vary from store to store.\",\r\n            \"category1\": \"Golf\",\r\n            \"category2\": \"Equipment\",\r\n            \"catPage\": 45,\r\n            \"itemImage\": null,\r\n            \"itemName\": \"Golf clubs\",\r\n            \"itemNum\": 46,\r\n            \"minQuantity\": 10,\r\n            \"onHand\": 9882,\r\n            \"onOrder\": 437,\r\n            \"price\": 317.0,\r\n            \"reOrder\": 8,\r\n            \"special\": \"1\",\r\n            \"weight\": 35.0\r\n          }\r\n        ]\r\n      } \r\n    ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}suppliers",
+              "host": [
+                "{{BaseUrl}}suppliers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete suppliers",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{SupplierDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}suppliers",
+              "host": [
+                "{{BaseUrl}}suppliers"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update time sheets",
+      "item": [
+        {
+          "name": "Post time sheets",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.collectionVariables.set(\r",
+                  " \"TimeSheetDeleteBody\",\r",
+                  " JSON.stringify(response.response)\r",
+                  ");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"timeSheets\": [\r\n      {\r\n        \"dayRecorded\": \"2026-07-05\",\r\n        \"empNum\": 1,\r\n        \"overtimeHours\": 0.25,\r\n        \"regularHours\": 4.0,\r\n        \"typeRecorded\": \"part\",\r\n        \"timeIn\": \"2026-07-05T08:55:00.000\",\r\n        \"timeOut\": \"2026-07-05T13:15:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-05\",\r\n        \"empNum\": 2,\r\n        \"overtimeHours\": 0.0,\r\n        \"regularHours\": 8.0,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-05T09:01:00.000\",\r\n        \"timeOut\": \"2026-07-05T17:00:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-09\",\r\n        \"empNum\": 3,\r\n        \"overtimeHours\": 1.0,\r\n        \"regularHours\": 8.0,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-09T07:45:00.000\",\r\n        \"timeOut\": \"2026-07-09T16:45:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-09\",\r\n        \"empNum\": 4,\r\n        \"overtimeHours\": 0.5,\r\n        \"regularHours\": 4.0,\r\n        \"typeRecorded\": \"part\",\r\n        \"timeIn\": \"2026-07-09T12:45:00.000\",\r\n        \"timeOut\": \"2026-07-09T17:15:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-09\",\r\n        \"empNum\": 5,\r\n        \"overtimeHours\": 0.0,\r\n        \"regularHours\": 7.25,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-09T10:00:00.000\",\r\n        \"timeOut\": \"2026-07-09T17:15:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-09\",\r\n        \"empNum\": 7,\r\n        \"overtimeHours\": 1.5,\r\n        \"regularHours\": 8.0,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-09T09:00:00.000\",\r\n        \"timeOut\": \"2026-07-09T18:30:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-09\",\r\n        \"empNum\": 8,\r\n        \"overtimeHours\": 0.0,\r\n        \"regularHours\": 4.0,\r\n        \"typeRecorded\": \"part\",\r\n        \"timeIn\": \"2026-07-09T08:30:00.000\",\r\n        \"timeOut\": \"2026-07-09T12:30:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-09\",\r\n        \"empNum\": 9,\r\n        \"overtimeHours\": 0.25,\r\n        \"regularHours\": 8.0,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-09T08:50:00.000\",\r\n        \"timeOut\": \"2026-07-09T17:00:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-09\",\r\n        \"empNum\": 10,\r\n        \"overtimeHours\": 0.25,\r\n        \"regularHours\": 8.0,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-09T08:50:00.000\",\r\n        \"timeOut\": \"2026-07-09T17:00:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-05\",\r\n        \"empNum\": 11,\r\n        \"overtimeHours\": 0.5,\r\n        \"regularHours\": 8.0,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-05T09:00:00.000\",\r\n        \"timeOut\": \"2026-07-05T17:30:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-06\",\r\n        \"empNum\": 11,\r\n        \"overtimeHours\": 0.25,\r\n        \"regularHours\": 8.0,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-06T08:55:00.000\",\r\n        \"timeOut\": \"2026-07-06T17:15:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-07\",\r\n        \"empNum\": 11,\r\n        \"overtimeHours\": 0.0,\r\n        \"regularHours\": 7.5,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-07T09:30:00.000\",\r\n        \"timeOut\": \"2026-07-07T17:00:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-08\",\r\n        \"empNum\": 11,\r\n        \"overtimeHours\": 0.5,\r\n        \"regularHours\": 8.0,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-08T09:00:00.000\",\r\n        \"timeOut\": \"2026-07-08T17:30:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-09\",\r\n        \"empNum\": 11,\r\n        \"overtimeHours\": 0.0,\r\n        \"regularHours\": 8.0,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-09T09:15:00.000\",\r\n        \"timeOut\": \"2026-07-09T17:15:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-12\",\r\n        \"empNum\": 12,\r\n        \"overtimeHours\": 0.0,\r\n        \"regularHours\": 3.5,\r\n        \"typeRecorded\": \"part\",\r\n        \"timeIn\": \"2026-07-12T09:15:00.000\",\r\n        \"timeOut\": \"2026-07-12T12:45:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-13\",\r\n        \"empNum\": 12,\r\n        \"overtimeHours\": 0.25,\r\n        \"regularHours\": 4.0,\r\n        \"typeRecorded\": \"part\",\r\n        \"timeIn\": \"2026-07-13T09:00:00.000\",\r\n        \"timeOut\": \"2026-07-13T13:10:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-14\",\r\n        \"empNum\": 12,\r\n        \"overtimeHours\": 0.0,\r\n        \"regularHours\": 4.0,\r\n        \"typeRecorded\": \"part\",\r\n        \"timeIn\": \"2026-07-14T09:00:00.000\",\r\n        \"timeOut\": \"2026-07-14T13:00:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-14\",\r\n        \"empNum\": 13,\r\n        \"overtimeHours\": 0.0,\r\n        \"regularHours\": 4.0,\r\n        \"typeRecorded\": \"part\",\r\n        \"timeIn\": \"2026-07-14T13:00:00.000\",\r\n        \"timeOut\": \"2026-07-14T17:00:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-15\",\r\n        \"empNum\": 13,\r\n        \"overtimeHours\": 1.25,\r\n        \"regularHours\": 4.0,\r\n        \"typeRecorded\": \"part\",\r\n        \"timeIn\": \"2026-07-15T13:10:00.000\",\r\n        \"timeOut\": \"2026-07-15T18:00:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-16\",\r\n        \"empNum\": 13,\r\n        \"overtimeHours\": 0.0,\r\n        \"regularHours\": 4.0,\r\n        \"typeRecorded\": \"part\",\r\n        \"timeIn\": \"2026-07-16T13:00:00.000\",\r\n        \"timeOut\": \"2026-07-16T17:00:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-19\",\r\n        \"empNum\": 14,\r\n        \"overtimeHours\": 0.0,\r\n        \"regularHours\": 7.75,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-19T09:15:00.000\",\r\n        \"timeOut\": \"2026-07-19T17:00:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-19\",\r\n        \"empNum\": 20,\r\n        \"overtimeHours\": 0.0,\r\n        \"regularHours\": 8.0,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-19T09:00:00.000\",\r\n        \"timeOut\": \"2026-07-19T17:00:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-20\",\r\n        \"empNum\": 20,\r\n        \"overtimeHours\": 1.0,\r\n        \"regularHours\": 8.0,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-20T08:30:00.000\",\r\n        \"timeOut\": \"2026-07-20T17:30:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-23\",\r\n        \"empNum\": 20,\r\n        \"overtimeHours\": 0.0,\r\n        \"regularHours\": 7.75,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-23T09:15:00.000\",\r\n        \"timeOut\": \"2026-07-23T17:00:00.000\"\r\n      },\r\n      {\r\n        \"dayRecorded\": \"2026-07-19\",\r\n        \"empNum\": 22,\r\n        \"overtimeHours\": 3.25,\r\n        \"regularHours\": 8.0,\r\n        \"typeRecorded\": \"full\",\r\n        \"timeIn\": \"2026-07-19T07:30:00.000\",\r\n        \"timeOut\": \"2026-07-19T18:45:00.000\"\r\n      }\r\n    ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}timeSheets",
+              "host": [
+                "{{BaseUrl}}timeSheets"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete time sheets",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{TimeSheetDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}timeSheets",
+              "host": [
+                "{{BaseUrl}}timeSheets"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update vacations",
+      "item": [
+        {
+          "name": "Post vacations",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.collectionVariables.set(\r",
+                  " \"VacationDeleteBody\",\r",
+                  " JSON.stringify(response.response)\r",
+                  ");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"vacations\": [\r\n      {\r\n        \"empNum\": 1,\r\n        \"endDate\": \"2026-12-02\",\r\n        \"startDate\": \"2026-12-02\"\r\n      },\r\n      {\r\n        \"empNum\": 2,\r\n        \"endDate\": \"2026-12-02\",\r\n        \"startDate\": \"2026-12-02\"\r\n      },\r\n      {\r\n        \"empNum\": 3,\r\n        \"endDate\": \"2026-02-06\",\r\n        \"startDate\": \"2026-02-04\"\r\n      },\r\n      {\r\n        \"empNum\": 4,\r\n        \"endDate\": \"2026-01-16\",\r\n        \"startDate\": \"2026-01-16\"\r\n      },\r\n      {\r\n        \"empNum\": 5,\r\n        \"endDate\": \"2026-01-02\",\r\n        \"startDate\": \"2026-01-02\"\r\n      },\r\n      {\r\n        \"empNum\": 5,\r\n        \"endDate\": \"2026-12-05\",\r\n        \"startDate\": \"2026-12-02\"\r\n      },\r\n      {\r\n        \"empNum\": 8,\r\n        \"endDate\": \"2026-02-23\",\r\n        \"startDate\": \"2026-02-20\"\r\n      },\r\n      {\r\n        \"empNum\": 11,\r\n        \"endDate\": \"2026-01-18\",\r\n        \"startDate\": \"2026-01-18\"\r\n      },\r\n      {\r\n        \"empNum\": 11,\r\n        \"endDate\": \"2026-02-10\",\r\n        \"startDate\": \"2026-02-06\"\r\n      },\r\n      {\r\n        \"empNum\": 11,\r\n        \"endDate\": \"2026-12-05\",\r\n        \"startDate\": \"2026-12-02\"\r\n      },\r\n      {\r\n        \"empNum\": 20,\r\n        \"endDate\": \"2026-12-22\",\r\n        \"startDate\": \"2026-12-21\"\r\n      },\r\n      {\r\n        \"empNum\": 22,\r\n        \"endDate\": \"2026-02-24\",\r\n        \"startDate\": \"2026-02-24\"\r\n      }\r\n    ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}vacations",
+              "host": [
+                "{{BaseUrl}}vacations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete vacations",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{VacationDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}vacations",
+              "host": [
+                "{{BaseUrl}}vacations"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Update warehouses",
+      "item": [
+        {
+          "name": "Post warehouses",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "\r",
+                  "pm.collectionVariables.set(\r",
+                  " \"WarehouseDeleteBody\",\r",
+                  " JSON.stringify(response.response)\r",
+                  ");"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"warehouses\": [\r\n      {\r\n        \"address\": \"233 Alger Street SE\",\r\n        \"address2\": \"\",\r\n        \"city\": \"Gran Rapids\",\r\n        \"country\": \"USA\",\r\n        \"phone\": \"(616) 331-5466\",\r\n        \"postalCode\": \"49507\",\r\n        \"state\": \"MI\",\r\n        \"warehouseName\": \"North Central USA\",\r\n        \"warehouseNum\": 1\r\n      },\r\n      {\r\n        \"address\": \"Stromsveien 234\",\r\n        \"address2\": \"\",\r\n        \"city\": \"Oslo\",\r\n        \"country\": \"Norway\",\r\n        \"phone\": \"64 55 66 87\",\r\n        \"postalCode\": \"1081\",\r\n        \"state\": \"Oslo\",\r\n        \"warehouseName\": \"Oslo Norway\",\r\n        \"warehouseNum\": 2\r\n      }\r\n    ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}warehouses",
+              "host": [
+                "{{BaseUrl}}warehouses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete warehouses",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{{WarehouseDeleteBody}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BaseUrl}}warehouses",
+              "host": [
+                "{{BaseUrl}}warehouses"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "pm.test(\"Request succeeded\", function () {\r",
+          "    if (pm.request.method===\"DELETE\")  {\r",
+          "        pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+          "    } \r",
+          "    else {\r",
+          "        pm.expect(pm.response.code).to.eql(200);\r",
+          "    } ;    \r",
+          "});"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "BinDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "FamilyDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "BenefitDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "BillToDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "CustomerDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "DepartmentDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "EmployeeDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "InvoiceDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "ItemDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "LocalDefaultDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "OrderDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "PurchaseOrderDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "RefCallDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "SalesRepDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "ShipToDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "SupplierDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "VacationDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "TimeSheetDeleteBody",
+      "value": ""
+    },
+    {
+      "key": "WarehouseDeleteBody",
+      "value": ""
+    }
+  ]
+}

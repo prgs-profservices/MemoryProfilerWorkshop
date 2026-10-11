@@ -1,0 +1,20 @@
+{
+    "families": [
+      {
+        "benefitDate": "2024-01-15",
+        "birthDate": "2009-01-15",
+        "coveredOnBenefits": true,
+        "empNum": 23,
+        "relation": "Daughter",
+        "relativeName": "Miranda Bring"
+      },
+      {
+        "benefitDate": "2018-03-16",
+        "birthDate": "2011-12-07",
+        "coveredOnBenefits": true,
+        "empNum": 23,
+        "relation": "Son",
+        "relativeName": "John Bring"
+      }
+   ]   
+}

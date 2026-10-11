@@ -1,0 +1,92 @@
+{
+  "response": {
+    "suppliers": [
+      {
+        "address": "321321 North Ave",
+        "address2": "",
+        "city": "Boston",
+        "comments": "",
+        "country": "USA",
+        "discount": 1,
+        "loginDate": "1998-03-17",
+        "name": "ABC Sports Supplies",
+        "password": "",
+        "phone": "617 677-8889",
+        "postalCode": "01083",
+        "shipAmount": 100,
+        "state": "MA",
+        "supplierIDNum": 5,
+        "items": [
+          {
+            "allocated": 9399,
+            "catDescription": "These real shark-skin fins will knock 'em dead at the beach. They'll see you coming from miles away while you're wearing the Original \"Fins\" by Bench\/Lee. ",
+            "category1": "Diving",
+            "category2": "Footwear",
+            "catPage": 1,
+            "itemImage": null,
+            "itemName": "Fins",
+            "itemNum": 1,
+            "minQuantity": 5,
+            "onHand": 13022,
+            "onOrder": 433,
+            "price": 24.0,
+            "reOrder": 1,
+            "special": "1",
+            "weight": 4.0
+          },
+          {
+            "allocated": 10548,
+            "catDescription": "ANSI, ASCII, VHS, TCP\/IP approved Cycle Helmets. You'll be styling around town in no time.  Safety First with the official Cycle Helmet of the Iowa Racing Team.",
+            "category1": "Biking",
+            "category2": "Equipment",
+            "catPage": 4,
+            "itemImage": null,
+            "itemName": "Cycle Helmet",
+            "itemNum": 4,
+            "minQuantity": 10,
+            "onHand": 12977,
+            "onOrder": 546,
+            "price": 75.0,
+            "reOrder": 41,
+            "special": "1",
+            "weight": 7.0
+          },
+          {
+            "allocated": 10876,
+            "catDescription": "Stay afloat with your own helium buoyancy vest.  ",
+            "category1": "Diving",
+            "category2": "Equipment",
+            "catPage": 7,
+            "itemImage": null,
+            "itemName": "Buoyancy Vest",
+            "itemNum": 7,
+            "minQuantity": 30,
+            "onHand": 12877,
+            "onOrder": 479,
+            "price": 125.0,
+            "reOrder": 15,
+            "special": "1",
+            "weight": 8.0
+          },
+          {
+            "allocated": 10788,
+            "catDescription": "Whether it's a quick jog or a long run, this vest is a must.",
+            "category1": "Running",
+            "category2": "Equipment",
+            "catPage": 30,
+            "itemImage": null,
+            "itemName": "Runner's Vest",
+            "itemNum": 8,
+            "minQuantity": 25,
+            "onHand": 13035,
+            "onOrder": 427,
+            "price": 19.85,
+            "reOrder": 19,
+            "special": "2",
+            "weight": 2.0
+          }
+        ]
+      }
+    ]
+  }
+}

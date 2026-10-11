@@ -1,0 +1,42 @@
+{  
+  "bins": 
+    [
+
+      {
+        "binName": "899891-F",
+        "binNum": 0,
+        "itemNum": 51,
+        "quantity": 0,
+        "warehouseNum": 14
+      },
+      {
+        "binName": "400059-G",
+        "binNum": 1,
+        "itemNum": 52,
+        "quantity": 0,
+        "warehouseNum": 14
+      },
+      {
+        "binName": "265324-T",
+        "binNum": 2,
+        "itemNum": 53,
+        "quantity": 449,
+        "warehouseNum": 14
+      },
+      {
+        "binName": "123435-E",
+        "binNum": 3,
+        "itemNum": 54,
+        "quantity": 640,
+        "warehouseNum": 14
+      },
+      {
+        "binName": "564321-T",
+        "binNum": 4,
+        "itemNum": 55,
+        "quantity": 0,
+        "warehouseNum": 14
+      }
+    ]
+
+}

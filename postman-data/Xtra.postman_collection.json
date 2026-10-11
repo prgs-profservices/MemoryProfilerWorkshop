@@ -1,0 +1,78 @@
+{
+  "info": {
+    "_postman_id": "9c34b89b-53e0-4a0d-968b-a2b8f73ce086",
+    "name": "Xtra",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57401998",
+    "_collection_link": "https://go.postman.co/collection/57401998-9c34b89b-53e0-4a0d-968b-a2b8f73ce086?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get customers expand",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}customers?expand=orders/orderlines&top=20",
+          "host": [
+            "{{BaseUrl}}customers"
+          ],
+          "query": [
+            {
+              "key": "expand",
+              "value": "orders/orderlines"
+            },
+            {
+              "key": "top",
+              "value": "20"
+            }
+          ]
+        },
+        "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+      },
+      "response": []
+    },
+    {
+      "name": "Get orders expand",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}orders?expand=invoices",
+          "host": [
+            "{{BaseUrl}}orders"
+          ],
+          "query": [
+            {
+              "key": "expand",
+              "value": "invoices"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

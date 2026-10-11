@@ -1,0 +1,29 @@
+{
+    "refCalls": [
+     
+      {
+        "callDate": "2025-02-15",
+        "callNum": "1",
+        "custNum": 3010,
+        "parent": "000002",
+        "salesRep": "HXM",
+        "txt": "Corrected order and sent a free box of Pearl Izumi gel gloves. They agreed to give us another chance."
+      },
+      {
+        "callDate": "2025-02-09",
+        "callNum": "2",
+        "custNum": 3015,
+        "parent": "000007",
+        "salesRep": "GPE",
+        "txt": "Merlin is such a high end product, they will deal with them directly. Passed along account info to Dave at Merlin."
+      },
+      {
+        "callDate": "2025-01-02",
+        "callNum": "3",
+        "custNum": 3020,
+        "parent": "000003",
+        "salesRep": "DKP",
+        "txt": "Contract went out to Super Golf today agreeing to drop ship sets of golf clubs if they guarantee us they will buy as much as they did last year. They will continue to warehouse shoes and balls."
+      }
+    ]
+}

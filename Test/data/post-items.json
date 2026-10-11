@@ -1,0 +1,38 @@
+{
+  "items": [
+    {
+        "allocated": 20,
+        "catDescription": "Eexcellent light action graphite fishing rod for trout fishing",
+        "category1": "Fishing",
+        "category2": "Equipment",
+        "catPage": 1,
+        "itemImage": null,
+        "itemName": "Fishing Rod",
+        "itemNum": 1,
+        "minQuantity": 5,
+        "onHand": 20,
+        "onOrder": 12,
+        "price": 240.0,
+        "reOrder": 8,
+        "special": "1",
+        "weight": 1.0
+      },
+      {
+        "allocated": 100,
+        "catDescription": "Catch the largest fish in the lake wth this fantastic spinner",
+        "category1": "Fishing",
+        "category2": "Equipment",
+        "catPage": 2,
+        "itemImage": null,
+        "itemName": "Spinner",
+        "itemNum": 2,
+        "minQuantity": 5,
+        "onHand": 9,
+        "onOrder": 5,
+        "price": 25,
+        "reOrder": 7,
+        "special": "2",
+        "weight": 0.02
+      }
+    ]
+ }   

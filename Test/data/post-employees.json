@@ -1,0 +1,40 @@
+{
+    "employees": [
+      {
+        "address": "53 Main Street",
+        "address2": "Apt 304",
+        "birthDate": "1967-10-28",
+        "city": "Houston",
+        "deptCode": "100",
+        "empNum": 1,
+        "firstName": "Alan",
+        "homePhone": "(214) 644-4657",
+        "lastName": "Angelo",
+        "position": "Consultant",
+        "postalCode": "75024",
+        "sickDaysLeft": 5,
+        "startDate": "2019-05-06",
+        "state": "TX",
+        "vacationDaysLeft": 8,
+        "workPhone": "(214) 399-4600"
+      },
+      {
+        "address": "20 Smith St",
+        "address2": "",
+        "birthDate": "1980-12-12",
+        "city": "Bedford",
+        "deptCode": "100",
+        "empNum": 2,
+        "firstName": "Maria",
+        "homePhone": "(617) 555-1111",
+        "lastName": "D'Delangelo",
+        "position": "Consultant",
+        "postalCode": "66766",
+        "sickDaysLeft": 0,
+        "startDate": "2024-11-03",
+        "state": "GA",
+        "vacationDaysLeft": 0,
+        "workPhone": "(617) 280-4599"
+      } 
+    ]
+}

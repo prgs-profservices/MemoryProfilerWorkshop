@@ -1,0 +1,28 @@
+{
+    "billTos": [
+      {
+        "address": "5000 Alabama St",
+        "address2": "Suite 278",
+        "billToID": 3,
+        "city": "Montgomery",
+        "contact": "Flint Stone",
+        "custNum": 3005,
+        "name": "AL - Finance Office",
+        "phone": "(334) 123-1234",
+        "postalCode": "36117",
+        "state": "AL"
+      },
+      {
+        "address": "313 Peachtree St.",
+        "address2": "Suite 1200",
+        "billToID": 4,
+        "city": "Atanta",
+        "contact": "Sally Horn",
+        "custNum": 3005,
+        "name": "GA - Finance Offc.",
+        "phone": "(770) 432-4321",
+        "postalCode": "30123",
+        "state": "GA"
+      }
+    ]
+}

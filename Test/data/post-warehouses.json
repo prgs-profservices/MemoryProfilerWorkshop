@@ -1,0 +1,26 @@
+{
+    "warehouses": [
+      {
+        "address": "233 Alger Street SE",
+        "address2": "",
+        "city": "Gran Rapids",
+        "country": "USA",
+        "phone": "(616) 331-5466",
+        "postalCode": "49507",
+        "state": "MI",
+        "warehouseName": "North Central USA",
+        "warehouseNum": 1
+      },
+      {
+        "address": "Stromsveien 234",
+        "address2": "",
+        "city": "Oslo",
+        "country": "Norway",
+        "phone": "64 55 66 87",
+        "postalCode": "1081",
+        "state": "Oslo",
+        "warehouseName": "Oslo Norway",
+        "warehouseNum": 2
+      }
+    ]
+}

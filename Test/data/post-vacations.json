@@ -1,0 +1,64 @@
+{
+    "vacations": [
+      {
+        "empNum": 1,
+        "endDate": "2026-12-02",
+        "startDate": "2026-12-02"
+      },
+      {
+        "empNum": 2,
+        "endDate": "2026-12-02",
+        "startDate": "2026-12-02"
+      },
+      {
+        "empNum": 3,
+        "endDate": "2026-02-06",
+        "startDate": "2026-02-04"
+      },
+      {
+        "empNum": 4,
+        "endDate": "2026-01-16",
+        "startDate": "2026-01-16"
+      },
+      {
+        "empNum": 5,
+        "endDate": "2026-01-02",
+        "startDate": "2026-01-02"
+      },
+      {
+        "empNum": 5,
+        "endDate": "2026-12-05",
+        "startDate": "2026-12-02"
+      },
+      {
+        "empNum": 8,
+        "endDate": "2026-02-23",
+        "startDate": "2026-02-20"
+      },
+      {
+        "empNum": 11,
+        "endDate": "2026-01-18",
+        "startDate": "2026-01-18"
+      },
+      {
+        "empNum": 11,
+        "endDate": "2026-02-10",
+        "startDate": "2026-02-06"
+      },
+      {
+        "empNum": 11,
+        "endDate": "2026-12-05",
+        "startDate": "2026-12-02"
+      },
+      {
+        "empNum": 20,
+        "endDate": "2026-12-22",
+        "startDate": "2026-12-21"
+      },
+      {
+        "empNum": 22,
+        "endDate": "2026-02-24",
+        "startDate": "2026-02-24"
+      }
+    ]
+}

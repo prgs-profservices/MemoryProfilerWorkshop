@@ -1,0 +1,229 @@
+{
+    "timeSheets": [
+      {
+        "dayRecorded": "2026-07-05",
+        "empNum": 1,
+        "overtimeHours": 0.25,
+        "regularHours": 4.0,
+        "typeRecorded": "part",
+        "timeIn": "2026-07-05T08:55:00.000",
+        "timeOut": "2026-07-05T13:15:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-05",
+        "empNum": 2,
+        "overtimeHours": 0.0,
+        "regularHours": 8.0,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-05T09:01:00.000",
+        "timeOut": "2026-07-05T17:00:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-09",
+        "empNum": 3,
+        "overtimeHours": 1.0,
+        "regularHours": 8.0,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-09T07:45:00.000",
+        "timeOut": "2026-07-09T16:45:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-09",
+        "empNum": 4,
+        "overtimeHours": 0.5,
+        "regularHours": 4.0,
+        "typeRecorded": "part",
+        "timeIn": "2026-07-09T12:45:00.000",
+        "timeOut": "2026-07-09T17:15:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-09",
+        "empNum": 5,
+        "overtimeHours": 0.0,
+        "regularHours": 7.25,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-09T10:00:00.000",
+        "timeOut": "2026-07-09T17:15:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-09",
+        "empNum": 7,
+        "overtimeHours": 1.5,
+        "regularHours": 8.0,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-09T09:00:00.000",
+        "timeOut": "2026-07-09T18:30:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-09",
+        "empNum": 8,
+        "overtimeHours": 0.0,
+        "regularHours": 4.0,
+        "typeRecorded": "part",
+        "timeIn": "2026-07-09T08:30:00.000",
+        "timeOut": "2026-07-09T12:30:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-09",
+        "empNum": 9,
+        "overtimeHours": 0.25,
+        "regularHours": 8.0,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-09T08:50:00.000",
+        "timeOut": "2026-07-09T17:00:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-09",
+        "empNum": 10,
+        "overtimeHours": 0.25,
+        "regularHours": 8.0,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-09T08:50:00.000",
+        "timeOut": "2026-07-09T17:00:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-05",
+        "empNum": 11,
+        "overtimeHours": 0.5,
+        "regularHours": 8.0,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-05T09:00:00.000",
+        "timeOut": "2026-07-05T17:30:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-06",
+        "empNum": 11,
+        "overtimeHours": 0.25,
+        "regularHours": 8.0,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-06T08:55:00.000",
+        "timeOut": "2026-07-06T17:15:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-07",
+        "empNum": 11,
+        "overtimeHours": 0.0,
+        "regularHours": 7.5,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-07T09:30:00.000",
+        "timeOut": "2026-07-07T17:00:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-08",
+        "empNum": 11,
+        "overtimeHours": 0.5,
+        "regularHours": 8.0,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-08T09:00:00.000",
+        "timeOut": "2026-07-08T17:30:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-09",
+        "empNum": 11,
+        "overtimeHours": 0.0,
+        "regularHours": 8.0,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-09T09:15:00.000",
+        "timeOut": "2026-07-09T17:15:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-12",
+        "empNum": 12,
+        "overtimeHours": 0.0,
+        "regularHours": 3.5,
+        "typeRecorded": "part",
+        "timeIn": "2026-07-12T09:15:00.000",
+        "timeOut": "2026-07-12T12:45:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-13",
+        "empNum": 12,
+        "overtimeHours": 0.25,
+        "regularHours": 4.0,
+        "typeRecorded": "part",
+        "timeIn": "2026-07-13T09:00:00.000",
+        "timeOut": "2026-07-13T13:10:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-14",
+        "empNum": 12,
+        "overtimeHours": 0.0,
+        "regularHours": 4.0,
+        "typeRecorded": "part",
+        "timeIn": "2026-07-14T09:00:00.000",
+        "timeOut": "2026-07-14T13:00:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-14",
+        "empNum": 13,
+        "overtimeHours": 0.0,
+        "regularHours": 4.0,
+        "typeRecorded": "part",
+        "timeIn": "2026-07-14T13:00:00.000",
+        "timeOut": "2026-07-14T17:00:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-15",
+        "empNum": 13,
+        "overtimeHours": 1.25,
+        "regularHours": 4.0,
+        "typeRecorded": "part",
+        "timeIn": "2026-07-15T13:10:00.000",
+        "timeOut": "2026-07-15T18:00:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-16",
+        "empNum": 13,
+        "overtimeHours": 0.0,
+        "regularHours": 4.0,
+        "typeRecorded": "part",
+        "timeIn": "2026-07-16T13:00:00.000",
+        "timeOut": "2026-07-16T17:00:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-19",
+        "empNum": 14,
+        "overtimeHours": 0.0,
+        "regularHours": 7.75,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-19T09:15:00.000",
+        "timeOut": "2026-07-19T17:00:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-19",
+        "empNum": 20,
+        "overtimeHours": 0.0,
+        "regularHours": 8.0,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-19T09:00:00.000",
+        "timeOut": "2026-07-19T17:00:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-20",
+        "empNum": 20,
+        "overtimeHours": 1.0,
+        "regularHours": 8.0,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-20T08:30:00.000",
+        "timeOut": "2026-07-20T17:30:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-23",
+        "empNum": 20,
+        "overtimeHours": 0.0,
+        "regularHours": 7.75,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-23T09:15:00.000",
+        "timeOut": "2026-07-23T17:00:00.000"
+      },
+      {
+        "dayRecorded": "2026-07-19",
+        "empNum": 22,
+        "overtimeHours": 3.25,
+        "regularHours": 8.0,
+        "typeRecorded": "full",
+        "timeIn": "2026-07-19T07:30:00.000",
+        "timeOut": "2026-07-19T18:45:00.000"
+      }
+    ]
+}

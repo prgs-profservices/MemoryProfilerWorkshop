@@ -1,0 +1,29 @@
+{
+    "shipTos": [
+      {
+       "address": "276 North Drive",
+        "address2": "",
+        "city": "Burlington",
+        "comments": "This is a rush shipment",
+        "custNum": 3000,
+        "name": "MA - Branch",
+        "phone": "(617) 234-2345",
+        "postalCode": "01730",
+        "shipToID": 1,
+        "state": "MA"
+      },
+      {
+        "address": "456 5th St.",
+        "address2": "",
+        "city": "Duluth",
+        "comments": "",
+        "contact": "Arnold James",
+        "custNum": 5,
+        "name": "GA - Branch",
+        "phone": "(770) 567-9877",
+        "postalCode": "30243",
+        "shipToID": 40,
+        "state": "GA"
+      }
+    ]
+}

@@ -1,0 +1,422 @@
+{
+  "info": {
+    "_postman_id": "5dbce62c-298f-423d-8d7f-9c25fc1e6802",
+    "name": "Read data",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57401998",
+    "_collection_link": "https://go.postman.co/collection/57401998-5dbce62c-298f-423d-8d7f-9c25fc1e6802?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get addresses",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}addresses?top=200",
+          "host": [
+            "{{BaseUrl}}addresses"
+          ],
+          "query": [
+            {
+              "key": "top",
+              "value": "200"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get benefits",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}benefits",
+          "host": [
+            "{{BaseUrl}}benefits"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get bill tos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}billTos",
+          "host": [
+            "{{BaseUrl}}billTos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get bins",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}bins",
+          "host": [
+            "{{BaseUrl}}bins"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get customers",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}customers?top=20",
+          "host": [
+            "{{BaseUrl}}customers"
+          ],
+          "query": [
+            {
+              "key": "top",
+              "value": "20"
+            }
+          ]
+        },
+        "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+      },
+      "response": []
+    },
+    {
+      "name": "Get departments",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}departments",
+          "host": [
+            "{{BaseUrl}}departments"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get employees",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}employees",
+          "host": [
+            "{{BaseUrl}}employees"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get families",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}families",
+          "host": [
+            "{{BaseUrl}}families"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get feedbacks",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}feedbacks",
+          "host": [
+            "{{BaseUrl}}feedbacks"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get inventory transactions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}inventoryTransactions",
+          "host": [
+            "{{BaseUrl}}inventoryTransactions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get invoices",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}invoices",
+          "host": [
+            "{{BaseUrl}}invoices"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get items",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}items",
+          "host": [
+            "{{BaseUrl}}items"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get local defaults",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}localDefaults",
+          "host": [
+            "{{BaseUrl}}localDefaults"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get orders",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}orders?filter=ordernum eq 10685",
+          "host": [
+            "{{BaseUrl}}orders"
+          ],
+          "query": [
+            {
+              "key": "filter",
+              "value": "ordernum eq 10685"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get order lines",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}orderlines",
+          "host": [
+            "{{BaseUrl}}orderlines"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get purchase orders",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}purchaseOrders",
+          "host": [
+            "{{BaseUrl}}purchaseOrders"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get purchase order lines",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}purchaseOrderLines",
+          "host": [
+            "{{BaseUrl}}purchaseOrderLines"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get reference calls",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}refCalls",
+          "host": [
+            "{{BaseUrl}}refCalls"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get sales representatives",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}salesReps",
+          "host": [
+            "{{BaseUrl}}salesReps"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get ship tos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}shipTos",
+          "host": [
+            "{{BaseUrl}}shipTos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get states",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}states",
+          "host": [
+            "{{BaseUrl}}states"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get suppliers",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}suppliers",
+          "host": [
+            "{{BaseUrl}}suppliers"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get supplier item cross references",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}supplierItemXrefs",
+          "host": [
+            "{{BaseUrl}}supplierItemXrefs"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get time sheets",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}timeSheets",
+          "host": [
+            "{{BaseUrl}}timeSheets"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get vacations",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}vacations",
+          "host": [
+            "{{BaseUrl}}vacations"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get warehouses",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}warehouses",
+          "host": [
+            "{{BaseUrl}}warehouses"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "pm.test(\"Status code is 200\", function () {\r",
+          "    pm.response.to.have.status(200);\r",
+          "});\r",
+          "   "
+        ]
+      }
+    }
+  ]
+}

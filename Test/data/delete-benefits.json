@@ -1,0 +1,31 @@
+{
+    "benefits": [
+      {
+        "dependentCare": 1500,
+        "empNum": 24,
+        "healthCare": "BlueCross",
+        "lifeInsurance": 160000,
+        "medicalSpending": 1000,
+        "pension401K": 15,
+        "stockPurchase": 10
+      },
+      {
+        "dependentCare": 5000,
+        "empNum": 25,
+        "healthCare": "BlueCross",
+        "lifeInsurance": 150000,
+        "medicalSpending": 3500,
+        "pension401K": 15,
+        "stockPurchase": 25
+      },
+      {
+        "dependentCare": 10000,
+        "empNum": 26,
+        "healthCare": "BlueCross",
+        "lifeInsurance": 100000,
+        "medicalSpending": 20000,
+        "pension401K": 5,
+        "stockPurchase": 10
+      }
+ ]
+}

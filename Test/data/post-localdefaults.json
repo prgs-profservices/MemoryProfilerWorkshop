@@ -1,0 +1,26 @@
+{
+    "localDefaults": [
+      {
+        "country": "Norge",
+        "currencySymbol": "NOK",
+        "dateFormat": "DMY",
+        "localDefNum": 1,
+        "postalFormat": "9999",
+        "postalLabel": "Post Nummer",
+        "region1Label": "By",
+        "region2Label": "Kommune",
+        "telFormat": "999 99 999"
+      },
+      {
+        "country": "Danmark",
+        "currencySymbol": "DKK",
+        "dateFormat": "DMY",
+        "localDefNum": 2,
+        "postalFormat": "9999",
+         "postalLabel": "Post Nummer",
+        "region1Label": "By",
+        "region2Label": "Kommune",
+        "telFormat": "99 99 99 99"
+      }
+  ]
+}
