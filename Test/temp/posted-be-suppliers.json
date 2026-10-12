@@ -1,0 +1,73 @@
+{"suppliers": {
+  "suppliers": [
+    {
+      "address": "333 North Street",
+      "address2": "-",
+      "city": "Boston",
+      "comments": "Ship all products 2nd Day Air.",
+      "country": "USA",
+      "discount": 47,
+      "loginDate": "2024-03-26",
+      "name": "Golf Eldorado",
+      "password": "demo",
+      "phone": "(617) 321-0187",
+      "postalCode": "02114",
+      "shipAmount": 100,
+      "state": "MA",
+      "supplierIDNum": 241,
+      "items": [
+        {
+          "allocated": 10582,
+          "catDescription": "Keep your cool with this Progress golf umbrella.",
+          "category1": "Golf",
+          "category2": "Equipment",
+          "catPage": 3,
+          "itemImage": null,
+          "itemName": "Golf Umbrella",
+          "itemNum": 3,
+          "minQuantity": 50,
+          "onHand": 12906,
+          "onOrder": 654,
+          "price": 16.55,
+          "reOrder": 59,
+          "special": "3",
+          "weight": 0.25
+        },
+        {
+          "allocated": 9234,
+          "catDescription": "Available golf shoe sizes are 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, and 11.",
+          "category1": "Golf",
+          "category2": "Footwear",
+          "catPage": 60,
+          "itemImage": null,
+          "itemName": "Golf shoes",
+          "itemNum": 45,
+          "minQuantity": 5,
+          "onHand": 9816,
+          "onOrder": 427,
+          "price": 81.0,
+          "reOrder": 2,
+          "special": "3",
+          "weight": 5.0
+        },
+        {
+          "allocated": 9570,
+          "catDescription": "A carrying case is included with the purchase of a full set of golf clubs.  The actual color of the case may vary from store to store.",
+          "category1": "Golf",
+          "category2": "Equipment",
+          "catPage": 45,
+          "itemImage": null,
+          "itemName": "Golf clubs",
+          "itemNum": 46,
+          "minQuantity": 10,
+          "onHand": 9882,
+          "onOrder": 437,
+          "price": 317.0,
+          "reOrder": 8,
+          "special": "1",
+          "weight": 35.0
+        }
+      ]
+    }
+  ]
+}}

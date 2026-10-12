@@ -1,0 +1,227 @@
+{
+  "response": {
+    "inventoryTransactions": [
+      {
+        "binNum": 721,
+        "invTransNum": 10,
+        "invType": "Ship PO",
+        "itemNum": 6,
+        "orderNum": 10575,
+        "purchaseOrderNum": 0,
+        "quantity": 11,
+        "transactionTime": "2023-05-19T11:59:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 732,
+        "invTransNum": 11,
+        "invType": "Ship PO",
+        "itemNum": 17,
+        "orderNum": 10575,
+        "purchaseOrderNum": 0,
+        "quantity": 76,
+        "transactionTime": "2023-05-19T11:59:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 721,
+        "invTransNum": 12,
+        "invType": "Ship PO",
+        "itemNum": 6,
+        "orderNum": 10575,
+        "purchaseOrderNum": 0,
+        "quantity": 11,
+        "transactionTime": "2023-05-19T12:42:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 732,
+        "invTransNum": 13,
+        "invType": "Ship PO",
+        "itemNum": 17,
+        "orderNum": 10575,
+        "purchaseOrderNum": 0,
+        "quantity": 76,
+        "transactionTime": "2023-05-19T12:42:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 766,
+        "invTransNum": 14,
+        "invType": "Ship Order",
+        "itemNum": 51,
+        "orderNum": 10645,
+        "purchaseOrderNum": 0,
+        "quantity": 54,
+        "transactionTime": "2023-05-19T12:57:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 761,
+        "invTransNum": 15,
+        "invType": "Ship Order",
+        "itemNum": 46,
+        "orderNum": 10645,
+        "purchaseOrderNum": 0,
+        "quantity": 79,
+        "transactionTime": "2023-05-19T12:57:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 743,
+        "invTransNum": 16,
+        "invType": "Ship Order",
+        "itemNum": 28,
+        "orderNum": 10645,
+        "purchaseOrderNum": 0,
+        "quantity": 92,
+        "transactionTime": "2023-05-19T12:57:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 739,
+        "invTransNum": 17,
+        "invType": "Ship Order",
+        "itemNum": 24,
+        "orderNum": 10645,
+        "purchaseOrderNum": 0,
+        "quantity": 14,
+        "transactionTime": "2023-05-19T12:57:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 749,
+        "invTransNum": 18,
+        "invType": "Ship Order",
+        "itemNum": 34,
+        "orderNum": 10645,
+        "purchaseOrderNum": 0,
+        "quantity": 30,
+        "transactionTime": "2023-05-19T12:57:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 739,
+        "invTransNum": 40,
+        "invType": "Ship Order",
+        "itemNum": 24,
+        "orderNum": 10720,
+        "purchaseOrderNum": 0,
+        "quantity": 34,
+        "transactionTime": "2023-05-22T12:58:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 763,
+        "invTransNum": 41,
+        "invType": "Ship Order",
+        "itemNum": 48,
+        "orderNum": 10830,
+        "purchaseOrderNum": 0,
+        "quantity": 21,
+        "transactionTime": "2023-05-26T06:55:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 729,
+        "invTransNum": 42,
+        "invType": "Ship Order",
+        "itemNum": 14,
+        "orderNum": 10830,
+        "purchaseOrderNum": 0,
+        "quantity": 19,
+        "transactionTime": "2023-05-26T06:55:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 722,
+        "invTransNum": 43,
+        "invType": "Ship Order",
+        "itemNum": 7,
+        "orderNum": 10830,
+        "purchaseOrderNum": 0,
+        "quantity": 72,
+        "transactionTime": "2023-05-26T06:55:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 720,
+        "invTransNum": 44,
+        "invType": "Ship Order",
+        "itemNum": 5,
+        "orderNum": 10830,
+        "purchaseOrderNum": 0,
+        "quantity": 22,
+        "transactionTime": "2023-05-26T06:55:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 762,
+        "invTransNum": 45,
+        "invType": "Ship Order",
+        "itemNum": 47,
+        "orderNum": 10830,
+        "purchaseOrderNum": 0,
+        "quantity": 77,
+        "transactionTime": "2023-05-26T06:55:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 720,
+        "invTransNum": 46,
+        "invType": "Ship Order",
+        "itemNum": 5,
+        "orderNum": 10830,
+        "purchaseOrderNum": 0,
+        "quantity": 38,
+        "transactionTime": "2023-05-26T06:55:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 735,
+        "invTransNum": 55,
+        "invType": "Ship Order",
+        "itemNum": 20,
+        "orderNum": 10810,
+        "purchaseOrderNum": 0,
+        "quantity": 79,
+        "transactionTime": "2023-05-27T06:55:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 765,
+        "invTransNum": 56,
+        "invType": "Ship Order",
+        "itemNum": 50,
+        "orderNum": 10810,
+        "purchaseOrderNum": 0,
+        "quantity": 21,
+        "transactionTime": "2023-05-27T06:55:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 729,
+        "invTransNum": 57,
+        "invType": "Ship Order",
+        "itemNum": 14,
+        "orderNum": 10810,
+        "purchaseOrderNum": 0,
+        "quantity": 41,
+        "transactionTime": "2023-05-27T06:55:00.000",
+        "warehouseNum": 1
+      },
+      {
+        "binNum": 755,
+        "invTransNum": 58,
+        "invType": "Ship Order",
+        "itemNum": 40,
+        "orderNum": 10810,
+        "purchaseOrderNum": 0,
+        "quantity": 77,
+        "transactionTime": "2023-05-27T06:55:00.000",
+        "warehouseNum": 1
+      }
+    ]
+  },
+  "inventoryTransactions@nextBatchLink": "http:\/\/10.0.0.198:8080\/minster\/web\/apiinventoryTransactions?orderby=&top=20&startId=59"
+}

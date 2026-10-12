@@ -51,12 +51,13 @@ class DataSource.SalesRepDS inherits DataSource:
         end.        
          
     end method.
-    
+  
     method public override void BeforeUpdate (input dataset-handle phDataset).
         // turn off row-state so they are ignored by mointhquotads
         for each biSalesRepQuota:
              buffer biSalesRepQuota:accept-row-changes. // turn off row state - todo set to 0 for delete??)    
         end.    
+        
     end method.
     
     method public override logical SaveRow(phBeforeBuffer as handle):

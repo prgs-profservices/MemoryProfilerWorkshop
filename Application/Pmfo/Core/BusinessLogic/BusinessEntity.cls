@@ -585,8 +585,7 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
     method public override void Destroy().  
     end method.    
     
-    // final to make sure we set RequestDatasetHandle - needed if a dynamic dataset is used
-    method public final handle GetRequestDataset(pClientRequest as IClientRequest):
+    method public handle GetRequestDataset(pClientRequest as IClientRequest):
         define variable cExpand as character no-undo.
         define variable oDatasetBuilder as DatasetBuilder no-undo.
         define variable Hdataset as handle no-undo.
@@ -602,8 +601,7 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
         return hDataset.         
     end method.
     
-    // final to make sure we set RequestDatasetHandle 
-    method public final handle GetUpdateRequestDataset(pClientRequest as IClientRequest,output plBeforeImageRequired as logical, output pUpdateRequest as IUpdateDataRequest).
+    method public handle GetUpdateRequestDataset(pClientRequest as IClientRequest,output plBeforeImageRequired as logical, output pUpdateRequest as IUpdateDataRequest).
         define variable hDataset     as handle no-undo.
         define variable hMainBuffer  as handle no-undo.
        

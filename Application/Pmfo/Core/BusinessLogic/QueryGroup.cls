@@ -32,9 +32,7 @@ class Pmfo.Core.BusinessLogic.QueryGroup inherits Pmfo.Core.BusinessLogic.QueryE
      Notes:
     ------------------------------------------------------------------------------*/
      /* Returns the array of query predicates and nested query groups */
-    define public property Entries as IQueryEntry extent no-undo get. set.
-    
-    
+    define public property Entries as IQueryEntry extent no-undo get. set.    
     
     constructor public QueryGroup ():
         super ().

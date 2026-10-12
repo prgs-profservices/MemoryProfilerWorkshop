@@ -1,0 +1,114 @@
+{"salesReps": {
+  "salesReps": [
+    {
+      "region": "East",
+      "repName": "Brown, Leroy",
+      "salesRep": "BRL",
+      "salesRepQuotas": [
+        {
+          "month": 1,
+          "quota": 1600
+        },
+        {
+          "month": 2,
+          "quota": 1600
+        },
+        {
+          "month": 3,
+          "quota": 1600
+        },
+        {
+          "month": 4,
+          "quota": 1600
+        },
+        {
+          "month": 5,
+          "quota": 1600
+        },
+        {
+          "month": 6,
+          "quota": 1600
+        },
+        {
+          "month": 7,
+          "quota": 1600
+        },
+        {
+          "month": 8,
+          "quota": 1600
+        },
+        {
+          "month": 9,
+          "quota": 1600
+        },
+        {
+          "month": 10,
+          "quota": 1600
+        },
+        {
+          "month": 11,
+          "quota": 2000
+        },
+        {
+          "month": 12,
+          "quota": 2000
+        }
+      ]
+    },
+    {
+      "region": "Central",
+      "repName": "Durham, Frank M.",
+      "salesRep": "DFM",
+      "salesRepQuotas": [
+        {
+          "month": 1,
+          "quota": 1600
+        },
+        {
+          "month": 2,
+          "quota": 1600
+        },
+        {
+          "month": 3,
+          "quota": 1600
+        },
+        {
+          "month": 4,
+          "quota": 1600
+        },
+        {
+          "month": 5,
+          "quota": 1600
+        },
+        {
+          "month": 6,
+          "quota": 1854
+        },
+        {
+          "month": 7,
+          "quota": 1910
+        },
+        {
+          "month": 8,
+          "quota": 1967
+        },
+        {
+          "month": 9,
+          "quota": 2026
+        },
+        {
+          "month": 10,
+          "quota": 2087
+        },
+        {
+          "month": 11,
+          "quota": 2150
+        },
+        {
+          "month": 12,
+          "quota": 2215
+        }
+      ]
+    }
+  ]
+}}

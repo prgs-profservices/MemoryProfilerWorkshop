@@ -1,0 +1,16 @@
+{"departments": {
+  "departments": [
+    {
+      "departmentCode": "900",
+      "departmentName": "Human Resources"
+    },
+    {
+      "departmentCode": "910",
+      "departmentName": "Security"
+    },
+    {
+      "departmentCode": "920",
+      "departmentName": "Procurement"
+    }
+  ]
+}}

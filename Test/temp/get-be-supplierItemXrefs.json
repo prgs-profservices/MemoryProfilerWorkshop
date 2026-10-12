@@ -1,0 +1,84 @@
+{
+  "supplierItemXrefs": [
+    {
+      "itemNum": 0,
+      "supplierIDNum": 0
+    },
+    {
+      "itemNum": 3,
+      "supplierIDNum": 1
+    },
+    {
+      "itemNum": 45,
+      "supplierIDNum": 1
+    },
+    {
+      "itemNum": 46,
+      "supplierIDNum": 1
+    },
+    {
+      "itemNum": 47,
+      "supplierIDNum": 1
+    },
+    {
+      "itemNum": 9,
+      "supplierIDNum": 2
+    },
+    {
+      "itemNum": 18,
+      "supplierIDNum": 2
+    },
+    {
+      "itemNum": 24,
+      "supplierIDNum": 2
+    },
+    {
+      "itemNum": 30,
+      "supplierIDNum": 2
+    },
+    {
+      "itemNum": 31,
+      "supplierIDNum": 2
+    },
+    {
+      "itemNum": 32,
+      "supplierIDNum": 2
+    },
+    {
+      "itemNum": 53,
+      "supplierIDNum": 2
+    },
+    {
+      "itemNum": 6,
+      "supplierIDNum": 3
+    },
+    {
+      "itemNum": 19,
+      "supplierIDNum": 3
+    },
+    {
+      "itemNum": 20,
+      "supplierIDNum": 3
+    },
+    {
+      "itemNum": 21,
+      "supplierIDNum": 3
+    },
+    {
+      "itemNum": 23,
+      "supplierIDNum": 3
+    },
+    {
+      "itemNum": 25,
+      "supplierIDNum": 3
+    },
+    {
+      "itemNum": 27,
+      "supplierIDNum": 3
+    },
+    {
+      "itemNum": 28,
+      "supplierIDNum": 3
+    }
+  ]
+}
