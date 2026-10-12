@@ -1,1 +1,1 @@
-#Postman Collections and environment 
+#Postman Collections and environment ti import to REST test tool like Postman or Bruno 
