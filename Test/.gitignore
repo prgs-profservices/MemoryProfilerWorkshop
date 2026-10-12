@@ -1,4 +1,4 @@
 *.r
-/Temp/*
+/temp/*
 results.xml
 !/temp/README.md
