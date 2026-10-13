@@ -1,6 +1,21 @@
- 
+/*
+Use to import from .d and support both update and create
+Syntax: 
+import of table with one field in unique index 
+{import_table.i customer custnum} 
+import of table with two fields in unique index 
+{import_table.i orderLine ordernum linenum} 
 
-/* ***************************  Definitions  ************************** */
+supports up to 6 fieldsas parameters
+
+Supress message
+&scop silent
+{import_table.i customer custnum} 
+
+
+*/ 
+
+/* ***************************  Declarations  ************************** */
 
 block-level on error undo, throw.
 
@@ -68,11 +83,11 @@ repeat:
 
 end.
 
-&if "{&silent}" = "" &then 
+&if defined(silent) = 0 &then 
 
 message "Imported {&tablename}" skip
         "Created:" iCreate  skip
-        "Updated:" iCount
+        "Updated:" iCount  
  view-as alert-box information.
 
 &endif 
