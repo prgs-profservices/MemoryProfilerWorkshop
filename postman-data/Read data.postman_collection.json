@@ -209,15 +209,9 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{BaseUrl}}orders?filter=ordernum eq 10685",
+          "raw": "{{BaseUrl}}orders",
           "host": [
             "{{BaseUrl}}orders"
-          ],
-          "query": [
-            {
-              "key": "filter",
-              "value": "ordernum eq 10685"
-            }
           ]
         }
       },

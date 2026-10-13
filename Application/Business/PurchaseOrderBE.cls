@@ -48,10 +48,11 @@ class Business.PurchaseOrderBE inherits BusinessEntity:
     method protected void ValidateStaticData(input dataset dsPurchaseOrder ):
         // Call Item Be to validate and update item onorder - the updates items will be added to the submiot dataset in SubmitData
         ItemBE = cast(ServiceManager:CreateBusinessEntity('items'),ItemBE).
-        ItemBe:ValidateAndUpdateInventory(this-object, table ttPurchaseOrder by-reference, table ttPurchaseOrderLine by-reference).
+        ItemBe:ValidateAndUpdateInventory(table ttPurchaseOrder by-reference, table ttPurchaseOrderLine by-reference).
     end method.    
     
-    // create purchaseOrders for a list of items and corresponding supplierItemXref   
+    /* create purchaseOrders for a list of items and corresponding supplierItemXref   
+       called from ItemBE:GetItemInventoryDataForSubmit when Orderlines ioncreases allocated so that OnOhand is to small */    
     method public handle CreatePurchaseOrdersForItems(input table ttitem, input table ttsupplierItemXref, output dataset dsPurchaseOrder):  
         define variable oSupplierItemXrefBE as IBusinessEntity no-undo.
         define variable iMinOrder           as integer no-undo.
@@ -125,10 +126,7 @@ class Business.PurchaseOrderBE inherits BusinessEntity:
             hDataset = phDataset.
        
         super:SubmitData(poUpdateDataRequest, input-output dataset-handle hDataset by-reference).         
-        finally:
-            if valid-object(hDataset) and hDataset:dynamic then 
-                delete object hDataset.   
-        end.
+       
     end method.    
    
     

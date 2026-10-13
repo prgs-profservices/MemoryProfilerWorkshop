@@ -102,7 +102,7 @@ class Business.ItemBE inherits BusinessEntity:
     end method.
     
     // validate purchaseorderline item and add or remove qty to/from onorder
-    method public void ValidateAndUpdateInventory(input pOwner as IBusinessEntity, input table ttPurchaseOrder, input table ttPurchaseOrderline):
+    method public void ValidateAndUpdateInventory(input table ttPurchaseOrder, input table ttPurchaseOrderline):
         define variable iItemNums   as integer extent no-undo.
         define variable oGetRequest as IGetDataRequest no-undo.
         
@@ -155,6 +155,7 @@ class Business.ItemBE inherits BusinessEntity:
         temp-table ttItem:tracking-changes = false.
               
         if type-of(Owner,OrderBE) or type-of(Owner,OrderLineBE) then do:
+            // collect the item ids that need to be reordered
             for each ttItem where row-state(ttitem) > 0:
                 if ttItem.MinQty > NumItemsAvailable(buffer ttitem) then do: 
                     extent (iReorderItemNums) = (if extent(iReorderItemNums) = ? then 0 else extent(iReorderItemNums)) + 1. 
@@ -162,6 +163,8 @@ class Business.ItemBE inherits BusinessEntity:
                 end.
             end.
             
+            /* if any items needs to be reordered get the supplieritemxrefs for those items and to pass to purchaseOrderBE
+               to create new purchaseorders */
             if extent (iReorderItemNums) > 0 then  
             do: 
                 oSupplierItemXrefBE = ServiceManager:CreateBusinessEntity("SupplieritemXrefs").        
@@ -174,7 +177,7 @@ class Business.ItemBE inherits BusinessEntity:
                 hPurchaseOrderLineTable = DatasetUtil:GetBufferBySerializeName(hPurchaseOrderDS,"purchaseOrderLines"):table-handle.
                 UpdateItemOnOrder(table ttItem by-reference, table ttSupplierItemXref by-reference, input table-handle hPurchaseOrderTable by-reference, input table-handle hPurchaseOrderLineTable by-reference).
                 
-                // retirn dataset with both items and purcassorders to be submotted with order  
+                // return dataset with both items and purcassorders to be submotted with order  
                 return DatasetUtil:CreateDatasetFromMultipleDatasets(Array:ToArray(dataset dsItem:handle, hPurchaseOrderDS)).
             end.
             

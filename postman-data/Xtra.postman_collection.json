@@ -44,7 +44,7 @@
       "response": []
     },
     {
-      "name": "Get orders expand",
+      "name": "Get orders expand invoices",
       "event": [
         {
           "listen": "test",
@@ -68,6 +68,37 @@
             {
               "key": "expand",
               "value": "invoices"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Orders expand orderlines",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BaseUrl}}orders?expand=orderlines",
+          "host": [
+            "{{BaseUrl}}orders"
+          ],
+          "query": [
+            {
+              "key": "expand",
+              "value": "orderlines"
             }
           ]
         }
