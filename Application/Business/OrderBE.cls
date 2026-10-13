@@ -17,6 +17,8 @@ using Pmfo.Core.Manager.ServiceManager from propath.
 using Pmfo.Util.Array from propath.
 using Pmfo.Util.DatasetUtil from propath.
 using Progress.Lang.Object from propath.
+using Pmfo.Core.Service.IClientRequest from propath.
+using Pmfo.Core.Service.IClientGetRequest from propath.
 
 class Business.OrderBE inherits BusinessEntity:
 
@@ -83,7 +85,16 @@ class Business.OrderBE inherits BusinessEntity:
                 delete object hDataset.
         end.
     end method.    
-   
+    
+    // override to use exiting static dataset if GET with expand orderlines
+    method public override handle GetRequestDataSet(pClientRequest as IClientRequest):
+        if type-of(pClientRequest,IClientGetRequest) then do:
+            // if expand only orderline then use the dsorder dataset 
+            if cast(pClientRequest,IClientGetRequest):Expand = "orderlines" then 
+                return dataset dsOrder:handle.
+        end.        
+        return super:GetRequestDataset(pClientRequest).    
+    end method.     
     
 
 end class.
