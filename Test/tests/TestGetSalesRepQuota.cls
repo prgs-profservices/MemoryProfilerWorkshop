@@ -19,6 +19,9 @@ using Pmfo.Core.BusinessLogic.IGetDataTableRequest from propath.
 using Pmfo.Core.BusinessLogic.QuerySortEntry from propath.
 using Pmfo.Tools.Test.TestBase from propath.
 using Progress.Json.ObjectModel.JsonObject from propath.
+using Pmfo.Core.BusinessLogic.IQueryGroup from propath.
+using Ccs.BusinessLogic.QueryOperatorEnum from propath.
+using Pmfo.Core.BusinessLogic.QueryGroup from propath.
 
 class TestGetSalesRepQuota inherits TestBase:
 
@@ -53,7 +56,8 @@ class TestGetSalesRepQuota inherits TestBase:
         oMap = new StringStringMap().
         oMap:put("top",string(BatchSize)).
         oMap:put("orderBy",string(cPublicNameOrDesc)).
-       // oMap:put("startid",string("Salesrep eq 'DKP' and Month eq 1")).
+        //get a batch
+        oMap:put("startid",string("Salesrep eq 'DKP' and Month eq 1")).
 
         oResponse = this-object:OperationHandler:ExecuteRead(
                         "GET",
@@ -82,8 +86,7 @@ class TestGetSalesRepQuota inherits TestBase:
 
     end method.
 
-
-   // @Test.
+    @Test.
     method public void GetSalesRepQuotaUseBE():
         define variable oBe                as IBusinessEntity      no-undo.
         define variable hDataset           as handle               no-undo.
@@ -94,7 +97,8 @@ class TestGetSalesRepQuota inherits TestBase:
         define variable cNameOrDescription as character            no-undo.   
         define variable cPublicNameOrDesc  as character            no-undo.   
         define variable oJson              as JsonObject           no-undo.
-
+        define variable oNextContextQuery  as IQueryGroup          no-undo. 
+        
         oBe = GetBE(Resource).
 
         oBe:getDataset(output dataset-handle hDataset).
@@ -107,6 +111,10 @@ class TestGetSalesRepQuota inherits TestBase:
                  if cNameOrDescription > "" then 
                      oTableRequest:SetQuerySort(new QuerySortEntry(cNameOrDescription)).
                  oTableRequest:NumRecords = BatchSize.
+                 oNextContextQuery = new QueryGroup().
+                 oNextContextQuery:AddEntry("Salesrep",QueryOperatorEnum:Eq,"DKP").
+                 oNextContextQuery:AddEntry("Month",QueryOperatorEnum:Eq,"1").
+                 oTableRequest:PagingContextEntry = oNextContextQuery.
             end.    
             oRequest:AddTableRequest(oTableRequest).  
         end.         

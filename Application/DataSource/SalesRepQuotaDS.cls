@@ -62,7 +62,6 @@ class DataSource.SalesRepQuotaDS inherits DataSource:
        // FindSource(exclusive-lock).
     end method. 
     
-   
     method public override character GetDataSourceKeys(phNuffer as handle):
         return "SalesRep,Month". // No unique key in db 
     end method.
@@ -73,8 +72,6 @@ class DataSource.SalesRepQuotaDS inherits DataSource:
         FirstPageMonth = 0.  //flag for paging
         return super:GetBufferHandles(pRequest,pPArentRequest).                                                                       
     end method.   
-    
-    
         
     // currently save is managed by salesrep
     method override protected void WriteBeginTransValidate( input dataset-handle  phDataset):
@@ -117,11 +114,13 @@ class DataSource.SalesRepQuotaDS inherits DataSource:
         define variable iMonth      as integer   no-undo.
         define variable iBatch      as int64     no-undo.
         define variable iStartMonth as integer no-undo.
+        
         QueryHandle:Query-open().
         
         // set in PreparePaging override
         if FirstPageMonth > 0 then do:
             iStartMonth = FirstPageMonth.
+            // the query is on salesrep sp start on salesrep restart rowid 
             QueryHandle:reposition-to-rowid (RestartIds[1]).
             QueryHandle:get-next().
         end.
@@ -131,7 +130,6 @@ class DataSource.SalesRepQuotaDS inherits DataSource:
         end.    
         
         iBatch = GetRequest:NumRecords.
-        
         salesreploop: 
         do while avail salesrep:
             do iMonth = iStartMonth to extent(SalesRep.MonthQuota):
@@ -152,8 +150,7 @@ class DataSource.SalesRepQuotaDS inherits DataSource:
             QueryHandle:get-next().
             iStartMonth = 1. // set to 1 for remaining salesrpes
         end.
-        message iSeqno ibatch NextRowKey
-        view-as alert-box.
+         
         if Count then 
             TotalCount = iSeqNo.
             
