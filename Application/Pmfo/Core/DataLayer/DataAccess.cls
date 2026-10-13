@@ -119,7 +119,7 @@ class Pmfo.Core.DataLayer.DataAccess abstract inherits DataService implements ID
         extent(oTableResponses) = extent(oDataSources).
         do i = 1 to extent(oDataSources).
             oTableResponses[i] = new GetDataTableResponse(oDataSources[i]:DataBuffer:table-handle:name).
-            if oDataSources[i]:NumRecords > 0 then 
+            if oDataSources[i]:NextRowKey > "" then 
             do:
                 oTableResponses[i]:NextPagingContext = oDataSources[i]:NextRowKey.
             end.
@@ -438,7 +438,7 @@ class Pmfo.Core.DataLayer.DataAccess abstract inherits DataService implements ID
         AfterUpdate:publish(input dataset-handle phdataset by-reference).
         
         CollectWarnings(cast(DataSourceMap:Values:ToArray(),IDataSource)).
-        phWarning  = temp-table ttWarning:handle. 
+        phWarning = temp-table ttWarning:handle. 
         
          // bug workarond dataet:error is not detected on client when by-reference is used
         if phDataset:error then

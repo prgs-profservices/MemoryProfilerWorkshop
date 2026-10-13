@@ -133,8 +133,8 @@ class Pmfo.Core.DataLayer.DataSource inherits DbQuery implements IDataSource, IU
     end.
     set. 
 
-    // This just be set to "" in prepare
-    // It is typically called after fill when npaging when DataSourcehandle:next-rowid has data
+    // This is set to "" in prepare
+    // It is typically called after fill when paging when DataSourcehandle:next-rowid has data
     // But can also be assigned in cases where the paging has to be managed manually in before-fill  
     define public property NextRowKey as character no-undo  
         get():
@@ -159,19 +159,16 @@ class Pmfo.Core.DataLayer.DataSource inherits DbQuery implements IDataSource, IU
             end.
             return NextRowKey.
         end.     
-        protected set.      
+        protected set(pkey as char):
+            NextRowKey = pKey.
+        end.      
 
     define public  property Warnings  as IList   no-undo 
         get. 
         protected set(pWarns as IList):
             Warnings = pWarns.
-          //  HasWarning = true.
         end. 
     
-    define public property NumRecords as int64 no-undo 
-    get.
-    set. 
-
     define public property TotalCount as int64 no-undo 
     get.
     set. 
@@ -750,13 +747,13 @@ class Pmfo.Core.DataLayer.DataSource inherits DbQuery implements IDataSource, IU
         end catch.   
     end method.
     
-     method protected void PreparePaging(pRequest as IGetDataTableRequest, pQueryBuilder as QueryBuilder) :
+    method protected void PreparePaging(pRequest as IGetDataTableRequest, pQueryBuilder as QueryBuilder) :
         define variable oRequest as Pmfo.Core.BusinessLogic.IGetDataTableRequest no-undo.
         define variable iSource as integer no-undo.
         
         if pRequest:NumRecords > 0 then 
         do:
-            NumRecords = pRequest:NumRecords.
+             
                 //  if UseBeforeFillWithPaging = false then
                 // we need to set this also when UseBeforeFillWithPaging = false 
                 // otherwise AfterRow continiues to fill data (TODO research this)
@@ -945,8 +942,9 @@ class Pmfo.Core.DataLayer.DataSource inherits DbQuery implements IDataSource, IU
         if extent(BufferHandles) = 1 then
         do:
             cQuery = pQueryBuilder:BuildFind(pRequest:PagingContextEntry,DataBuffer).
+            
             BufferHandles[1]:find-unique(cQuery).
-          
+            
             if BufferHandles[1]:available then
                 rids[1] = BufferHandles[1]:rowid. 
             else if BufferHandles[1]:ambiguous then

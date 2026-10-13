@@ -30,7 +30,7 @@ interface Pmfo.Core.DataLayer.IDataSource inherits IDbQuery, IDataService,  IDat
     define public property DataBuffer           as handle    no-undo get. 
     
     /* requested number */
-    define public property NumRecords  as int64        no-undo get.  
+ //   define public property NumRecords  as int64        no-undo get.  
     define public property Count       as logical      no-undo get. 
     define public property TotalCount  as int64        no-undo get. 
     define public property NextRowKey  as character    no-undo get.  
