@@ -54,7 +54,7 @@ The repository contains three PSDOE projects: Application, Test and Work. All pr
 
 The assumption is that the Application source can be edited in VSCODE instead of PDSOE. Test has AblUnit code only and Work is for runnung things in the scope of the db and application and may not be useful in VSCODE.   
 
-Advanced (Assumed to not be needed in workshop):  
+### Advanced (Assumed to not be needed in workshop):  
   config/serviceConfig.json has "CheckForNewResources": false.   
   In a dev environment where developers create new classes this will be set to true so that the ServiceManager automaticallyadds these resources to the its cache by generating a new config/resources.json. There is no need to create new classes to resovle the leaks in the workshop. There is also code in the Work project that can generate config/resources.     
 
@@ -88,6 +88,6 @@ Has all runtime code.
 Contains ABL Unit tests. Has propath set to Application. Optional for the workshop.
 ### Work
 Run stuff from here. Has some random working code. Has propath set to Application. Optional for the workshop.
-Advanced (Assumed to not be needed in workshop):
+#### Advanced (Assumed to not be needed in workshop):
   Tools/Generate/launchGenerateResources.p can be run to generate config/resources.json in the Application config directory. Only needed if new BE, DA or DS classes are created and this is not necessary to fix the leaks in the workshop. 
   In a standard project the resources.json are not checked in, but it is checked in here
