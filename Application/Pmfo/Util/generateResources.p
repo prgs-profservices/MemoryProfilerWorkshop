@@ -3,9 +3,9 @@
     File        : generateResources.p
     Purpose     : Generate a json file with resource information for the 
                   ServiceManager.  
-    Syntax      : run Generate/launchGenerateResources.p. 
-                  This is intended to and works best when rung from 
-                  Generate/launchGenerateResources.p from a work directory with 
+    Syntax      : run Tools/Generate/launchGenerateResources.p. 
+                  This is intended to and works best when run from 
+                  the launchGenerateResources.p in the work project with 
                   propath pointing to the Pmfo framework and source in application, 
                   datasource and dataaccess directories in many or one project  
     Author(s)   : hdaniels
