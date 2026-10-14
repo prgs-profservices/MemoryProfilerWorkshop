@@ -1,7 +1,7 @@
 
 /*------------------------------------------------------------------------
     File        : sessionstartup.p
-    Purpose     : Start session services for pas application servers 
+    Purpose     : Start session services for PAS application servers 
     Syntax      : Session startup procedure: Core/Startup/sessionstartup.p
     Description :  
     Author(s)   :
@@ -23,10 +23,16 @@ define variable cStartupErrorTmpl   as character       no-undo
  
 /* ***************************  Main ************************** */
 do on error undo, throw:
-    StartupManager:ConfigDirectory = "config".
-    StartupManager:Instance. // bootstrap to Application:startupManager happens in constructor
+    /* NOTE: The ConfigDirectory is hard coded
+             It could be set here as follows 
+             StartupManager:ConfigDirectory = "config". 
+             But this needs to be done also in DataService static constructor
+             which will do the boot strap when running BE and DA and such from a Progress 
+             session. (for example an ABLUnit prohe=ject)
+      TODO:  Unify this and the DataService static constructor!  */  
+    StartupManager:Instance. // the actul bootstrap of Application:startupManager happens in constructor
     if session:remote then
-        message "Managers started".
+        message "Managers started". // write to log. (PAS)
     catch e as Progress.Lang.Error :
         if session:remote then
              message subst(cStartupErrorTmpl,"StartupManager") skip

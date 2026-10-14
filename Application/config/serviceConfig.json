@@ -3,5 +3,5 @@
   "DataSourceDirectory": "DataSource",
   "DataAccessDirectory": "DataAccess",
   "CodeTableSourceName": "",
-  "CheckForNewResources": true
+  "CheckForNewResources": false
 }

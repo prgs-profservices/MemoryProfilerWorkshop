@@ -126,37 +126,6 @@ class Pmfo.Repository.Business.ResourceBE inherits BusinessEntity:
         // save to resources.json
         UpdateData(input-output dataset-handle hDataset by-reference). 
         empty temp-table ttTableMap.
-            
-    end method.
-    
-     method public void ReadFromSourceAndCacheData(output c as char ):
-        define variable oGetDataRequest       as Pmfo.Core.BusinessLogic.IGetDataRequest no-undo.
-        define variable oGetDataTableRequests as IGetDataTableRequest extent no-undo.
-        define variable i                     as integer no-undo.
-        define variable hDataset              as handle no-undo.
-        define variable hEntityTable          as handle no-undo.
-        define variable hDataSourceTable      as handle no-undo.
-       
-        define variable hDataSourceErrorTable as handle no-undo.        
-        
-        hDataset = Datasets[1].
-        extent(oGetDataTableRequests) = hDataset:num-buffers.
-        do i = 1 to hDataset:num-buffers:
-            oGetDataTableRequests[i] = new GetDataTableRequest(hDataset:get-buffer-handle(i):table-handle:name).
-        end.    
-        oGetDataRequest = new GetDataRequest(oGetDataTableRequests).
-        cast(oGetDataRequest,GetDataRequest):NamedQuery = new NamedQuery("Classes"). // Tell ResourceDA to get resources from source code (no datasource of type "CodeTable or "Table") 
-        cast(this-object:DataAccess,ResourceDA):FetchData(oGetDataRequest, input-output dataset-handle hDataset by-reference).  
-        hEntityTable = hDataset:get-buffer-handle("ttEntity"):table-handle.
-        hDataSourceTable = hDataset:get-buffer-handle("ttDataSource"):table-handle.
-        hDataSourceErrorTable = hDataset:get-buffer-handle("ttDataSourceError"):table-handle.
-        // fetch all lookup types from the lookup table  
-       
-        // Add datasourced of type "CodeTable" from Lookuptypes and type "Table" using DataAdminService  
-        AddDynamicDataSources(input table-handle hEntityTable by-reference, input table-handle hDataSourceTable by-reference, input table-handle hDataSourceErrorTable by-reference).
-    // save to resources.json
-        UpdateData(input-output dataset-handle hDataset by-reference). 
-        empty temp-table ttTableMap.    
     end method.
     
     method protected void AddDynamicDataSources(
