@@ -9,7 +9,7 @@
     Description : 
     Author(s)   : hdaniels
     Created     : Thu Mar 21 17:56:04 EDT 2019  
-    Notes       : Has methoids and logic to refresh its data from source code    
+    Notes       : Has methods and logic to refresh its data from source code    
   ----------------------------------------------------------------------*/
  
 block-level on error undo, throw.
