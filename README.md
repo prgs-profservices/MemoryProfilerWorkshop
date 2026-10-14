@@ -48,7 +48,7 @@ __DO NOT SETUP OEPDS to publish to PAS!__
 The REST test collections are setup to use the following URL http://localhost:8080/main/web/api/. This is controlled in a single _BaseUri_ environment variable and is assumed to be easy to change, but this has not been tested.
 
 # ABL code
-The ABL runtime is built connected to a copy of Sports2020 and PDS and the PAS ablapp must have propath set to the Application directory.   
+The code is developed connected to a copy of Sports2020 and PDS and the PAS ablapp must have propath set to the Application directory.   
 
 The repository contains three PSDOE projects: Application, Test and Work. All projects are connected to the sports2020 db.
 
@@ -81,6 +81,10 @@ Case
   Default starttup parameters: -debugalert -inp 32000 -tok 4096 -rereadnolock -s 200 -mmax 65534   -D 300  -zn  -h 6 -errorstack -cpinternal utf-8 -cpstream utf-8 
 
 ## Projects 
+The repository contains three PSDOE projects that all are connected to the sports2020 db.
+
+The assumption is that the Application source can be edited in VSCODE instead of PDSOE. Test has AblUnit code only and Work is for runnung things in the scope of the db and application and may not be useful in VSCODE.   
+
 ### Application 
 Has all runtime code. 
 ### Test
