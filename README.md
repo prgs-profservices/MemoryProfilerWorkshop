@@ -61,9 +61,12 @@ Advanced (Assumed to not be needed in workshop):
 ## PDSOE
 Setup (recommended)
 ### Window > Preferences
-Window
-└─ Preferences  
-    ├─ General  
+└─Preferences  
+  ├─General    
+ │  └─Editors  
+ │    └─Structured Text Editors     
+ │      [V] Show line numbers   
+   
     │  ├─ Appearance  
     │  └─ Workspace  
     ├─ Progress OpenEdge  
