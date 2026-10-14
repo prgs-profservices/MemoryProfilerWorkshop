@@ -20,32 +20,32 @@ The PAS instance work directory and the ABL projects assumes that the database i
 
 If PDS is started before this it will start its own multiuser db that then will prevent start of the PAS instance.
 
-I assume that the Physical Location is ignored when using Host and Port, but this is not tested. 
+The Physical Location is assumed to be ignored when defining Host and Port, but this is not tested. 
 
 # OEMP PAS instance
 Install Memory Profiler.  
-__NOTE:__ The PAS instance work files and ABL unit directroy has memoryProfiler config files with _ _report-dir C:\OpenEdge\WRK\oemp\import_ _
+__NOTE:__ The PAS instance work files and ABL unit directroy has memoryProfiler config files with _report-dir C:\OpenEdge\WRK\oemp\import_
 
 The oemp PAS instance should be started before the workshop starts.
 
 # PAS instance
-The application has been developed with a PAS instance named _ _workshop_ _. The assumption is that the name does not matter, but this has not been tested.    
+The application has been developed with a PAS instance named _workshop_. The assumption is that the PAS instance name is irrelevant for the setup, but this has not been tested.
 
-Create a PAS developemnt instance. You do not want or need login and/or authentication here. 
-Copy the files from the pasinstance-work\work repositry directly into the PAS instance _ _work_ _ directory.  
+Create a PAS developemnt instance. Avoid login and/or authentication. 
+Copy the files from the pasinstance-work\work directory directly into the PAS instance _work_ directory.  
 
-The application is setup to run in a _ _main_ _ webapp and an ablapp with the same name. Not the ROOT. Deploy the ablapp and webapp.  
+The application is setup to run in a _main_ webapp and an ablapp with the same name. Not the ROOT. Deploy the ablapp and webapp.  
 
 The PAS instance ablapp  __MUST__ have the full Application directory in propath! 
 
 __DO NOT SETUP OEPDS to publish to PAS!__  
 
-## PAS main ablapp Configuration:  
+## PAS main ablapp configuration:  
    Agent working directory: __${CATALINA_BASE}/work__  
    Agent startup parameter: __-T "${catalina.base}/temp" -pf ${CATALINA_BASE}/work/workshop.pf__  
    PROPATH                : __C:/MemoryProfilerWorkshop/Application,${DLC}/tty,${DLC}/tty/netlib/OpenEdge.Net.apl__                        
 
-The REST test collections are setup to use the following URL http://localhost:8080/main/web/api/. This is controlled in a single _ _BaseUri_ _ environment variable and is assumed to be easy to change, but this has not been tested.
+The REST test collections are setup to use the following URL http://localhost:8080/main/web/api/. This is controlled in a single _BaseUri_ environment variable and is assumed to be easy to change, but this has not been tested.
 
 # ABL code
 The ABL runtime is built connected to a copy of Sports2020 and PDS and the PAS ablapp must have propath set to the Application directory.   
@@ -56,7 +56,7 @@ The assumption is that the Application source can be edited in VSCODE instead of
 
 ### Advanced (Assumed to not be needed in workshop):  
   config/serviceConfig.json has "CheckForNewResources": false.   
-  In a dev environment where developers create new classes this will be set to true so that the ServiceManager automaticallyadds these resources to the its cache by generating a new config/resources.json. There is no need to create new classes to resovle the leaks in the workshop. There is also code in the Work project that can generate config/resources.     
+  In a dev environment where developers create new classes this will be set to true so that the ServiceManager automatically adds these resources to its cache by generating a new config/resources.json and loading it. There is no need to create new classes to resovle the leaks in the workshop. There is also code in the Work project that can generate config/resources.json. 
 
 ## PDSOE
 ### Window > Preferences
