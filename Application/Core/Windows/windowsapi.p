@@ -89,7 +89,6 @@ end procedure.
 /* convert a wide char utf-16 to bytes 
    call with lpMultiByteStr set-size to 1 to trick progress 64 bit to return size iByteswritten
    and then use this size to set-size of lpMultiByteString (size to 0 first) to do the conversion */
-    
 procedure WideCharToMultiByte external "kernel32.dll":
     define input parameter  CodePage          as long.
     define input parameter  dwFlags           as long.
