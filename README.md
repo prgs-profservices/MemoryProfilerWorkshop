@@ -65,17 +65,18 @@ Setup (recommended)
  [V] Show line numbers 
 #### Progress OpenEdge > Database Connections
 #### Progress OpenEdge > Editor
-Case
+Case  
   Check radio-set option __Lower__ 
 #### Progress OpenEdge > Editor > Build
- Actions
-      [V] Compile on save if required 
-     Syntax check:   
-      [V] Automatically check syntax 
+ Actions  
+      [V] Compile on save if required  
+     Syntax check:     
+      [V] Automatically check syntax   
       Make dure all others are unchecked
 #### Progress OpenEdge > Startup 
   Default starttup parameters: -debugalert -inp 32000 -tok 4096 -rereadnolock -s 200 -mmax 65534   -D 300  -zn  -h 6 -errorstack -cpinternal utf-8 -cpstream utf-8 
 
+## Projects 
 ### Application 
 Has all runtime code. 
 ### Test
