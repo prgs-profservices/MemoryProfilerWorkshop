@@ -54,9 +54,9 @@ The repository contains three PSDOE projects: Application, Test and Work. All pr
 
 The assumption is that the Application source can be edited in VSCODE instead of PDSOE. Test has AblUnit code only and Work is for runnung things in the scope of the db and application and may not be useful in VSCODE.   
 
-Advanced (Assumed to not be needed in workshop):
-  config/serviceConfig.json has "CheckForNewResources": false. 
-  In a dev environment where developers create new classes this will be set to true so that the ServiceManager automaticallyadds these resources to the its cache by generating a new config/resources.json. There is no need to create new classes to resovle the leaks in the workshop. There is also code in the Work project that can genrate config/resources.     
+Advanced (Assumed to not be needed in workshop):  
+  config/serviceConfig.json has "CheckForNewResources": false.   
+  In a dev environment where developers create new classes this will be set to true so that the ServiceManager automaticallyadds these resources to the its cache by generating a new config/resources.json. There is no need to create new classes to resovle the leaks in the workshop. There is also code in the Work project that can generate config/resources.     
 
 ## PDSOE
 ### Window > Preferences
