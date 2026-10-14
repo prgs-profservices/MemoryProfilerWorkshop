@@ -14,6 +14,7 @@ Both the workshop ABL runtime and PAS instance ablapp must be connected to a cop
 The database should be setup in OEM and started before OEPDS and the PAS instance is started.  
 
 The PAS instance work directory and the ABL projects assumes that the database is setup as follows: 
+
   Physical Location: C:\db\sports2020  
   Hostname:          localhost
   Port:              8700 
