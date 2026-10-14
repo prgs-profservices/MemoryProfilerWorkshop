@@ -40,10 +40,10 @@ The PAS instance ablapp  __MUST__ have the full Application directory in propath
 
 __DO NOT SETUP OEPDS to publish to PAS!__  
 
-PAS main ablapp Configuration:  
-   Agent working directory: ${CATALINA_BASE}/work  
-   Agent startup parameter: -T "${catalina.base}/temp" -pf ${CATALINA_BASE}/work/workshop.pf  
-   PROPATH                : C:/MemoryProfilerWorkshop/Application,${DLC}/tty,${DLC}/tty/netlib/OpenEdge.Net.apl                        
+## PAS main ablapp Configuration:  
+   Agent working directory: __${CATALINA_BASE}/work__  
+   Agent startup parameter: __-T "${catalina.base}/temp" -pf ${CATALINA_BASE}/work/workshop.pf__  
+   PROPATH                : __C:/MemoryProfilerWorkshop/Application,${DLC}/tty,${DLC}/tty/netlib/OpenEdge.Net.apl__                        
 
 The REST test collections are setup to use the following URL http://localhost:8080/main/web/api/. This is controlled in a single _ _BaseUri_ _ environment variable and is assumed to be easy to change, but this has not been tested.
 
