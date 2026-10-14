@@ -61,16 +61,17 @@ Advanced (Assumed to not be needed in workshop):
 ## PDSOE
 Setup (recommended)
 ### Window > Preferences
-└─ Preferences
-    ├─ General
-    │  ├─ Appearance
-    │  └─ Workspace
-    ├─ Progress OpenEdge
-    │  ├─ Editor
-    │  ├─ AVM
-    │  └─ Runtime
-    └─ Team
-       └─ Git
+Window
+└─ Preferences  
+    ├─ General  
+    │  ├─ Appearance  
+    │  └─ Workspace  
+    ├─ Progress OpenEdge  
+    │  ├─ Editor  
+    │  ├─ AVM  
+    │  └─ Runtime  
+    └─ Team  
+       └─ Git  
 Window
 └ General 
 ├ General
