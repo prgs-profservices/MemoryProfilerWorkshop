@@ -61,9 +61,9 @@ Advanced (Assumed to not be needed in workshop):
 ## PDSOE
 Setup (recommended)
 ### Window > Preferences
-> General
- > Editors
-  > Structured Text Editors
+├ General
+ ├ Editors
+  ├ Structured Text Editors
     [V] Show line numbers 
  > Progress OpenEdge 
   > Database Connections
