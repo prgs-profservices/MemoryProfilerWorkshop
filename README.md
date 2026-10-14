@@ -62,7 +62,7 @@ Advanced (Assumed to not be needed in workshop):
 Setup (recommended)
 ### Window > Preferences
 └─ Preferences
-    ├─ General
+    ├─ General
     │  ├─ Appearance
     │  └─ Workspace
     ├─ Progress OpenEdge
