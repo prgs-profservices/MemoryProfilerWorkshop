@@ -54,6 +54,8 @@ using Pmfo.Util.Array from propath.
 using Progress.Json.ObjectModel.JsonObject from propath.
 using Progress.Lang.Error from propath.
 using Progress.Lang.Object from propath.
+using OpenEdge.BusinessLogic.NamedQuery from propath.
+using Pmfo.Core.BusinessLogic.GetDataRequest from propath.
 
 // There are tow different canFind implementaions. 
 // One that uses can-find and one that uses find sonce can-find is faster we want 
@@ -739,9 +741,8 @@ class Pmfo.Core.Manager.ServiceManager inherits Manager implements IServiceManag
         if CheckForNewResources then   
             ResourceBE:GetData(output dataset dsResources by-reference).
         else do:
-            undo, throw new NotImplementedError("REsourceBE Get Data  JSON").
-          //  oGetDataRequest = new GetDataRequest(new NamedQuery("JSON")).
-          //  ResourceBE:GetData(oGetDataRequest,output dataset dsResources by-reference).
+            oGetDataRequest = new GetDataRequest(new NamedQuery("JSON")).
+            ResourceBE:GetData(oGetDataRequest,output dataset dsResources).
         end.
         // hook for subclasses 
         PostLoadResources().

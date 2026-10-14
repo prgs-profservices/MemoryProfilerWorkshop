@@ -53,11 +53,35 @@ class DataSource.SalesRepDS inherits DataSource:
     end method.
   
     method public override void BeforeUpdate (input dataset-handle phDataset).
-        // turn off row-state so they are ignored by mointhquotads
-        for each biSalesRepQuota:
-             buffer biSalesRepQuota:accept-row-changes. // turn off row state - todo set to 0 for delete??)    
-        end.    
+        define variable lTrack    as logical no-undo.
+        define variable cSalesrep as character no-undo.
+        define variable iMonth    as integer no-undo.
         
+        // turn off row-state so they are ignored by SalesrepQuotaDS
+        // treat create as update 
+        for each biSalesRepQuota where row-state(biSalesRepQuota) = row-modified
+                                    or row-state(biSalesRepQuota) = row-created:
+            buffer biSalesRepQuota:accept-row-changes. // turn off row state - todo set value to 0 for delete??)    
+        end.
+        lTrack = temp-table ttSalesRepQuota:tracking-changes.
+        temp-table ttSalesRepQuota:tracking-changes = false. 
+        // for delete set quota to 0   
+        for each biSalesRepQuota where row-state(biSalesRepQuota) = row-deleted:
+            assign 
+                cSalesrep = biSalesRepQuota.Salesrep
+                iMonth    = biSalesRepQuota.Month
+                . 
+            buffer biSalesRepQuota:reject-row-changes. // undo delete
+             
+            find ttSalesRepQuota where ttSalesRepQuota.salesrep = cSalesrep
+                                   and ttSalesRepQuota.Month    = imonth.
+            ttSalesRepQuota.Quota = 0.                               
+        end.    
+        finally:
+            // reset to what it was
+            temp-table ttSalesRepQuota:tracking-changes = ltrack.    
+             
+        end.
     end method.
     
     method public override logical SaveRow(phBeforeBuffer as handle):
