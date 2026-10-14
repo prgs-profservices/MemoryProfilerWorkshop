@@ -14,9 +14,9 @@ Both the workshop ABL runtime and PAS instance ablapp must be connected to a cop
 The database should be setup in OEM and started before OEPDS and the PAS instance is started.  
 
 The PAS instance work directory and the ABL projects assumes that the database is setup as follows:   
-  Physical Location: _C:\db\sports2020_      
-  Hostname:          _localhost_   
-  Port:              _8700_     
+  Physical Location: __C:\db\sports2020__        
+  Hostname:          __localhost__     
+  Port:              __8700__       
 
 If PDS is started before this it will start its own multiuser db that then will prevent start of the PAS instance.
 
@@ -63,11 +63,10 @@ The assumption is that the Application source can be edited in VSCODE instead of
 #### General > Editors > Structured Text Editors
  [V] Show line numbers 
 #### Progress OpenEdge > Database Connections
- Connection name: sports2020  
- Physical name  : C:\db\sports2020  
- Hostname       : localhost  
- Port           : 8700   
- Autostart      : false
+ Connection name: __sports2020__       
+ Physical name  : __C:\db\sports2020__    
+ Hostname       : __localhost__    
+ Port           : __8700__  
 
 #### Progress OpenEdge > Editor
 Case  
