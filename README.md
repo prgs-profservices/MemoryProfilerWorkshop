@@ -61,45 +61,20 @@ Advanced (Assumed to not be needed in workshop):
 ## PDSOE
 Setup (recommended)
 ### Window > Preferences
-└─Preferences  
-  ├─General    
- │  └─Editors  
- │    └─Structured Text Editors     
- │      [V] Show line numbers   
-   
-    │  ├─ Appearance  
-    │  └─ Workspace  
-    ├─ Progress OpenEdge  
-    │  ├─ Editor  
-    │  ├─ AVM  
-    │  └─ Runtime  
-    └─ Team  
-       └─ Git  
-Window
-└ General 
-├ General
- ├ Editors
-  ├ Structured Text Editors
-    [V] Show line numbers 
- > Progress OpenEdge 
-  > Database Connections
-      Connection name: sports2020
-      Physical name  : C:\db\sports2020
-      Hostname       : localhost
-      Port           : 8700
-      Autostart      : false         
-  > Editor
-    Case
-     Check radio-set option __Lower__ 
-   > Build
-     Actions
+#### General > Editors > Structured Text Editors
+ [V] Show line numbers 
+#### Progress OpenEdge > Database Connections
+#### Progress OpenEdge > Editor
+Case
+  Check radio-set option __Lower__ 
+#### Progress OpenEdge > Editor > Build
+ Actions
       [V] Compile on save if required 
      Syntax check:   
       [V] Automatically check syntax 
       Make dure all others are unchecked
-  > Startup
-    Default starttup parameters: -debugalert -inp 32000 -tok 4096 -rereadnolock -s 200 -mmax 65534   -D 300  -zn  -h 6 -errorstack -cpinternal utf-8 -cpstream utf-8 
-
+#### Progress OpenEdge > Startup 
+  Default starttup parameters: -debugalert -inp 32000 -tok 4096 -rereadnolock -s 200 -mmax 65534   -D 300  -zn  -h 6 -errorstack -cpinternal utf-8 -cpstream utf-8 
 
 ### Application 
 Has all runtime code. 
