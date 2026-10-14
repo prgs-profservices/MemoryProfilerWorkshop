@@ -59,11 +59,16 @@ Advanced (Assumed to not be needed in workshop):
   In a dev environment where developers create new classes this will be set to true so that the ServiceManager automaticallyadds these resources to the its cache by generating a new config/resources.json. There is no need to create new classes to resovle the leaks in the workshop. There is also code in the Work project that can genrate config/resources.     
 
 ## PDSOE
-Setup (recommended)
 ### Window > Preferences
 #### General > Editors > Structured Text Editors
  [V] Show line numbers 
 #### Progress OpenEdge > Database Connections
+ Connection name: sports2020  
+ Physical name  : C:\db\sports2020  
+ Hostname       : localhost  
+ Port           : 8700   
+ Autostart      : false
+
 #### Progress OpenEdge > Editor
 Case  
   Check radio-set option __Lower__ 
