@@ -1,23 +1,28 @@
 # MemoryProfilerWorkshop
-This repository contains code and artifacts for a Memory Profiler Workshop where students runs an application that has memory leaks and uses the Memory Profiler to find and fix the leaks in the application. 
+This repository contains code and artifacts for a Memory Profiler Workshop where students run a PAS application that has memory leaks and uses the Memory Profiler to find and fix the leaks in the application. 
 
-The workshop application is intended to run on PAS connected to a copy of Sports2020. __The PAS instance ablapp must have the Application project directory in PROPATH.__ This repository contains the .pf with startup parameters for the PAS instance and the memory profiler .config file referenced by the .pf that should be copied to the worrk directory of the PAS instance. 
+The workshop application is intended to run on PAS connected to a copy of Sports2020.  
+__The PAS instance ablapp must have the Application project directory in PROPATH.__ 
 
-The assumption is that a REST tool is used to run the services in the application and this repository contains environment and collections files that cshould be loaded into Postman or Bruno REST test tools.   
+This repository contains the _.pf with startup parameters for the PAS instance and the memory profiler _.config_ file referenced by the .pf to be copied to the PAS instance _work_ directory. 
 
-This has been tested when installed in C:/MemoryProfilerWorkshop. The only known dependency of the physical location is that the PAS instance ablapp's PROPATH should point to the Application project with full path.    
+The assumption is that a REST tool is used to run the services in the application and this repository contains environment and collections files that should be loaded into Postman or Bruno REST test tools for this purpose.   
 
-The Memory Profiler filer oemp PAS instance various components needed for the workshop are discussed below.
+This has been tested when installed in _C:/MemoryProfilerWorkshop_. The only known dependency of the physical location is that the PAS instance ablapp's PROPATH should point to the Application project with full path.    
+
+The sections below discuss both the content of this Repository as well as the services that need to be prepared to run the workshop.
 
 ## Database 
-Create a database by copying the Sports2020 database in the Progress install. The workshop setup assumes the database is located in C:\db. The physical location is assumed to be ignored when defining Host and Port, but this is not tested. 
+Create a local database by copying the Sports2020 database in the Progress install. The workshop setup assumes the database is located in C:\db. The physical location is assumed to be ignored when defining Host and Port, but this is not tested. 
 
-The ABL projects in this repository has the database setup as follows.  
+Setup a database service in OEM with the following properties:
 Physical Location: __C:\db\sports2020__        
 Hostname:          __localhost__     
 Port:              __8700__       
 
-The database should be started before the PAS instance and PSDOE is started. It is recommended to setup a database resource for the database with these properties. This can be used to configure it to AutoStart. Even if there is no need to stop and start it is probably a good idea to make it easy to start by the students. 
+The database should be started before the PAS instance and PSDOE is started. Even if the database only need to be started once it is likely a good idea to make it easy to both stop and start the database for the students. It is proibably also a good idea to set it up to Auto Start. (Not tested in the workshop)
+
+The ABL projects in this repository has the database connection setup with the same name, host and port.   
 
 ### Optional
 run import_customers.p in the Work project to load customers with utf-8 characters (Mostly french/canadian). Note that there is currently no need to do this and students will not have time to look very closely at the data, but the workshop has a _hidden agenda_ to show use of utf-8. See Hidden Agenda section below.
