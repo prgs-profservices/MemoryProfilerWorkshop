@@ -1,7 +1,7 @@
 # MemoryProfilerWorkshop
 This repository contains code and artifacts for a Memory Profiler Workshop where students runs an application that has memory leaks and uses the Memory Profiler to find and fix the leaks in the application. 
 
-The workshop application is intended to run on PAS connected to a copy of Sports2020. __The PAS instance ablapp must have the Application project directory in PROPATH. This repository contains the .pf with startup parameters for the PAS instance and the memory profiler .config file referenced by the .pf that should be copied to the worrk directory of the PAS instance. 
+The workshop application is intended to run on PAS connected to a copy of Sports2020. __The PAS instance ablapp must have the Application project directory in PROPATH.__ This repository contains the .pf with startup parameters for the PAS instance and the memory profiler .config file referenced by the .pf that should be copied to the worrk directory of the PAS instance. 
 
 The assumption is that a REST tool is used to run the services in the application and this repository contains environment and collections files that cshould be loaded into Postman or Bruno REST test tools.   
 
