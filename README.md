@@ -124,6 +124,7 @@ If the full Application project is recompiled there is a bug that prevents _Pmfo
 
 --- 
 The information below is not needed when running the workshop as-is and is assumed to only be relevant if new concrete classes are added to Application project Business, DataAccess and DataSOurce directories.  
+---
 
 ### Bootstrapping 
 This information is not needed when running the workshop as-is and is assumed to only be relevant if new concrete classes are added to Application project Business, DataAcess or DataSource directories. 
