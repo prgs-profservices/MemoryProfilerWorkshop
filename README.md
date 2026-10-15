@@ -120,16 +120,24 @@ It is typically not necessary to recompile code since the PDSOE is setup to comp
 If the temp-table definition in one of the incldues in the schema is changed both the coresspoinffng *BE and *DS needs to be recompiled. 
 
 #### Compilation bug 
-If the Application project is recompiled there is a bug that prevents Pmfo.Core.Manager.Manager from being comppiled. Opening the file (from the Problem View) and right-clikc and select _compile_ wioll fix this. There has been cases where it seems necessary to compoile twice. The assumption is that this problem has to do with the static reference to the StartupManager in thois code. If this is not compiled successfully it may cause weird errors at runtime. 
-DISCLAIMER: The problem is not researched.  
+If the full Application project is recompiled there is a bug that prevents _Pmfo.Core.Manager.Manager_ from beinh compiled. Opening the file (i.e. from the Problem View) and right-click and select _compile_ will fix this. If this is not compiled successfully it may cause weird errors at runtime. The problem has not been narrowed down, researched or reported but the assumption (wild guess...) is that the problem is somehow related to the the static reference to the StartupManager in this class. 
 
-#### Bootstrapping, Source Discovery and Factory:
+------ 
+The information below is not needed when running the workshop as-is and is assumed to only be relevant if new concrete classes are added to Application project Business, DataAccess and DataSOurce directories.  
+------
+
+### Bootstrapping 
 This information is not needed when running the workshop as-is and is assumed to only be relevant if new concrete classes are added to Application project Business, DataAcess or DataSource directories. 
 
+The framework implements a ServiceManager that extends and implements the CCS IServiceManager. It serves as the factory to start classes based on public names for external requests as well as internally. A static StartupManager that also extends CCS is the central mechanism to bootstrap managers based on the _config/startup.json_. The managers are added to the static _Ccs.Common.Application_. 
+
+The PAS instance is setup with session startup procedure _Core/Startup/sessionstartup.p_ that calls the StartupManager:Instance that executes this bootstrapping. 
+The various classes inherits from a DataService class that has a static constructor that performs the same bootstrapping if _Ccs.Common.Application:StartupManager_ is not valid yet. This allows thse classes to run outside of PAS and still use the ServiceManager as a factory. The ABLUnit tests that runs Business Entities inherits _Tools/Test.TestBase_ that extends this DataService. 
+
+### Factory and source discovery
 
 
 
-in prinmciple only relvabut could be useful if changing and specifically if or extending the examples   
 
 Tools/Generate/launchGenerateResources.p can be run to generate config/resources.json in the Application config directory. Only needed if new BE, DA or DS classes are created and this is not necessary to fix the leaks in the workshop. 
 In a standard project the resources.json are not checked in, but it is checked in here
