@@ -89,7 +89,6 @@ class DataSource.AddressDS inherits DataSource:
                 hQuery:get-next.
                 if iNumRecords > 0 and iCount > iNumRecords then do:
                     NextRowKey = DataBuffer::AddressId.
-                    NumRecords = iCount - 1.
                     leave.
                 end.    
                 DataBuffer::zz_seq = iCount. // sorting for json
