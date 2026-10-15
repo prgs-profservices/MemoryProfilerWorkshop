@@ -122,9 +122,8 @@ If the temp-table definition in one of the incldues in the schema is changed bot
 #### Compilation bug 
 If the full Application project is recompiled there is a bug that prevents _Pmfo.Core.Manager.Manager_ from beinh compiled. Opening the file (i.e. from the Problem View) and right-click and select _compile_ will fix this. If this is not compiled successfully it may cause weird errors at runtime. The problem has not been narrowed down, researched or reported but the assumption (wild guess...) is that the problem is somehow related to the the static reference to the StartupManager in this class. 
 
------- 
+--- 
 The information below is not needed when running the workshop as-is and is assumed to only be relevant if new concrete classes are added to Application project Business, DataAccess and DataSOurce directories.  
-------
 
 ### Bootstrapping 
 This information is not needed when running the workshop as-is and is assumed to only be relevant if new concrete classes are added to Application project Business, DataAcess or DataSource directories. 
