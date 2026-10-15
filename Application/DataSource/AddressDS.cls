@@ -72,6 +72,7 @@ class DataSource.AddressDS inherits DataSource:
             iNumRecords = GetRequest:NumRecords. 
         end. 
         
+        // NOTE: this is very expensive paging since we load all data and delete the ones we do not need if NumRecords is requested  
         if cSort > "" or iNumRecords > 0 then 
         do:
             create query hQuery.
