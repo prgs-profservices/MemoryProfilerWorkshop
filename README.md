@@ -15,7 +15,7 @@ The sections below discuss both the content of this Repository as well as the se
 ## Database 
 Create a local database by copying the Sports2020 database in the Progress install. The workshop setup assumes the database is located in _C:\db_. The physical location is assumed to be ignored when defining Host and Port, but this is not tested. 
 
-Setup a database service in OEM with the following properties:
+Setup a database service in OEM with the following properties:  
 Physical Location: __C:\db\sports2020__        
 Hostname:          __localhost__     
 Port:              __8700__       
