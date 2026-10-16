@@ -120,15 +120,15 @@ Default starttup parameters:__-debugalert -inp 32000 -tok 4096 -rereadnolock -s 
 The parameters that have number values are based on long time use of PDSOE but may not necessarilty be optimal. The -h number of database connections is likely too high, but keep in mind that it also includes the SQL connection if that is defined for a database. There is no reason to use the SQL connection in the workshop.    
 
 ### Compilation 
-It is typically not necessary to recompile code manually since the PDSOE is setup to compile on save.
+It is typically not necessary to recompile code manually if  the PDSOE is setup to compile on save as shown in the preferences section above.
 
-If the temp-table definition in one of the includes in the schema is changed both the coresponding *BE and *DS needs to be recompiled. 
+If the temp-table definition in one of the includes in the _schema_ directory is changed both the coresponding *BE and *DS need to be recompiled. 
 
 #### Compilation bug 
-If the Application project is recompiled there is a bug that prevents _Pmfo.Core.Manager.Manager_ from being compiled. Opening the file (i.e. from the Problem View) and right-click and select _compile_ will fix this. If this is not compiled successfully it may cause weird errors at runtime. The problem has not been narrowed down, researched or reported but the assumption (wild guess...) is that the problem is somehow related to the the static reference to the StartupManager in this class. 
+If the Application project is recompiled there is a bug that prevents _Pmfo.Core.Manager.Manager_ from being compiled. To fix this opening the file (i.e. from the Problem View) and right-click and select _compile_. The problem has not been narrowed down, researched or reported but the assumption is that the problem is somehow related to the the static reference to the StartupManager in this class. (The fact that problem exists in the workshop is the first time this has been duplicated in a simple case so the plan is to report this using this code and project) 
 
 --- 
-The information below is likely not needed when running the workshop as-is and is assumed to only be relevant if new concrete classes are added to the Application project's Business, DataAccess and DataSource directories.  
+The information below is not needed when running the workshop as-is and is assumed to only be relevant if new concrete classes are added to the Application project's Business, DataAccess and DataSource directories.  
 ---
 
 ### Bootstrapping 
