@@ -6,7 +6,7 @@ __The PAS instance ablapp must have the Application project directory in PROPATH
 
 This repository contains the _.pf_ with startup parameters for the PAS instance and the memory profiler _.config_ file referenced by the _.pf_ to be copied to the PAS instance _work_ directory. 
 
-The assumption is that a REST tool is used to run the services in the application and this repository contains environment and collections files that should be loaded into _Postman_ or _Bruno_ REST test tools for this purpose. Note that _Postman_ licensing rules may prohibit preloading the enviroment and collections in the VM that is provided to multiple users.    
+The assumption is that a REST tool is used to run the services in the application and this repository contains environment and collections files that should be loaded into _Postman_ or _Bruno_ REST test tools for this purpose.
 
 This has been tested when installed in _C:/MemoryProfilerWorkshop_. The only known dependency of the physical location is that the PAS instance ablapp's PROPATH should point to the Application project with full path.    
 
@@ -59,6 +59,33 @@ PROPATH                  : __C:/MemoryProfilerWorkshop/Application,${DLC}/tty,${
 Session startup procedure: __Core/Startup/sessionstartup.p__ 
 
 __NOTE:__ The REST test environement and collections are setup to use the following URL http://localhost:8080/main/web/api/. This is controlled in a single _BaseUri_ environment variable and is assumed to be easy to change, but this has not been tested.
+
+## REST test tool
+The REST tool has a central tole in the workshop. 
+
+The workshop was developed with Postman while Bruno was setup in the VMs used in the first workshop. 
+
+The files in the __postman-data__ directory should be imported to the REST tool before the workshop starts. 
+
+Note that _Postman_ licensing rules may prohibit preloading the enviroment and collections in a VM to be used by multiple users. (This is based on copilot AI info).    
+
+Bruno has a simpler UI with one caveat when having nested collections like the workhop has; If you run one of the child collections and then navigate to a parent collection to run that it will default to run the last executed run. There is a reset button that can be pressed to be able to run the full parent collection in this case. 
+
+### Collections
+There are 3 test collections. The reason for the multiple collections is to make it easier to split the workshop into multiple excercises. The original intention was to first run some of the collections once and fix the leaks that shows up multiple times in memory and then the tests twice to indentify memory leaks that only occur in one object by mutiple leaks from the same call stack. But there are no obviuous differences from one or two runs since the Large Object Leaks that are occurring more than once somehow resued the memory from the first run. This is assumed to be a side effect of the fact that the test runs in a simple environment with one active user.       
+
+#### Read data collections
+This collection executes GET request for all (most?) services/tables in the application. The leaks that are encountered here are easy to fix. Excpet one Large Object leak caused by MEMPTR that is hard to fix. This MEMPTR is stored in a static class property that is intended as a cache in the session. It can be replaced by a change, but there should always be data in that MEMPTR, but it will remain in memory after Progress is shutdown (as shown in the _Exit tag) if not set to size 0 before the Progress shut down. There is no static destructor so this is an interesting challenge. It will show up also after running the Update collection, so the fix cam be postponed to the end of the workshop.     
+
+#### Update data collections
+This collection executes POST and DELETE request for most services/tables in the application. Some of the leaks that are encountered here are more complicated. 
+
+There is one class level leak caused by two classes having cross references that prevents garbage collection. This needs to be fixed before the other leaks since a class leak will cause objects owned by these classes to shopw up inm the snapshots, which is misleading since they will be deleted when the cross refermnce is eliminated.  
+
+__NOTE__ It is recommended to always run the corresponding DELETE if one runs a POST request test individually. Some of the tests have hard coded keys and will fail if run again if the records are not deleted after the first run. The DELETE request uses the output from the previous POST so this can be done as a separate run. Most of the tables have sequences and can be run many times without deleting the outcome.
+
+#### Xtra collections
+This is a bonus collection mainly intended to be introduced all attendeees are able to fix all leaks before the workshop is over. This is assumed to be relatively easy to identify, but the fix is not straghforward. 
 
 ## ABL code 
 The workshop was developed in PDSOE and the assumption is that the students use PDSOE when they fix the memory leaks. The assumption is that the Application source can be edited in VSCODE instead of PDSOE. It is unclear if the Test project and Work projects are useful in VSCODE, but these are optional projects.   
