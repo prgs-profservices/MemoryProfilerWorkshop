@@ -69,9 +69,9 @@ The workshop was developed with Postman while Bruno was setup in the VMs used in
 
 The files in the __postman-data__ directory should be imported to the REST tool before the workshop starts. 
 
-Note that _Postman_ licensing rules may prohibit preloading the enviroment and collections in a VM to be used by multiple users. (This is based on copilot AI info).    
+Note that _Postman_ licensing rules may prohibit preloading the enviroment and collections in VMs for multiple users. (This is based on copilot AI info).    
 
-Bruno has a simpler UI with one caveat when having nested collections like the workhop has; If you run one of the child collections and then navigate to a parent collection to run that, it will default to run the last executed run of the child or grand child. This can easily br resolved by pressing a reset button that will cause i Bruno to run the actual collection, but this is easy to overlook when using Bruno for the first time. 
+Bruno has a simpler UI with one caveat when having nested collections like the workhop has; If you run one of the child collections and then navigate to a parent collection to run that, it will default to run the last executed run of the child or grand child. This can easily be resolved by pressing a reset button that will cause  Bruno to reset to the actual collection, but this is easy to overlook when using Bruno for the first time. 
 
 ### Collections
 There are 3 test collections. The reason for the multiple collections is to make it easier to split the workshop into multiple excercises. The original intention was to first run some of the collections once and fix the leaks that shows up multiple times in memory and then the tests twice to indentify memory leaks that only occur in one object by mutiple leaks from the same call stack. But there are no obviuous differences from one or two runs since the Large Object Leaks that are occurring more than once somehow resued the memory from the first run. This is assumed to be a side effect of the fact that the test runs in a simple environment with one active user.       
