@@ -123,24 +123,25 @@ If the temp-table definition in one of the incldues in the schema is changed bot
 If the full Application project is recompiled there is a bug that prevents _Pmfo.Core.Manager.Manager_ from beinh compiled. Opening the file (i.e. from the Problem View) and right-click and select _compile_ will fix this. If this is not compiled successfully it may cause weird errors at runtime. The problem has not been narrowed down, researched or reported but the assumption (wild guess...) is that the problem is somehow related to the the static reference to the StartupManager in this class. 
 
 --- 
-The information below is likely not needed when running the workshop as-is and is assumed to only be relevant if new concrete classes are added to Application project Business, DataAccess and DataSOurce directories.  
+The information below is likely not needed when running the workshop as-is and is assumed to only be relevant if new concrete classes are added to the Application project's Business, DataAccess and DataSource directories.  
 ---
 
 ### Bootstrapping 
 The framework implements a ServiceManager that extends and implements the CCS IServiceManager. It serves as the factory to start classes based on public names for external requests as well as internally. A static StartupManager that also extends CCS is the central mechanism to bootstrap managers based on the _config/startup.json_. The managers are added to the static _Ccs.Common.Application_. 
 
 The PAS instance is setup with session startup procedure _Core/Startup/sessionstartup.p_ that calls the StartupManager:Instance that executes this bootstrapping. 
-The various classes inherits from a DataService class that has a static constructor that performs the same bootstrapping if _Ccs.Common.Application:StartupManager_ is not valid yet. This allows thse classes to run outside of PAS and still use the ServiceManager as a factory. The ABLUnit tests that runs Business Entities inherits _Tools/Test.TestBase_ that extends this DataService. 
+In addtion the classes inherits from a DataService class that has a static constructor that performs the same bootstrapping if _Ccs.Common.Application:StartupManager_ is not valid yet. This allows these classes to run outside of PAS and still use the ServiceManager as a factory to invoke other classes. The ABLUnit tests that runs Business Entities inherits _Tools/Test.TestBase_ that extends this DataService. 
 
 ### Factory and source discovery
+The ServiceManager caches all named services in a dataset with ttEntity, ttDataAccess and ttDataSource temp-tables at runtime. This dataset is persisted in a _config/resources.json_, but this is a persisted cache as the information about the classes is obtained by reading the source directories and starting the classes. The purpose of the json is to minimize the need to read and start the classes. In production the _config/resources.json_ is typically generated once as part of the build. In development the ServiceManager will typically refresh the _config/resources.json_ and reload the dataset if one of the observed directories; Business, DataAcces or DataSource has changes. The decision to check if a refresh is needed is controlleed by the _config/serviceConfig.json_ _CheckForNewResources_ property, which is used to set the same named property in the ServiceManager.  
+ 
+In this workshop this property is set to _false_ since there is no need to create new named classes as part of the task to fix memory leaks.  
 
+The _Tools/Generate/launchGenerateResources.p_ can be run to generate a fresh _config/resources.json_ in the Application config directory if the _CheckForNewResources_ is false.  
 
+There are some drawbacks of having the _CheckForNewResources_ property set to _true_. 
+1. In a very large application the json in memory would sometimes get corrupted on Windows. Possibly due to the fact that changes are added to the existing data. The problem does not exsits when generating from scracth. This is assumed to be core bug, but every attempt to duplicate the bad behavior has failed. 
+2. In some versions oif Progress the load of a class crashes when executed immediately after a new class has been saved. This was worked around by adding a message whose only purpose was to stop the execution. (A pause would likely also work). This is also assumed to be a bug, but in this case it may be a filesystem limitation. This can be duplicated, but the crash never occurs at the same place. I.E. It does not necessarily crash when starting the  new class, but sometime after.      
+3. If executed with code that does not compile in source directories the resources are not properly loaded to the Service Manager. THis is typically easy to fix by fixing the bad code. It is also likely easy to improve the behavior, but since we never want to have bad source this has not been done. 
 
-
-Tools/Generate/launchGenerateResources.p can be run to generate config/resources.json in the Application config directory. Only needed if new BE, DA or DS classes are created and this is not necessary to fix the leaks in the workshop. 
-In a standard project the resources.json are not checked in, but it is checked in here
-
-
-### Advanced (Assumed to not be needed in workshop):  
-  config/serviceConfig.json has "CheckForNewResources": false.   
-  In a dev environment where developers create new classes this will be set to true so that the ServiceManager automatically adds these resources to its cache by generating a new config/resources.json and loading it. There is no need to create new classes to resovle the leaks in the workshop. There is also code in the Work project that can generate config/resources.json. 
+The benefits of setting _CheckForNewResources_ true in a real development scenario where new classes are added daily, far outweights these drawbacks. Also note that so far problem 1 and 2 have not been observed in version 12.8. There is thus reason to hope that at problem 2 is gone. Since problem 1 is more sporadic there is not enough real time usage yet to tell.  
