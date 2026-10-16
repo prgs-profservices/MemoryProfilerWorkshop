@@ -53,7 +53,7 @@ The agent startup parameter is edited to have a _-pf_ startup parameter pointing
 
 The PROPATH is changed to point to the Application. 
 
-The session startup has the bootstrap procedure needed to start a ServiceManager and SessionManager and add them to the CCS static  Application. 
+The session startup has a procedure that will bootstrap the ServiceManager and SessionManager by adding them to the CCS static Application class. 
 
 Agent working directory  : __${CATALINA_BASE}/work__  
 Agent startup parameter  : __-T "${catalina.base}/temp" -pf ${CATALINA_BASE}/work/workshop.pf__  
