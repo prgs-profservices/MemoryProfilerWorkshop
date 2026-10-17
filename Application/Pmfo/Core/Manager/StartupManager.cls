@@ -7,6 +7,7 @@
  
 block-level on error undo, throw.
 
+using Ccs.Common.Application from propath.
 using Ccs.Common.IManager from propath.
 using Ccs.Common.IServiceManager from propath.
 using Ccs.Common.ISessionManager from propath.
@@ -14,16 +15,15 @@ using Ccs.Common.IStartupManager from propath.
 using OpenEdge.Core.Collections.IIterator from propath.
 using OpenEdge.Core.Collections.IMap from propath.
 using OpenEdge.Core.Collections.Map from propath.
-using Progress.Lang.Object from propath.
+using OpenEdge.Core.ISupportInitialize from propath.
 using Pmfo.Core.Error.ApplicationError from propath.
 using Pmfo.Core.Manager.Manager from propath.
 using Pmfo.Core.Manager.ServiceManager from propath.
 using Pmfo.Core.Manager.SessionManager from propath.
 using Pmfo.Core.Manager.StartupManager from propath.
 using Pmfo.Util.FileUtil from propath.
-using Ccs.Common.Application from propath.
-using OpenEdge.Core.ISupportInitialize from propath.
 using Progress.Lang.Error from propath.
+using Progress.Lang.Object from propath.
 
 class Pmfo.Core.Manager.StartupManager inherits Manager implements IStartupManager use-widget-pool:
      
