@@ -23,10 +23,10 @@ using Progress.Lang.Object from propath.
 
 class Business.PurchaseOrderBE inherits BusinessEntity:
 
-     
     {schema/purchaseOrder.i}
     {schema/purchaseOrderLine.i}
     {schema/item.i reference-only}
+    
     {schema/supplierItemXref.i reference-only}
     {schema/supplier.i reference-only}
     
