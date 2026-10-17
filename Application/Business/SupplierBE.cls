@@ -37,6 +37,9 @@ class Business.SupplierBE inherits BusinessEntity:
     {schema/item.i}
     {schema/purchaseOrder.i reference-only}
     
+    // define constant for status required for deletion - TODO: Define ENUM for statuses
+    define protected property EXPECTED_PO_STATUS_FOR_DELETE as character no-undo init "Received" get.
+    
     // define item table with supplieridnum to expose items as collection directly under supplier to UI/WEB  
     define temp-table ttSupplierItem serialize-name "items" like ttItem use-index zz_seq before-table biSupplierItem
         field SupplierIDNum as integer serialize-name "supplierIDNum"
@@ -62,10 +65,10 @@ class Business.SupplierBE inherits BusinessEntity:
     end constructor.
     
     method protected override void ValidateData(pRequest as IUpdateDataRequest, input dataset-handle phDataset ): 
-        ValidateStaticData(dataset-handle phDataset by-reference ). 
+        ValidateSupplier(dataset-handle phDataset by-reference ). 
     end method.    
    
-    method protected void ValidateStaticData(input dataset dsSupplier ):
+    method protected void ValidateSupplier(input dataset dsSupplier ):
         define variable iDeleteSupplerIdNums as integer extent  no-undo. 
         define variable oQuery               as IQueryGroup     no-undo.
         define variable hPurchaseOrderTable  as handle          no-undo.
@@ -83,22 +86,22 @@ class Business.SupplierBE inherits BusinessEntity:
         do:
             oQuery = new QueryGroup().
             oQuery:AddEntry(new QueryPredicate("SupplierIDNum",QueryOperatorEnum:InList,iDeleteSupplerIdNums)).
-            oQuery:AddEntry(new QueryPredicate("PoStatus",QueryOperatorEnum:Ne,"Received")).
+            oQuery:AddEntry(new QueryPredicate("PoStatus",QueryOperatorEnum:Ne,EXPECTED_PO_STATUS_FOR_DELETE)).
             // NOTE GetData(with output table does not support by-reference -    
             oPurchaseOrderBE:GetData(oQuery, output table-handle hPurchaseOrderTable).
             // if any records returned that are not received we cannot delete so throw error 
             if hPurchaseOrderTable:has-records then    
-                ThrowHasNonReceievedPurchaseOrdersError(input table-handle hPurchaseOrderTable by-reference).  
+                ThrowHasUnexpectedPurchaseOrderStatusError(input table-handle hPurchaseOrderTable by-reference,EXPECTED_PO_STATUS_FOR_DELETE).  
         end.    
     end method.
     
-   // method protected void CreatePurchaseOrder
-    
-    method protected void ThrowHasNonReceievedPurchaseOrdersError(input table ttPurchaseOrder ):
+    // throw an error that shows the Supplier numbers of the purchaseOrders thta doe snothave expected status
+    method protected void ThrowHasUnexpectedPurchaseOrderStatusError(input table ttPurchaseOrder, input pcExpectedStatus as character ):
         define variable iSupplerIdNums as integer extent no-undo. 
         
         extent(iSupplerIdNums) = ?.
-        for each ttPurchaseOrder break by ttPurchaseOrder.SupplierIDNum :
+        for each ttPurchaseOrder where ttPurchaseOrder.Postatus <> EXPECTED_PO_STATUS_FOR_DELETE 
+            break by ttPurchaseOrder.SupplierIDNum:
             if last-of(ttPurchaseOrder.SupplierIDNum) then 
             do:
                extent(iSupplerIdNums) = (if extent(iSupplerIdNums) = ? then 0 else extent(iSupplerIdNums)) + 1.
@@ -107,13 +110,14 @@ class Business.SupplierBE inherits BusinessEntity:
         end.
             
         if extent(iSupplerIdNums) <> ? then 
-                undo, throw new BadRequestError(substitute("Supplier Id&1 &2 cannot be deleted. &3 at least one Purchcase Order that has not been received",
-                                                   if extent(iSupplerIdNums) > 1 then "s" else "",
-                                                   StringUtil:GetMessageFromEntries(Array:ToString(iSupplerIdNums)),
-                                                   if extent(iSupplerIdNums) > 1 then "They have" else "It has"
-                                                   
-                                                )
-                                ).
+            undo, throw new BadRequestError(
+                substitute("Supplier Id&1 &2 cannot be deleted. &3 at least one Purchcase Order that does not have status '^4received'",                                                   if extent(iSupplerIdNums) > 1 then "s" else "",
+                            if extent(iSupplerIdNums) > 1 then "s" else "",
+                            StringUtil:GetMessageFromEntries(Array:ToString(iSupplerIdNums)),
+                            if extent(iSupplerIdNums) > 1 then "They have" else "It has",
+                            EXPECTED_PO_STATUS_FOR_DELETE
+                ) 
+            ).
             
     end method.
     

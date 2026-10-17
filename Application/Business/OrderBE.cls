@@ -37,10 +37,10 @@ class Business.OrderBE inherits BusinessEntity:
     end constructor.
     
     method protected override void ValidateData(pRequest as IUpdateDataRequest, input dataset-handle phDataset ): 
-        ValidateStaticData(dataset-handle phDataset by-reference ). 
+        ValidateOrder(dataset-handle phDataset by-reference ). 
     end method.    
    
-    method protected void ValidateStaticData(input dataset dsOrder ):
+    method protected void ValidateOrder(input dataset dsOrder ):
         define variable dExtendedPrice as decimal no-undo.
         
         for each ttOrder where row-state(ttOrder) > 0:
@@ -63,7 +63,7 @@ class Business.OrderBE inherits BusinessEntity:
                 assign ttOrderline.ExtendedPrice = dExtendedPrice.          
             end.
         end.    
-        // Call Item Be to validate and update item allocated - will be added to the submiot dataset in SubmitData
+        // Call Item Be to validate and update item allocated - will be added to the submit dataset in SubmitData
         ItemBE = cast(ServiceManager:CreateBusinessEntity('items'),ItemBE).
         ItemBe:ValidateAndUpdateInventory(this-object, table ttOrderLine by-reference).
             

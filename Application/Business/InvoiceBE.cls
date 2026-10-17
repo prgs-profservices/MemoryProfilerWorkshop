@@ -25,7 +25,6 @@ class Business.InvoiceBE inherits BusinessEntity:
 
     {schema/invoice.i}
     
-    
     {schema/order.i reference-only}
     {schema/orderline.i reference-only}
     
@@ -38,17 +37,15 @@ class Business.InvoiceBE inherits BusinessEntity:
     end constructor.
     
     method protected override void ValidateData(pRequest as IUpdateDataRequest, input dataset-handle phDataset ): 
-        ValidateStaticData(dataset-handle phDataset by-reference ). 
+        ValidateInvoice(dataset-handle phDataset by-reference ). 
     end method.    
    
-    method protected void ValidateStaticData(input dataset dsInvoice ):
-        define variable hPurchaseOrderTable  as handle          no-undo.
+    method protected void ValidateInvoice(input dataset dsInvoice ):
         define variable oOrderBE             as IBusinessEntity no-undo.
         define variable oRequest             as IGetDataRequest no-undo.
         define variable oTableRequest        as IGetDataTableRequest no-undo.
         define variable oQueryDefinition     as IQueryDefinition  no-undo.
         define variable hDataset             as handle no-undo.
-        define variable hInvoiceTable         as handle no-undo.
         define variable hOrderTable          as handle no-undo.
         define variable hOrderLineTable      as handle no-undo.
         
@@ -59,6 +56,7 @@ class Business.InvoiceBE inherits BusinessEntity:
             oQueryDefinition = new QueryDefinition().
             oQueryDefinition:AddEntry(new QueryPredicate("OrderNum",QueryOperatorEnum:Eq,ttInvoice.OrderNum)).
             oRequest:TableRequests[1]:QueryDefinition = oQueryDefinition.
+            
             oOrderBE:GetData(oRequest, output dataset-handle hDataset).
             
             hOrderTable     = hDataset:get-buffer-handle(1):table-handle.
