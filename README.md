@@ -100,7 +100,7 @@ All projects are connected to the sports2020 database.
 #### Application 
 The Application project has all source code and the students will fix the leaks in the code. 
 
-It is important that the physical location of this project is referenced in PROPATH for the workshop PAS instance and that PDSOE is not setup tp deploy to PAS. This ensures that the fixes will be picked immediately when running from the PAS REST tool. There is only one known fix that needs a PAS restart.   
+It is important that the physical location of this project is referenced in PROPATH for the workshop PAS instance and that PDSOE is not setup tp deploy to PAS. This ensures that the fixes can be picked immediately when running from the PAS REST tool. There is only one known fix that needs a PAS restart.   
 
 ##### Test
 This project is optional for the workshop. See summary at the end of this section.
@@ -121,10 +121,16 @@ This is also optional for the workshop.
 The project has propath set to Application and is intended to be used if one wants to run a regular program or class that uses the Application classes and/or database. It contains some incidental programs that has for each, and display for some tables.
 
 ### PDSOE > Window > Preferences
-The following shows some of the recommended PSDOE Window Preferences for the workshop 
+The following shows some of the recommended PSDOE Window Preferences for the workshop. (Obviously not applicable if Visual Studio is used instead.) 
+
+Some of these are important while others are assumed to provide optimal behavior while editing the code. The database connection must match the started database. The database is utf-8 so make sure we can handle all data at run time. The workspace setting may not be utilized but there is never a reason not to refresh what you see. 
 
 #### General > Editors > Structured Text Editors
 [V] Show line numbers 
+
+#### General > Workspace
+[V] Refresh using native hooks or polling 
+[V] Refresh on access 
 
 #### Progress OpenEdge > Database Connections
 Connection name: __sports2020__       
@@ -151,10 +157,12 @@ The parameters that have number values are based on long time use of PDSOE but m
 ### Compilation 
 It is typically not necessary to recompile code manually if  the PDSOE is setup to compile on save as shown in the preferences section above.
 
-If the temp-table definition in one of the includes in the _schema_ directory is changed both the coresponding *BE and *DS need to be recompiled. 
+If the temp-table definition in one of the includes in the _schema_ directory is changed, both the corresponding *BE and *DS need to be recompiled. 
 
-#### Compilation bug 
-If the Application project is recompiled there is a bug that prevents _Pmfo.Core.Manager.Manager_ from being compiled. To fix this opening the file (i.e. from the Problem View) and right-click and select _compile_. The problem has not been narrowed down, researched or reported but the assumption is that the problem is somehow related to the the static reference to the StartupManager in this class. (The fact that problem exists in the workshop is the first time this has been duplicated in a simple case so the plan is to report this using this code and project) 
+#### Compilation issue
+If the Application project is recompiled the  _Pmfo.Core.Manager.Manager_ may fail to compile. This assumption is that this can be avoided by cleaning the project before it is compiled (Menu Project > Clean). It can also be fixed by  opening the file (i.e. from the Problem View) and right-click and compile it (right-click  _compile_.). 
+
+It is not known if this problem exists when r-code and source are in separate directories.  
 
 --- 
 The information below is not needed when running the workshop as-is and is assumed to only be relevant if new concrete classes are added to the Application project's Business, DataAccess or DataSource directories.  
