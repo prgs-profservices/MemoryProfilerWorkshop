@@ -125,7 +125,6 @@ class Pmfo.Core.Manager.ServiceManager inherits Manager implements IServiceManag
      Purpose:
      Notes:
     ------------------------------------------------------------------------------*/
-
     method public override void dispose(  ):
         if valid-object(ResourceBe) then 
             delete object ResourceBE.
