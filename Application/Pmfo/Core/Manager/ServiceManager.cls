@@ -96,13 +96,14 @@ class Pmfo.Core.Manager.ServiceManager inherits Manager implements IServiceManag
     
     define protected property ResourceBe as ResourceBE no-undo get. set.
     
-      
+    // loaded from <config>.serviceConfig.json
     define public property CodeTableSourceName     as character no-undo get. set.
     define public property CheckForNewResources    as logical   no-undo get. set. 
     define public property DataSourceDirectory     as character no-undo get. set.
     define public property DataAccessDirectory     as character no-undo get. set.
     define public property EntityDirectory         as character no-undo get. set.
-    // after web in url  
+    
+    // after web in url - support for many may need update to Net lib overrides 
     define public property ServiceNames            as character no-undo init "api" get. protected set.    
     
     define temp-table ttScopedService no-undo
