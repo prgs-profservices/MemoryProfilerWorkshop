@@ -118,8 +118,8 @@ class Pmfo.Core.Manager.ServiceManager inherits Manager implements IServiceManag
     /* Datatype for key for customer generic lookup table 
        not in interface as of current - override in subclass initialize */
     define public property CodeTableKeyType as character init "character" no-undo 
-       get.
-       protected set. 
+        get.
+        protected set. 
     
     /*------------------------------------------------------------------------------
      Purpose:
