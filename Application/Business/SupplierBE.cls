@@ -41,7 +41,7 @@ class Business.SupplierBE inherits BusinessEntity:
     define protected property EXPECTED_PO_STATUS_FOR_DELETE as character no-undo init "Received" get.
     
     // define item table with supplieridnum to expose items as collection directly under supplier to UI/WEB  
-    define temp-table ttSupplierItem serialize-name "items" like ttItem use-index zz_seq before-table biSupplierItem
+    define temp-table ttSupplierItem no-undo serialize-name "items" like ttItem use-index zz_seq before-table biSupplierItem
         field SupplierIDNum as integer serialize-name "supplierIDNum"
         index supplier-item as primary unique SupplierIDNum itemNum.
         .

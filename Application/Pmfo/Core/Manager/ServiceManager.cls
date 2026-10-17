@@ -107,10 +107,6 @@ class Pmfo.Core.Manager.ServiceManager inherits Manager implements IServiceManag
     define public property ServiceNames            as character no-undo init "api" get. protected set.    
     
     define temp-table ttScopedService no-undo
-        // as of current we only have dataset handle, which allows us to use index
-        // with ILifeCycleScope we douwl need to use equals  
-        // (not a big deal as there is not likely to be many scopes, 
-        // so feel free to change to Object when necessary )
         field scope as handle  
         field service as Object
         index idxScope as primary unique scope service
