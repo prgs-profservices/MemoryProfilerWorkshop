@@ -1,7 +1,7 @@
  
  /*------------------------------------------------------------------------
-    File        : Manager
-    Purpose     : 
+    File        : Abstract Manager class   
+    Purpose     : Common code for all managers
     Syntax      : 
     Description : 
     Author(s)   : hdaniels
@@ -10,14 +10,11 @@
 
 block-level on error undo, throw.
 
-using Ccs.Common.Application from propath.
 using Ccs.Common.IManager from propath.
-using Progress.Json.ObjectModel.JsonObject from propath.
 using Pmfo.Core.Error.IllegalOperationError from propath.
-using Pmfo.Core.Manager.IServiceManager from propath.
 using Pmfo.Util.FileUtil from propath.
 using Pmfo.Util.JsonUtil from propath.
-using Pmfo.Core.DataLayer.IServiceDataAccess from propath.
+using Progress.Json.ObjectModel.JsonObject from propath.
 
 class Pmfo.Core.Manager.Manager abstract implements IManager:
     

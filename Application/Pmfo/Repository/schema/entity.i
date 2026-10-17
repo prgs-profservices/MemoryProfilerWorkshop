@@ -1,6 +1,6 @@
 
 /*------------------------------------------------------------------------
-    File        : businessEntity.i
+    File        : entity.i
     Purpose     : 
 
     Syntax      :
@@ -9,7 +9,8 @@
 
     Author(s)   : hdaniels
     Created     : Thu Mar 21 17:57:02 EDT 2019
-    Notes       : application business entities  
+    Notes       : application entities  
+                  serialize-name is not used since we use the same names when we serialize    
   ----------------------------------------------------------------------*/
 
 /* ***************************  Definitions  ************************** */
@@ -21,11 +22,11 @@ define temp-table ttEntity  no-undo serialize-name "entities" {1} before-table b
     field EntityReferences as character serialize-hidden
     field IsDataContainer  as logical serialize-hidden
     field KeyList          as character
-    // format for debug and test  longest name 6/18/2024 - 53   
+    // format for debug and test    
     field Resource         as character format "x(55)" 
     field Public           as logical
     field ReadOnly         as logical  
-    field TypeName         as characte  
+    field TypeName         as character  
     field zz_seq           as integer serialize-hidden 
 index resource  as  unique Resource
 index type TypeName Resource

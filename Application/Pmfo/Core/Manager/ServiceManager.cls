@@ -11,6 +11,7 @@ block-level on error undo, throw.
 
 using Ccs.Common.IService from propath.
 using Ccs.ServiceManager.ILifecycleScope from propath.
+using OpenEdge.BusinessLogic.NamedQuery from propath.
 using OpenEdge.Core.Assert from propath.
 using OpenEdge.Core.ISupportInitialize from propath.
 using OpenEdge.Core.WidgetHandle from propath.
@@ -21,6 +22,7 @@ using OpenEdge.Web.DataObject.ServiceRegistryImpl from propath.
 using OpenEdge.Web.DataObject.ServiceRegistryLoader from propath.
 using OpenEdge.Web.DataObject.Writer.OperationHandlerRegistry from propath.
 using OpenEdge.Web.SendExceptionError from propath.
+using Pmfo.Core.BusinessLogic.GetDataRequest from propath.
 using Pmfo.Core.BusinessLogic.IBusinessEntity from propath.
 using Pmfo.Core.BusinessLogic.IEntity from propath.
 using Pmfo.Core.BusinessLogic.IGetDataRequest from propath.
@@ -54,15 +56,13 @@ using Pmfo.Util.Array from propath.
 using Progress.Json.ObjectModel.JsonObject from propath.
 using Progress.Lang.Error from propath.
 using Progress.Lang.Object from propath.
-using OpenEdge.BusinessLogic.NamedQuery from propath.
-using Pmfo.Core.BusinessLogic.GetDataRequest from propath.
 
 // There are tow different canFind implementaions. 
 // One that uses can-find and one that uses find sonce can-find is faster we want 
 // to keep both implementations and use this preprocesor where clause to ensure 
 // the logic is the same
  
- /* Bug? version afer 12.2 broke this 
+ /* Bug or query improvement? version after 12.2 broke this 
 &scop canfindwhere ttEntity~
  where ttEntity.Resource = pcname~
  and (not valid-object(pClass) or ttEntity.TypeName = pClass:TypeName)~
@@ -115,7 +115,8 @@ class Pmfo.Core.Manager.ServiceManager inherits Manager implements IServiceManag
         index idxScope as primary unique scope service
         .
     
-    // not in interface as of current - override in subclass initialize
+    /* Datatype for key for customer generic lookup table 
+       not in interface as of current - override in subclass initialize */
     define public property CodeTableKeyType as character init "character" no-undo 
        get.
        protected set. 
@@ -130,12 +131,10 @@ class Pmfo.Core.Manager.ServiceManager inherits Manager implements IServiceManag
             delete object ResourceBE.
     end method.
     
-
     /*------------------------------------------------------------------------------
      Purpose:
      Notes:
     ------------------------------------------------------------------------------*/
-
     constructor public ServiceManager (  ):
         super ().
     end constructor.
@@ -174,19 +173,14 @@ class Pmfo.Core.Manager.ServiceManager inherits Manager implements IServiceManag
     
     /** create entity methods */
     method public IBusinessEntity CreateBusinessEntity( input pcName as character ):
-        return cast(CreateEntity(pcName,false,false,get-class(IBusinessEntity)),IBusinessEntity).    
+        return cast(CreateEntity(pcName,false,get-class(IBusinessEntity)),IBusinessEntity).    
     end method.
     
-    
-    method public IBusinessEntity CreateBusinessEntityForTableRead (pcName as character):
-        return cast(CreateEntity(pcName,false,true,get-class(IBusinessEntity)),IBusinessEntity).    
-    end method.
-   
     method public IEntity CreateEntity( input pcName as character ):
-        return CreateEntity(pcName,false,false,?).    
+        return CreateEntity(pcName,false,?).    
     end method.
     
-    method protected IEntity CreateEntity( input pcName as character, plOnlyPublic as logical, plSkipInitForTableRead as logical, pClass as Progress.Lang.Class ):
+    method protected IEntity CreateEntity( input pcName as character, plOnlyPublic as logical, pClass as Progress.Lang.Class ):
         define variable oEntity as IEntity no-undo.
         // cannot manage this with Temp-tables since it is used to populate them 
         // we use the method to allow overrides in subclass 
@@ -198,13 +192,11 @@ class Pmfo.Core.Manager.ServiceManager inherits Manager implements IServiceManag
                 oEntity = new ResourceBE(). // bootstrap - do not use createEntoty... 
                 oEntity:initialize().
                 return oEntity.
-             
             end.
             else if plOnlyPublic then
                 undo, throw new NotFoundError(subst('Public Entity "&1"',pcName)).  
             else
                 undo, throw new NotFoundError(subst('Entity "&1"',pcName)).  
-       
         end.
         else if pcname = "publicNames" then
         do:
@@ -238,16 +230,13 @@ class Pmfo.Core.Manager.ServiceManager inherits Manager implements IServiceManag
         if plOnlyPublic and ttEntity.public = false then
             undo, throw new NotFoundError(subst('Public Entity "&1"',pcName)).  
              
-       
         oEntity = dynamic-new ttEntity.ClassName ().
         
-        if plSkipInitForTableRead = false  then
-        do:
-            if type-of(oEntity,ISupportInitialize) then 
-                cast(oEntity,ISupportInitialize):Initialize().
-            else if type-of(oEntity,IService) then
-                cast(oEntity,ISupportInitialize):Initialize().
-        end.
+        if type-of(oEntity,ISupportInitialize) then 
+            cast(oEntity,ISupportInitialize):Initialize().
+        else if type-of(oEntity,IService) then
+           cast(oEntity,IService):Initialize().
+         
         return oEntity.     
     end method.
     
@@ -639,12 +628,12 @@ class Pmfo.Core.Manager.ServiceManager inherits Manager implements IServiceManag
             when get-class(IEntity) then
             do:
                 // true only if pubiic
-                return CreateEntity(pcName,true,false,?).
+                return CreateEntity(pcName,true,?).
             end.
             when get-class(IBusinessEntity) then
             do:
                 // true only if pubiic
-                return CreateEntity(pcName,true,false,get-class(IBusinessEntity)).
+                return CreateEntity(pcName,true,get-class(IBusinessEntity)).
             end.
             
             when get-class(IDataAccess) then
@@ -709,19 +698,18 @@ class Pmfo.Core.Manager.ServiceManager inherits Manager implements IServiceManag
     end method.
     
     method public override void initialize(  ):
-       
         ImportConfig().
         
-        // Note this should be based on config and possibly moved elsewhere 
-        // when the Servicemanager is supporting non web clients
-         /* Add the extended JsonEntityWriter  to the registry */
+        /* Add the extended JsonEntityWriter  to the registry 
+           Note this should be based on config and possibly moved elsewhere 
+           when the Servicemanager is supporting non web clients    */   
         EntityWriterRegistry:Registry:Put('application/json':u,              get-class(JsonEntityWriter)).
         EntityWriterRegistry:Registry:Put('application/vnd.progress+json':u, get-class(JsonEntityWriter)).
         /* Add the OperationHandlers to the registry */
         OperationHandlerRegistry:Registry:Put(get-class(IBusinessEntity):TypeName,GetBusinessEntityOperationHandlerClass()).
         
         LoadResources().
-        // not needed anymore if no refresh is needed
+        // The ResouceBE is not needed anymore if no refresh is needed
         if not CheckForNewResources then
             delete object ResourceBe. 
              
@@ -741,6 +729,7 @@ class Pmfo.Core.Manager.ServiceManager inherits Manager implements IServiceManag
         if CheckForNewResources then   
             ResourceBE:GetData(output dataset dsResources by-reference).
         else do:
+            // load resources from resources.json 
             oGetDataRequest = new GetDataRequest(new NamedQuery("JSON")).
             ResourceBE:GetData(oGetDataRequest,output dataset dsResources).
         end.

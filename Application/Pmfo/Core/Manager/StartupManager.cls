@@ -113,6 +113,9 @@ class Pmfo.Core.Manager.StartupManager inherits Manager implements IStartupManag
             else if type-of(oManager,ISupportInitialize) then
                 cast(oManager,ISupportInitialize):initialize().
             catch err as Progress.Lang.Error:
+                /* if remote then write the error to the log. 
+                   This is typically called from PAS Session Startup and throwing
+                   the error is not helpful. TODO: There may be room for improvement here */
                 if session:remote then
                 do:
                     message substitute("Error while initializing manager '&1': &2", oManager:GetClass():TypeName, err:GetMessage(1)).
@@ -130,7 +133,7 @@ class Pmfo.Core.Manager.StartupManager inherits Manager implements IStartupManag
                 end.    
                 else undo, throw err.
             end catch.
-        end.  
+        end. // do while oIterator:HasNext() 
         
     end method.
 
