@@ -122,7 +122,7 @@ class Business.SupplierBE inherits BusinessEntity:
     end method.
     
     
-    // override to use a the server dataset to fethc data from server
+    // override to use the server dataset to fetch data from data access
     method protected override IGetDataResponse FetchData(input pRequest as IGetDataRequest, input-output dataset-handle phDataset):
         define variable i as integer no-undo.
         define variable oResponse as IGetDataResponse no-undo.
@@ -130,7 +130,7 @@ class Business.SupplierBE inherits BusinessEntity:
         define variable oGetTableRequests as IGetDataTableRequest no-undo extent.
         
         /*
-        Throw not implemented  errrorif extarnal dataset is passed. 
+        Throw not implemented  errror if extarnal dataset is passed. 
         Since another static dataset with ttSuppler is usasd the fetch data from server 
         we can only allow the internal dataset to be passed here. 
         Support for external would either require copy from the external to the internal 
@@ -158,7 +158,7 @@ class Business.SupplierBE inherits BusinessEntity:
     end method.
     
     
-    // override to submit the server dataset with xrefs to dataacces 
+    // override to submit the server dataset with xrefs to data access 
     method protected override Object SubmitData(input poUpdateDataRequest as IUpdateDataRequest, input-output dataset-handle phDataset):
         /*
         Throw not implemented  errror if external dataset is passed. 
