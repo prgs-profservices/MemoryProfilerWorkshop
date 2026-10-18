@@ -125,6 +125,7 @@ class Business.CustomerBE inherits BusinessEntity:
         return substitute("Customer &1 - '(&2)'",ttCustomer.Custnum,ttCustomer.name). 
     end method.     
     
+    // Fetch all data for a table using public name 
     method protected void FetchData(pcService as character, output table-handle phTable):
         define variable oBE      as IBusinessEntity no-undo.
         define variable hDataset as handle no-undo.
