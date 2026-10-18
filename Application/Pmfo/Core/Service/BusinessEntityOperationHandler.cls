@@ -364,7 +364,6 @@ class Pmfo.Core.Service.BusinessEntityOperationHandler inherits OperationHandler
                  // this is an internal error not a notfounderror
                  if not valid-handle(hRequestedBuffer) then
                      undo, throw new ApplicationError(subst("Requested buffer '&1' not found in returned dataset",oGetDataResponse:MainRequestedBuffer)). 
-              
                  AddNextLinkToResponse(jsonResponse,oGetDataResponse,oClientGetRequest,pcBaseAppTransportServiceURI,pcServiceURI,hRequestedBuffer).
             end.
         end.
@@ -399,7 +398,7 @@ class Pmfo.Core.Service.BusinessEntityOperationHandler inherits OperationHandler
                 if cNextId > "" then
                 do:
                     cQuery = BuildUrlQuery(pClientRequest:URIQuery,pClientRequest:ContextProperties).
-                        // use of skip means useNextPageLink
+                    // use of skip means paging so useNextPageLink
                     if pClientRequest:Skip > 0 
                     // count and no context means use useNextPageLink 
                     or (pClientRequest:Count = true and pClientRequest:PagingContext = ?)
@@ -407,14 +406,22 @@ class Pmfo.Core.Service.BusinessEntityOperationHandler inherits OperationHandler
                     or oTableResponse:UseNextPageLink then 
                     do:
                         cNextLinkName = subst(NextPageLinkTemplate,pRequestedBuffer:serialize-name).
-                        cQuery = cQuery + (if cQuery = "" then "?" else "&")
-                               + subst("&1=&2",pClientRequest:SkipProp,(if pClientRequest:Skip > 0 then pClientRequest:Skip else 0) + pClientRequest:NumRecords).
+                        cQuery = substitute("&1&2&3=&4",
+                                      cQuery,
+                                      (if cQuery = "" then "?" else "&"),
+                                      pClientRequest:SkipProp,
+                                      (if pClientRequest:Skip > 0 then pClientRequest:Skip else 0) + pClientRequest:NumRecords).
                     end.
                     else do:
-                        cNextLinkName = subst(NextBatchLinkTemplate,pRequestedBuffer:serialize-name).        
-                        cQuery = cQuery + (if cQuery = "" then "?" else "&") + subst("&1=&2",pClientRequest:PagingContextProp,URI:EncodeQuery(cNextId)).
+                        cNextLinkName = substitute(NextBatchLinkTemplate,pRequestedBuffer:serialize-name).        
+                        cQuery = substitute("&1&2&3=&4",
+                                     cQuery,
+                                     (if cQuery = "" then "?" else "&"),
+                                     pClientRequest:PagingContextProp,
+                                     URI:EncodeQuery(cNextId)
+                                     ).
                     end.
-                    pJsonResponse:Add(cNextLinkName,subst("&1&2&3",pcBaseAppTransportServiceURI,pcServiceURI,cQuery)).
+                    pJsonResponse:Add(cNextLinkName,subst("&1/&2&3",pcBaseAppTransportServiceURI,pcServiceURI,cQuery)).
                 end.
                 if pClientRequest:Count = true then
                 do:
