@@ -13,6 +13,7 @@ block-level on error undo, throw.
 using Pmfo.Core.DataLayer.DataSource from propath.
 using Pmfo.Util.DateUtil from propath.
 using Pmfo.Util.TimeZoneUtil from propath.
+using Pmfo.Core.Error.BadRequestError from propath.
 
 class DataSource.TimeSheetDS inherits DataSource:
 
@@ -70,29 +71,44 @@ class DataSource.TimeSheetDS inherits DataSource:
     method override protected void WriteEndTransValidate( input dataset-handle  phDataset):
         define variable cStringIn  as character no-undo.
         define variable cStringOut as character no-undo.
-        define variable lpmin as logical no-undo. 
-        define variable lpmout as logical no-undo.   
+        define variable lIsTimeInPM as logical no-undo. 
+        define variable lIsTimeOutPM as logical no-undo.   
         
         findSource(exclusive-lock).
         
-        // convert to GSM time 
-        ttTimeSheet.TimeIn = TimeZoneUtil:GetSysTimeFromLocalTime(ttTimeSheet.TimeIn).
-        ttTimeSheet.TimeOut = TimeZoneUtil:GetSysTimeFromLocalTime(ttTimeSheet.TimeOut).
-        
+        find employee no-lock where employee.empNum = ttTimeSheet.EmpNum no-error.
+        if not avail Employee then 
+            BufferError(substitute ("Employee Num &1 submitted with Time In &2 and Time out &3 does not exist.",
+                                     ttTimeSheet.EmpNum,ttTimeSheet.TimeIn,ttTimeSheet.TimeOut),
+                        "EmpNum").
+            
+        if ttTimeSheet.DayRecorded > ? and ttTimeSheet.DayRecorded <> date(ttTimeSheet.TimeIn) then 
+            BufferError(substitute ("Day Recorded for Employee &1 &2 (&3) must match Time In &4. Leave the date empty or correct it.",
+                                     employee.FirstName,employee.LastName,employee.empNum,ttTimeSheet.TimeIn),
+                        "DayRecorded").
+       
+        // convert to UTC for storage  
+        assign
+            ttTimeSheet.TimeIn      = TimeZoneUtil:GetSysTimeFromLocalTime(ttTimeSheet.TimeIn)
+            ttTimeSheet.TimeOut     = TimeZoneUtil:GetSysTimeFromLocalTime(ttTimeSheet.TimeOut)
+            ttTimeSheet.DayRecorded = date(ttTimeSheet.TimeIn)
+            .  
+       
+        // convert to the legacy split in pm and am time     
         assign 
-            cStringIn  = GetStringTime(ttTimeSheet.TimeIn, output lpmin)
-            cStringOut = GetStringTime(ttTimeSheet.TimeOut, output lpmout) 
+            cStringIn  = GetStringTime(ttTimeSheet.TimeIn, output lIsTimeInPM)
+            cStringOut = GetStringTime(ttTimeSheet.TimeOut, output lIsTimeOutPM) 
             .
         
-        if lpmin then 
+        if lIsTimeInPM then 
            TimeSheet.PMTimeIn = cStringin.
         else     
            TimeSheet.AMTimeIn = cStringin.
-        if lpmout then 
+        if lIsTimeOutPM then 
            TimeSheet.PMTimeOut = cStringOut.
         else     
            TimeSheet.AMTimeOut = cStringOut.
-         
+        
         
     end method.
     
@@ -145,7 +161,7 @@ class DataSource.TimeSheetDS inherits DataSource:
         ttTimeSheet.TimeOut = 
            datetime(substitute("&1 &2",string(dDateout,"99-99-9999"),cTimeout)).
         
-        // convert from GSM time in db to time zone in TimeZoneUtil
+        // convert from UTC time in db to time zone in TimeZoneUtil
         ttTimeSheet.TimeIn  = TimeZoneUtil:GetLocalTimeFromSysTime(ttTimeSheet.TimeIn).
         ttTimeSheet.TimeOut = TimeZoneUtil:GetLocalTimeFromSysTime(ttTimeSheet.TimeOut).
                 
