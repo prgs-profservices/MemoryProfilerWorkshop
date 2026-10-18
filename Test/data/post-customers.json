@@ -1,7 +1,7 @@
  {"customers": 
     [
       {
-        "address": "333 North Drive",
+        "address": "2051 Irving Street",
         "address2": "",
         "balance": 234,
         "city": "Burlington",
@@ -14,10 +14,10 @@
         "emailAddress": "",
         "fax": "",
         "name": "Stomper",
-        "phone": "(617) 332-0006",
-        "postalCode": "01730",
-        "salesRep": "HXM",
-        "state": "MA",
+        "phone": "(415) 433-1212",
+        "postalCode": "94122",
+        "salesRep": "SLS",
+        "state": "CA",
         "terms": "Net30"
       },
       {
@@ -28,7 +28,7 @@
         "comments": "This customer is weird.",
         "contact": "Damian Naper",
         "country": "USA",
-         "custNum": 2,
+        "custNum": 2,
         "creditLimit": 1200,
         "discount": 10,
         "emailAddress": "",
@@ -36,9 +36,9 @@
         "name": "Vintage Funk",
         "phone": "(617) 442-0344",
         "postalCode": "01730",
-        "salesRep": "HXM",
+        "salesRep": "BBB",
         "state": "MA",
         "terms": "Net30"
-      }
+      } 
   ]
 } 

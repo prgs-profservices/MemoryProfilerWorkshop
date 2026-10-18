@@ -224,17 +224,10 @@
             {
               "listen": "test",
               "script": {
-                "exec": [
-                  "let response = pm.response.json();\r",
-                  "\r",
-                  "pm.collectionVariables.set(\r",
-                  " \"CustomerDeleteBody\",\r",
-                  " JSON.stringify(response.response)\r",
-                  ");"
-                ],
                 "type": "text/javascript",
-                "packages": {},
-                "requests": {}
+                "exec": [
+                  "let response = pm.response.json();\r\n\r\npm.collectionVariables.set(\r\n \"CustomerDeleteBody\",\r\n JSON.stringify(response.response)\r\n);"
+                ]
               }
             }
           ],
@@ -243,7 +236,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": " {\"customers\": \r\n    [\r\n      {\r\n        \"address\": \"333 North Drive\",\r\n        \"address2\": \"\",\r\n        \"balance\": 234,\r\n        \"city\": \"Burlington\",\r\n        \"comments\": \"This customer is on credit hold.\",\r\n        \"contact\": \"Gloria Shepley\",\r\n        \"country\": \"USA\",\r\n        \"creditLimit\": 30000,\r\n        \"custNum\": 1,\r\n        \"discount\": 35,\r\n        \"emailAddress\": \"\",\r\n        \"fax\": \"\",\r\n        \"name\": \"Stomper\",\r\n        \"phone\": \"(617) 332-0006\",\r\n        \"postalCode\": \"01730\",\r\n        \"salesRep\": \"HXM\",\r\n        \"state\": \"MA\",\r\n        \"terms\": \"Net30\"\r\n      },\r\n      {\r\n        \"address\": \"42 Main Street\",\r\n        \"address2\": \"\",\r\n        \"balance\": 0,\r\n        \"city\": \"Burlington\",\r\n        \"comments\": \"This customer is weird.\",\r\n        \"contact\": \"Damian Naper\",\r\n        \"country\": \"USA\",\r\n         \"custNum\": 2,\r\n        \"creditLimit\": 1200,\r\n        \"discount\": 10,\r\n        \"emailAddress\": \"\",\r\n        \"fax\": \"\",\r\n        \"name\": \"Vintage Funk\",\r\n        \"phone\": \"(617) 442-0344\",\r\n        \"postalCode\": \"01730\",\r\n        \"salesRep\": \"HXM\",\r\n        \"state\": \"MA\",\r\n        \"terms\": \"Net30\"\r\n      }\r\n  ]\r\n} \r\n",
+              "raw": " {\"customers\": \r\n    [\r\n      {\r\n        \"address\": \"2051 Irving Street\",\r\n        \"address2\": \"\",\r\n        \"balance\": 234,\r\n        \"city\": \"Burlington\",\r\n        \"comments\": \"This customer is on credit hold.\",\r\n        \"contact\": \"Gloria Shepley\",\r\n        \"country\": \"USA\",\r\n        \"creditLimit\": 30000,\r\n        \"custNum\": 1,\r\n        \"discount\": 35,\r\n        \"emailAddress\": \"\",\r\n        \"fax\": \"\",\r\n        \"name\": \"Stomper\",\r\n        \"phone\": \"(415) 433-1212\",\r\n        \"postalCode\": \"94122\",\r\n        \"salesRep\": \"SLS\",\r\n        \"state\": \"CA\",\r\n        \"terms\": \"Net30\"\r\n      },\r\n      {\r\n        \"address\": \"42 Main Street\",\r\n        \"address2\": \"\",\r\n        \"balance\": 0,\r\n        \"city\": \"Burlington\",\r\n        \"comments\": \"This customer is weird.\",\r\n        \"contact\": \"Damian Naper\",\r\n        \"country\": \"USA\",\r\n        \"custNum\": 2,\r\n        \"creditLimit\": 1200,\r\n        \"discount\": 10,\r\n        \"emailAddress\": \"\",\r\n        \"fax\": \"\",\r\n        \"name\": \"Vintage Funk\",\r\n        \"phone\": \"(617) 442-0344\",\r\n        \"postalCode\": \"01730\",\r\n        \"salesRep\": \"BBB\",\r\n        \"state\": \"MA\",\r\n        \"terms\": \"Net30\"\r\n      } \r\n  ]\r\n} ",
               "options": {
                 "raw": {
                   "language": "json"
