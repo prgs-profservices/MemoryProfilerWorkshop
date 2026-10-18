@@ -48,12 +48,11 @@ for each timesheet no-lock with width 340   :
    end.
    
     
-     
    if cTimeOut lt cTimeIn then dDateOut = TimeSheet.DayRecorded + 1.
    else dDateout = TimeSheet.DayRecorded.
    ddin = ?.
    ddout = ?.
-    disp amtimein amtimeout pmtimein pmtimeout ddateout ctimein ctimeout .
+    disp amtimein amtimeout pmtimein pmtimeout TimeSheet.DayRecorded ddateout ctimein ctimeout .
    ddin = 
            datetime(substitute("&1 &2",string(TimeSheet.DayRecorded,"99-99-9999"),cTimein)) .
    disp ddin.     
