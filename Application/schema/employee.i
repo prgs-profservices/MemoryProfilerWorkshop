@@ -27,6 +27,6 @@ define temp-table ttEmployee no-undo serialize-name "employees" {1}  before-tabl
    field zz_seq                           as int64       serialize-hidden
    index DeptCode DeptCode
    index EmpNo as unique EmpNum
-   index Name as unique LastName FirstName
+   index Name LastName FirstName
    index zz_seq as primary zz_seq
    .

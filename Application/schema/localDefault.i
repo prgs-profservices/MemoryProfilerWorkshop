@@ -11,7 +11,7 @@ define temp-table ttLocalDefault no-undo serialize-name "localDefaults" {1}  bef
    field Country                          as character   serialize-name "country"
    field CurrencySymbol                   as character   serialize-name "currencySymbol"
    field DateFormat                       as character   serialize-name "dateFormat"
-   field LocalDefNum                      as integer     serialize-name "localDefNum"
+   field LocalDefNum                      as integer     serialize-name "localDefaultNum"
    field PostalFormat                     as character   serialize-name "postalFormat"
    field PostalLabel                      as character   serialize-name "postalLabel"
    field Region1Label                     as character   serialize-name "region1Label"

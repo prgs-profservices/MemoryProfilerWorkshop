@@ -13,10 +13,10 @@ define temp-table ttRefCall no-undo serialize-name "refCalls" {1}  before-table 
    field CustNum                          as integer     serialize-name "custNum"
    field Parent                           as character   serialize-name "parent"
    field SalesRep                         as character   serialize-name "salesRep"
-   field Txt                              as character   serialize-name "txt"
+   field Txt                              as character   serialize-name "text"
    field zz_seq                           as int64       serialize-hidden
    index CallNum as unique CallNum
-   index CustNum as unique CustNum CallNum
-   index Sibling as unique Parent CallNum
+   index CustNum CustNum CallNum
+   index Sibling Parent CallNum
    index zz_seq as primary zz_seq
    .
