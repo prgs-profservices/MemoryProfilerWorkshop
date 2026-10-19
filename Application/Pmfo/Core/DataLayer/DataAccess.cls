@@ -486,6 +486,7 @@ class Pmfo.Core.DataLayer.DataAccess abstract inherits DataService implements ID
         end.
     end method.    
     
+    //add warnings from datasource collection to the temp-table that is returned from SubmitData  
     method protected void CollectWarnings (pWarnings as ICollection, pcEntity as character):
         define variable iWarning     as integer no-undo.
         define variable oIterator    as IIterator no-undo.
