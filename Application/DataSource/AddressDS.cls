@@ -107,7 +107,7 @@ class DataSource.AddressDS inherits DataSource:
         end finally.
     end method.
     
-    // fill ttaddres with data from database tables with address info
+    // fill ttaddress with data from database tables with address info
     method protected void FillFromSource(input table ttAddress, phBuffer as handle, piKeyNumber as integer):
         define variable hQuery        as handle no-undo.
         define variable lFound        as logical no-undo.
