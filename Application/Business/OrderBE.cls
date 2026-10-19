@@ -73,16 +73,16 @@ class Business.OrderBE inherits BusinessEntity:
     method protected override Object SubmitData(input poUpdateDataRequest as IUpdateDataRequest, input-output dataset-handle phDataset):
         define variable hDataset as handle no-undo.
         // use itembe to submit items with onorder updated  
-        if valid-object(ItemBE)  then    
+        if valid-object(ItemBE) then    
             hDataset = DatasetUtil:CreateDatasetFromMultipleDatasets(Array:ToArray(ItemBE:GetItemInventoryDataForSubmit(),phDataset)).
         else 
             hDataset = phDataset.
        
         super:SubmitData(poUpdateDataRequest, input-output dataset-handle hDataset by-reference). 
         finally:
-            /* Delete the hdataset if it is dynaamic and was created for server only 
-               Do not delete if hdataset equals phdataset and is dynamci since it is 
-               needed for serialization to client */
+           /* Delete the hdataset if it is dynamic and was created for server only 
+              Do not delete if hdataset equals phdataset and is dynamci since it is 
+              needed for serialization to client */
            if valid-object(hDataset) and hDataset <> phDataset and hDataset:dynamic  then
                 delete object hDataset.
         end.
