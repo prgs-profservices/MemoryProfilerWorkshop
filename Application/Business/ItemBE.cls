@@ -150,7 +150,6 @@ class Business.ItemBE inherits BusinessEntity:
         define variable hPurchaseOrderLineTable as handle no-undo.
         define variable iPoNum                  as integer no-undo.
         define variable iPolinenum              as integer no-undo.
-        define variable oSupplierBE             as IBusinessEntity no-undo.
         
         temp-table ttItem:tracking-changes = false.
               
