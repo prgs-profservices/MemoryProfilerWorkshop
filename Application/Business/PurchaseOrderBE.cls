@@ -64,6 +64,7 @@ class Business.PurchaseOrderBE inherits BusinessEntity:
         temp-table ttPurchaseOrderLine:tracking-changes = true.
               
         for each ttSupplierItemXref break by ttSupplierItemXRef.ItemNum:                                                                                             
+            // create one ttPurchaseOrderLine for per item - ttPurchaseOrder create below  
             if first-of(ttSupplierItemXref.ItemNum) then
             do:
                 find ttItem where ttitem.ItemNum = ttSupplierItemXref.ItemNum.
@@ -103,6 +104,7 @@ class Business.PurchaseOrderBE inherits BusinessEntity:
                         assign
                             iPolinenum                        = IPOlineNum + 1
                             ttPurchaseOrderLine.LineNum       = IPOLineNUm
+                            ttPurchaseOrderLine.PONum         = ttPurchaseOrder.PONum 
                             ttPurchaseOrderLine.Discount      = ttSupplier.discount
                             ttPurchaseOrderLine.ExtendedPrice = (ttPurchaseOrderLine.Price * ttPurchaseOrderLine.qty) * (1 - ttPurchaseOrderLine.Discount)
                             .
