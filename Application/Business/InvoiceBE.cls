@@ -20,6 +20,8 @@ using Pmfo.Core.BusinessLogic.QueryPredicate from propath.
 using Pmfo.Core.BusinessLogic.IQueryDefinition from propath.
 using Pmfo.Core.BusinessLogic.QueryDefinition from propath.
 using Pmfo.Core.Error.IllegalArgumentError from propath.
+using Pmfo.Core.Error.IllegalStateError from propath.
+using Pmfo.Core.Error.BadRequestError from propath.
 
 class Business.InvoiceBE inherits BusinessEntity:
 
@@ -73,6 +75,15 @@ class Business.InvoiceBE inherits BusinessEntity:
         find ttOrder no-error.
         if ambiguous ttOrder then 
             undo, throw new IllegalArgumentError("UpdateInvoiceFromOrder called with more than on ttOrder present").  
+            
+        if not avail ttOrder then
+            ThrowBufferError(buffer ttInvoice:handle, 
+                             substitute("Invoice &1 Order Order Num &2 does not exist",
+                                         ttInvoice.Invoicenum,
+                                         ttInvoice.OrderNum
+                                        ),
+                             "OrderNum").  
+        
         
         ttInvoice.custNum =  ttOrder.custnum.
          
