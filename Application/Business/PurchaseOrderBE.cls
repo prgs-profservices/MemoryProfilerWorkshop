@@ -126,7 +126,15 @@ class Business.PurchaseOrderBE inherits BusinessEntity:
             hDataset = phDataset.
        
         super:SubmitData(poUpdateDataRequest, input-output dataset-handle hDataset by-reference).         
-       
+        finally:
+            /* Delete the hdataset if it is dynaamic and was created for server only 
+               Do not delete if hdataset equals phdataset and is dynamci since it is 
+               needed for serialization to client */
+            if valid-object(hDataset) and hDataset <> phDataset and hDataset:dynamic  then
+                delete object hDataset.
+        
+        end.
+        
     end method.    
    
     
