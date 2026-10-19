@@ -11,14 +11,12 @@
 block-level on error undo, throw.
 
 using Pmfo.Core.BusinessLogic.BusinessEntity from propath.
-using Pmfo.Core.Service.IClientRequest from propath.
-using Pmfo.Core.Service.IClientGetRequest from propath.
 using Pmfo.Core.BusinessLogic.IBusinessEntity from propath.
-using Pmfo.Util.DatasetUtil from propath.
-using Pmfo.Util.TableUtil from propath.
-using Pmfo.Core.BusinessLogic.DatasetBuilder from propath.
 using Pmfo.Core.BusinessLogic.IUpdateDataRequest from propath.
-using Progress.Profiler.MemoryProfiler from propath.
+using Pmfo.Core.Manager.ServiceManager from propath.
+using Pmfo.Util.DatasetUtil from propath.
+using Pmfo.Util.BufferUtil from propath.
+using Pmfo.Util.StringUtil from propath.
 
 class Business.CustomerBE inherits BusinessEntity:
 
@@ -76,7 +74,7 @@ class Business.CustomerBE inherits BusinessEntity:
                                    "State").
                     if ttSalesRep.Region <> ttState.Region then 
                     do: 
-                        // if there is a salesrep with this region then throw an errpr
+                        // if there is another salesrep with this region then throw an errpr
                         find first bSalesRep where bSalesRep.Region = ttState.Region no-error.
                         if avail bSalesRep then                             
                             BufferError(buffer ttCustomer:handle,
@@ -86,44 +84,70 @@ class Business.CustomerBE inherits BusinessEntity:
                                                    ttSalesRep.Region, 
                                                    ttState.State,
                                                    ttState.Region 
-                                                   
                                                    )
                                         ).
+                        else // if no salesrep exists for region add warning
+                            AddWarning(substitute("&1 with Sales Rep '&2' that has Region '&3' and State '&4' which is in Region '&5'",
+                                                  GetCustomerInfoForWarning(buffer ttCustomer),
+                                                  ttSalesRep.SalesRep,
+                                                  ttSalesRep.Region, 
+                                                  ttState.State,
+                                                  ttState.Region 
+                                                  )
+                                       ).
                                                          
-                    end.
-                end. // country  usa
-                else do:
+                    end. // if ttSalesRep.Region <> ttState.Region then 
+                end. // country = usa
+                else do: 
+                    // region can be country if customer.country is not usa
                     if ttSalesRep.Region <> ttCustomer.Country then do:
-                        // if there is a salesrep with this region then throw an errpr
+                        // if there is another salesrep with this region then throw an error
                         find first bSalesRep where bSalesRep.Region = ttCustomer.Country no-error.
                         if avail bSalesRep then                             
                             BufferError(buffer ttCustomer:handle,
-                                        substitute("&1. Sales Rep '&2' Region '&3' does not match Country '&4'",
+                                        substitute("&1. Sales Rep '&2' has Region '&3' does not match Country '&4'",
                                                    GetCustomerInfoForError(buffer ttCustomer),
                                                    ttSalesRep.SalesRep,
                                                    ttSalesRep.Region, 
                                                    ttCustomer.Country
                                                    )
                                         ).
-                        
-                     
-                     
-                    end.
+                        else // if no salesrep exists for country add warning
+                            AddWarning(substitute("&1 with Sales Rep '&2' that has Region '&3' that does not match Country '&4'",
+                                                  GetCustomerInfoForWarning(buffer ttCustomer),
+                                                  ttSalesRep.SalesRep,
+                                                  ttSalesRep.Region, 
+                                                  ttCustomer.Country
+                                                  )
+                                       ).
+                    end. // if ttSalesRep.Region <> ttCustomer.Country 
                 end. // not usa
             end. // created to salesrep or state changfed     
-        end.
-    end.
+        end. // for each ttCustomer with changes
+    end method.
     
     method protected character GetCustomerInfoForError(buffer ttCustomer for ttCustomer):
-        define variable cOperation as character no-undo.
+        return substitute ("&1 of &2 failed",
+                           BufferUtil:GetRowStateStringPassive(row-state(ttCustomer), true),
+                           GetCustomerInfoForMessage(buffer ttCustomer)
+                           ).
+    end method.     
+    
+    method protected character GetCustomerInfoForWarning(buffer ttCustomer for ttCustomer):
+        return substitute ("&1 is &2",
+                           GetCustomerInfoForMessage(buffer ttCustomer),
+                           BufferUtil:GetRowStateStringPast(row-state(ttCustomer)) 
+                           ).
+    end method.     
+    
+    method protected character GetCustomerInfoForMessage(buffer ttCustomer for ttCustomer):
         // cust num has no meaning for new record
         if row-state(ttCustomer) = row-created then 
-            return substitute ("Create of customer '&1' failed",ttCustomer.name).
-        if row-state(ttCustomer) = row-modified then 
-            return substitute ("Update of customer &1 - '(&2)' failed",ttCustomer.Custnum,ttCustomer.name).
-        // should not get here.. but just return something    
-        return substitute("Customer &1 - '(&2)'",ttCustomer.Custnum,ttCustomer.name). 
+            return substitute ("customer '&1'",ttCustomer.name).
+        
+        return substitute("Customer &1 - '&2'",ttCustomer.Custnum,ttCustomer.name). 
     end method.     
+    
     
     // Fetch all data for a table using public name 
     method protected void FetchData(pcService as character, output table-handle phTable):
@@ -133,9 +157,5 @@ class Business.CustomerBE inherits BusinessEntity:
         oBe:GetData(output dataset-handle hDataset).
         phTable = DatasetUtil:GetBufferByTableSerializeName(hDataset, pcService):table-handle.
     end method.     
-   
-    method public void TakeSnap() :
-        MemoryProfiler:TakeSnapShot("AfterCustomer").
-    end method.      
-       
+    
 end class.
