@@ -281,7 +281,6 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
         define variable Htable  as handle no-undo.
          
         // allow override for BE with no data and buffer - for example PublicNameBe
-                           
         BeforeReceiveData(phDataset).
         
         if valid-handle(phdataset) then
