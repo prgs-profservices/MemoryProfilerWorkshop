@@ -138,7 +138,7 @@ class Business.CustomerBE inherits BusinessEntity:
                 end. // not usa
             end. // created to salesrep or state changfed     
         end. // for each ttCustomer where row-state(ttCustomer) > 0:
-    end method.     
+    end method. // ValidateUpdate    
     
      /* define ttCustomer as parameter since it may not be the internally defined ttCustomer 
         ttSalesRep and ttState are internal so not paramter needed */ 
@@ -149,6 +149,7 @@ class Business.CustomerBE inherits BusinessEntity:
         define variable lHasOrders    as logical no-undo.
         define variable oQuery        as IQueryPredicate no-undo.
         
+        // start the BEs needed to check if related data prevents delete
         oInvoiceBE = ServiceManager:CreateBusinessEntity("invoices").
         oOrderBE   = ServiceManager:CreateBusinessEntity("orders").
         
@@ -180,7 +181,7 @@ class Business.CustomerBE inherits BusinessEntity:
             if valid-handle(hOrderTable) then 
                 delete object hOrderTable.
         end.    
-    end method.
+    end method. //  ValidateDelete
     
     method protected void ThrowOutstandingOrdersError(phBiHandle as handle): 
         ThrowBufferError(phBiHandle,
@@ -188,6 +189,7 @@ class Business.CustomerBE inherits BusinessEntity:
     
     end method.
     
+    // get customer key value info for error
     method protected character GetCustomerInfoForError(buffer ttCustomer for ttCustomer):
         return substitute ("&1 of &2 failed",
                            BufferUtil:GetRowStateStringPassive(row-state(ttCustomer), true),
@@ -195,6 +197,7 @@ class Business.CustomerBE inherits BusinessEntity:
                            ).
     end method.     
     
+    // get customer key value info for warning
     method protected character GetCustomerInfoForWarning(buffer ttCustomer for ttCustomer):
         return substitute ("&1 is &2",
                            GetCustomerInfoForMessage(buffer ttCustomer),
@@ -202,6 +205,8 @@ class Business.CustomerBE inherits BusinessEntity:
                            ).
     end method.     
     
+    /* get customer info as string for message
+       - used by GetCustomerInfoForError and GetCustomerInfoForWarning */
     method protected character GetCustomerInfoForMessage(buffer ttCustomer for ttCustomer):
         // cust num has no meaning for new record
         if row-state(ttCustomer) = row-created then 
@@ -209,7 +214,6 @@ class Business.CustomerBE inherits BusinessEntity:
         
         return substitute("Customer &1 - '&2'",ttCustomer.Custnum,ttCustomer.name). 
     end method.     
-    
     
     // Fetch all data for a table using public name 
     method protected void FetchData(pcService as character, output table-handle phTable):
