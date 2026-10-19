@@ -9,8 +9,8 @@
 ------------------------------------------------------------------------------*/
 define temp-table ttInventoryTransaction no-undo serialize-name "inventoryTransactions" {1}  before-table biInventoryTransaction
    field BinNum                           as integer     serialize-name "binNum"
-   field InvTransNum                      as integer     serialize-name "invTransNum"
-   field InvType                          as character   serialize-name "invType"
+   field InvTransNum                      as integer     serialize-name "inventoryTransactionNum"
+   field InvType                          as character   serialize-name "type"
    field ItemNum                          as integer     serialize-name "itemNum"
    field OrderNum                         as integer     serialize-name "orderNum"
    field PONum                            as integer     serialize-name "purchaseOrderNum"
