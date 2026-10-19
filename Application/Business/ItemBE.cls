@@ -202,6 +202,8 @@ class Business.ItemBE inherits BusinessEntity:
                 
             end.
         end.
+        
+        // add new value to on order
         for each ttPurchaseOrder where row-state(ttPurchaseOrder) > 0:
             for each ttPurchaseOrderLine where ttPurchaseOrderLine.PONum = ttPurchaseOrder.PoNum and row-state(ttPurchaseOrderLine) > 0: 
                 find ttItem where ttitem.ItemNum = ttPurchaseOrderline.ItemNum no-error.
