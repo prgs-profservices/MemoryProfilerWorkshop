@@ -212,7 +212,6 @@ class Pmfo.Util.TimeZoneUtil:
             if iResult = ERROR_NO_MORE_ITEMS then leave.
             if iResult = ERROR_SUCCESS then do:
                 /* Extract the Registry Key name (Offset 173, Unicode/Wide String) */
-                set-size(mUtf16Struct) = 64.
                 set-pointer-value(mUtf16Struct) = get-pointer-value(mDynamicStruct) + 4. 
           
                 cStandardname = ConvertToAnsii(mutf16Struct).
@@ -234,12 +233,11 @@ class Pmfo.Util.TimeZoneUtil:
             end.
             iCurrentindex = iCurrentIndex + 1.    
         end.
+        // if we get here the name was not found in registry
         undo, throw new BadRequestError(substitute("TimeZone not found with name &1 in registry",pcname)).
+        
         finally:
              set-size(mDynamicStruct) = 0.
-             // I have no idea why this is necessary...
-             set-pointer-value(mUtf16Struct) = get-pointer-value(mDynamicStruct).
-             set-size(mUtf16Struct) = 0.
         end finally.    
     end method.    
     
