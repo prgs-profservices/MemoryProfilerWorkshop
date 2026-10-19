@@ -156,7 +156,7 @@ class Business.CustomerBE inherits BusinessEntity:
             oQuery = new QueryPredicate("CustNum",QueryOperatorEnum:Eq,biCustomer.CustNum).
                   
             oInvoiceBE:GetData(oQuery,output table ttInvoice). 
-            // as of current no need to use ttOrder data TODO?: add list of open orders to message    
+            // as of current no need to use ttOrder data TODO? add list of open orders to message    
             oOrderBE:GetData(oQuery,output table-handle hOrderTable).
             lHasOrders = hOrderTable:has-records.
             
