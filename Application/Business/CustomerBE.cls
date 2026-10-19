@@ -162,6 +162,7 @@ class Business.CustomerBE inherits BusinessEntity:
             lHasOrders = hOrderTable:has-records.
             
             for each ttInvoice where ttInvoice.CustNum = biCustomer.CustNum:  
+                // is invoice paid?
                 if ttInvoice.amount <= ttInvoice.totalpaid + ttInvoice.adjustment then
                     if lHasOrders = false then 
    /* NEXT! */          next. // ok to delete if no orders    
