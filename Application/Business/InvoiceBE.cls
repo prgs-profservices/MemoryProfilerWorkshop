@@ -71,7 +71,7 @@ class Business.InvoiceBE inherits BusinessEntity:
         define variable iCount as integer no-undo.
         
         find ttOrder no-error.
-        if ambiguous Order then 
+        if ambiguous ttOrder then 
             undo, throw new IllegalArgumentError("UpdateInvoiceFromOrder called with more than on ttOrder present").  
         
         ttInvoice.custNum =  ttOrder.custnum.
