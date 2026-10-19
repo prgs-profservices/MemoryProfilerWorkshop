@@ -223,7 +223,6 @@ class DataSource.AddressDS inherits DataSource:
             undo, throw e1.
         end.
         catch e2 as Progress.Lang.Error :
-           
             undo, throw new ApplicationError("Could not identify row key",e2).               
         end catch. 
         
