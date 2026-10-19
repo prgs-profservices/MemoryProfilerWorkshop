@@ -39,6 +39,26 @@
         "salesRep": "BBB",
         "state": "MA",
         "terms": "Net30"
+      },
+      {
+        "address": "1211 Eastern Boulevard",
+        "address2": "",
+        "balance": 0,
+        "city": "Montgomery",
+        "comments": "This customer has sport and more.",
+        "contact": "Cory Williams",
+        "country": "USA",
+        "custNum": 3,
+        "creditLimit": 1500,
+        "discount": 10,
+        "emailAddress": "cw@sportandmore.com",
+        "fax": "",
+        "name": "Sport & More",
+        "phone": "(334) 234-1271",
+        "postalCode": "36117",
+        "salesRep": "DOS",
+        "state": "AL",
+        "terms": "Net30"
       } 
   ]
 } 
