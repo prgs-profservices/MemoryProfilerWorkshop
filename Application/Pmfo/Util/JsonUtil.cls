@@ -554,50 +554,15 @@ class Pmfo.Util.JsonUtil:
         end.
         return 0.      
     end method.    
-    
-    
-/*    method static public character GetKeyValuesFromJsonObject(pJsonObject as JsonObject, pcKeys as char extent,pcDatatypes as char):                */
-/*        define variable iField as integer no-undo.                                                                                                  */
-/*                                                                                                                                                    */
-/*        do iField = 1 to extent(pcKeys):                                                                                                            */
-/*                                                                                                                                                    */
-/*            if (pcDatatypes[iField] = "character" or pcDatatypes[iField] begins "date" or pcDatatypes[iField] = "longchar") then                    */
-/*            do:                                                                                                                                     */
-/*                               assign                                                                                                               */
-/*                                   lHasSpaceOrPlus = index(cNextValue,StringConstant:SPACE) > 0 or index(cNextValue,"+") > 0                        */
-/*                                   cNextValue      = quoter(cNextValue,"'")                                                                         */
-/*                                   .                                                                                                                */
-/*                           end.                                                                                                                     */
-/*                           /* if hasspaceorplus use field name in expression so we can safely decode bad encoders like certain REST testing tools...*/
-/*                              some REST tools will encode space as +, but not if there already is a +                                               */
-/*                              this is indeterministic since a value with + and no space could origin from both space and +                          */
-/*                           */                                                                                                                       */
-/*                           if num-entries(cKeys) = 1 and not lHasSpaceOrPlus then                                                                   */
-/*                           do:                                                                                                                      */
-/*                               cNextRowKey = cNextValue.                                                                                            */
-/*                           end.                                                                                                                     */
-/*                           else do:                                                                                                                 */
-/*                               cNextRowKey = cNextRowKey                                                                                            */
-/*                                           + (if cNextRowKey = "" then "" else " and ")                                                             */
-/*                                           + subst("&1 eq &2",                                                                                      */
-/*                                                   if ExternalPaging                                                                                */
-/*                                                   then DataBuffer:buffer-field(cTTField):serialize-name                                            */
-/*                                                   else cTtField,                                                                                   */
-/*                                                   cNextValue                                                                                       */
-/*                                                  ).                                                                                                */
-/*                           end.                                                                                                                     */
-/*                       end.                                                                                                                         */
-/*                   end.                                                                                                                             */
-/*    end method.                                                                                                                                     */
-/*                                                                                                                                                    */
      
-      // A dataset that has grandchildren with same name for different parents will have duplicated 
-     // nodes in the before-image section. These cannot be loaded to a prodataset as they all will end up
-     // under he first parent.
-     // This code does NOT resolve this, but eliminates the duplicates to make it easier to manage 
-     // these on client for cases where response:writeBeforeImage
-     // As of current the JsonReader assumes that this so done. (When this was written- the reader may possibly 
-     // be changed to call this)          
+     /* A dataset that has grandchildren with same name for different parents will have duplicated 
+       nodes in the before-image section. These cannot be loaded to a prodataset as they all will end up
+       under he first parent.
+       This code does NOT resolve this, but eliminates the duplicates to make it easier to manage 
+       these on client for cases where response:writeBeforeImage
+       As of current the JsonReader assumes that this so done. (When this was written- the reader may possibly 
+       be changed to call this) */
+                 
      method static public void MergeDuplicateErrorNodes(pJson as JsonObject, phdataset as handle):
          MergeDuplicateProDatasetNodes(pJson, phdataset, "prods:errors").
      end method.
