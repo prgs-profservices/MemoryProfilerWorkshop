@@ -35,7 +35,7 @@ class Business.PurchaseOrderBE inherits BusinessEntity:
     
     define dataset dsPurchaseOrder for ttPurchaseOrder,ttPurchaseOrderLine
         data-relation order-lines for ttPurchaseOrder, ttPurchaseOrderLine relation-fields(PONum,PONum) nested foreign-key-hidden
-       .
+        .
 
     constructor PurchaseOrderBE():
         super(dataset dsPurchaseOrder:handle).
@@ -83,7 +83,7 @@ class Business.PurchaseOrderBE inherits BusinessEntity:
             if first-of(ttSupplierItemXref.SupplierIdNum) then
             do:
                 if can-find(first ttPurchaseOrderLine where ttPurchaseOrderLine.ItemNum = ttSupplierItemXref.SupplierIdNum
-                                                       and ttPurchaseOrderLine.PONum   = 0) then
+                                                        and ttPurchaseOrderLine.PONum   = 0) then
                 do:
                     oSupplierItemXrefBE:GetData(new QueryPredicate("SupplierIdNum",QueryOperatorEnum:Eq,ttSupplierItemXref.SupplierIdNum), output table ttSupplier) .
 
