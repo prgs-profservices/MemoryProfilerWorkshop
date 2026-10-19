@@ -74,7 +74,7 @@ Note that _Postman_ licensing rules may prohibit preloading the enviroment and c
 Bruno has a simpler UI with one caveat when having nested collections like the workhop has; If you run one of the child collections and then navigate to a parent collection to run that, it will default to run the last executed run of the child or grand child. This can easily be resolved by pressing a reset button that will cause  Bruno to reset to the actual collection, but this is easy to overlook when using Bruno for the first time. 
 
 ### Collections
-There are 3 test collections. The reason for the multiple collections is to make it easier to split the workshop into multiple excercises. The original intention was to first run some of the collections once and fix the leaks that shows up multiple times in memory and then the tests twice to indentify memory leaks that only occur in one object by mutiple leaks from the same call stack. But there are no obviuous differences from one or two runs since the Large Object Leaks that are occurring more than once somehow resued the memory from the first run. This is assumed to be a side effect of the fact that the test runs in a simple environment with one active user.       
+There are 3 test collections. The reason for the multiple collections is to make it easier to split the workshop into multiple excercises. 
 
 #### Read data collections
 This collection executes GET request for all (most?) services/tables in the application. The leaks that are encountered here are easy to fix except for one Large Object leak caused by a MEMPTR that is stored in a static class property intended to stay in memory during the session. This is in itself not a problem, but unless the size is set to 0 before Progress is shutdown it will remain in memory forever (as shown in the _Exit tag). There is no static destructor so there is no place or event suited to set size to 0 programatically before shuitdown. This is thus an interesting challenge but it may take some time to find a fix. The assumption is that the students has a more immersive experience if they fix this (or try to), without too much information upfront. This leak will show up also after running the Update collection, so the work to fix this can be postponed to the end of the workshop.     
@@ -87,7 +87,7 @@ There is one class level leak caused by two classes having cross references that
 __NOTE__ It is recommended to always run the corresponding DELETE if one runs a POST request test individually. Some of the tests have hard coded keys in the input data  and will fail if run again unless the records created by a previous POST are not deleted. The DELETE request uses the output from the previous POST, so this can be done as a separate run. Most of the tables have sequences and can be run many times without deleting the outcome.
 
 #### Xtra collections
-This is a bonus collection mainly intended to be introduced all attendeees are able to fix all leaks before the workshop is over. This is assumed to be relatively easy to identify, but the fix is not straghforward. 
+This is a bonus collection mainly intended to be introduced if all attendeees are able to fix all leaks above before the workshop is over. This leak is assumed to be  easy to identify, but the fix is not straghforward. 
 
 ## ABL code 
 The workshop was developed in PDSOE and the assumption is that the students use PDSOE when they fix the memory leaks. The assumption is that the Application source can be edited in VSCODE instead of PDSOE. It is unclear if the Test project and Work projects are useful in VSCODE, but these are optional projects.   
@@ -113,17 +113,23 @@ Additional startup parameters: __-memoryProfiler MemProfConfig.config__
 Note that the Memory Profiler _PreCleanup snapshot from ABLUnit does not reflect memory as it would be present after a PAS request. ALso note that the _Exit snapshot has a dataset and temp-tables that are from the compile xref that the ABL Unit runs. Adding one or more test methods that invokes MemoryProfiler:TakeSnapShot("sometestinfo") will produce snapshots comparable to what would be seen after a PAS request, but some of the tests runs so fast that multiple snapshots before and after the predefined test methods will not show up in the Memory Profiler graph since they have the same time stamp. This can be worked around using a PAUSE statment.            
 
 ###### Summary
-The experience from one 3 hour workshop is that students do not have time to use this. The fact that Memory Profiler report files from Progress version 12.8.12 can be uploaded to the Memory Profiler without stopping PAS means that the students can test their fixes directly in the REST tool immediately. __NOTE:__ The 12.8.12 patch installed on top of an older Progress version did not show this behavior. The assumption/guess is that the reason is that the oemp PAS instance in this case was form an earlier version and that it needs to be reinstalled or refreshed/reset somehow.      
+The experience from one 3 hour workshop is that students do not have time to use the ABL Unit tests. The fact that Memory Profiler report files from Progress version 12.8.12 can be uploaded to the Memory Profiler without stopping PAS means that the students can test their fixes directly in the REST tool immediately. __NOTE:__ The 12.8.12 patch installed on top of an older Progress version did not show this behavior. The assumption/guess is that the reason is that the oemp PAS instance in this case was form an earlier version and that it needs to be reinstalled or refreshed/reset somehow.      
 
 ##### Work
 This is also optional for the workshop. 
 
 The project has propath set to Application and is intended to be used if one wants to run a regular program or class that uses the Application classes and/or database. It contains some incidental programs that has for each, and display for some tables.
 
+### Project Explorer - Filters 
+Rgiht clicking the Filter icon on the top right of the Project Explorer brings up the Filters and Customization dialog. It can be useful to uncheck the .r in particular if the project is setup with source and r-code together as in this case.     
+
+### Problems View - Filters 
+Rgiht clicking the Filter icon on the top right of the Problems View brings up the Filters dialog. It can be helpful to ensure that the Error/Warnings on Project Configuration has the radio option for _Scope on elements in selected projects_ selected. This ensures that you can navigate to folders in the Project View and only see the propblems that applies for that foilder. This may not make a big difference in this workshop that does not have a lot of code, but it can still be useful to see if an error in framework code applies to the Business or DataSource folders for the few cases where the fix are best done in the framework.  
+
 ### PDSOE > Window > Preferences
 The following shows some of the recommended PSDOE Window Preferences for the workshop. (Obviously not applicable if Visual Studio is used instead.) 
 
-Some of these are important while others are assumed to provide optimal behavior while editing the code. The database connection must match the started database. The database is utf-8 so make sure we can handle all data at run time. The workspace setting may not be utilized but there is never a reason not to refresh what you see. 
+Some of these are important while others are assumed to provide optimal behavior while editing the code. The database connection must match the started database. The database is utf-8 so make sure we can handle all data at run time. The workspace settings are useful for the optional ABLUnit tests since it will ensure that the respoinses serialized as JSON show up in the Project Explorere. It may also be useful to see if is r-code  if the Project Explorer Filter and Customization has been changed to show files with .r extension. It is unclear when it would make sense to NOT refresh the project view automatically.  
 
 #### General > Editors > Structured Text Editors
 [V] Show line numbers 
@@ -152,7 +158,7 @@ Make sure all others under syntax check are unchecked
 #### Progress OpenEdge > Startup 
 Default starttup parameters:__-debugalert -inp 32000 -tok 4096 -rereadnolock -s 200 -mmax 65534 -D 300  -zn -h 6 -errorstack -cpinternal utf-8 -cpstream utf-8__ 
 
-The parameters that have number values are based on long time use of PDSOE but may not necessarilty be optimal. The -h number of database connections is likely too high, but keep in mind that it also includes the SQL connection if that is defined for a database. There is no reason to use the SQL connection in the workshop.    
+The parameters that have number values are based on long time use of PDSOE but may not necessarilty be optimal. The -h number of database connections is likely too high, but keep in mind that it also includes the SQL connection if that is defined for a database. 
 
 ### Compilation 
 It is typically not necessary to recompile code manually if  the PDSOE is setup to compile on save as shown in the preferences section above.
