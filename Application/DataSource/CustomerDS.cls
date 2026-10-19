@@ -50,22 +50,4 @@ class DataSource.CustomerDS inherits DataSource:
     end method.
     
     
-    method override protected void DeleteBeginTransValidate( input dataset-handle  phDataset):
-        /* Customer record cannot be deleted if outstanding invoices are found */
-        find first invoice no-lock where Invoice.CustNum = biCustomer.CustNum no-error.
-        find first order no-lock of customer no-error.
-        if available invoice and invoice.amount <= invoice.totalpaid + invoice.adjustment then do:
-            if not available order then 
-                return.
-           // else throw error at end of this method     
-        end.
-        else if available Invoice then 
-            ThrowBufferError(substitute("Outstanding Unpaid Invoice Exists, cannot delete Customer &1",biCustomer.custnum)).  
-        
-        if available Order then
-            ThrowBufferError(substitute ("Open orders exist for Customer &1. Cannot delete.",biCustomer.custnum)).  
-    end method.
-     
-    
-    
 end class.
