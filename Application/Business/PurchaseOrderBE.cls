@@ -48,7 +48,17 @@ class Business.PurchaseOrderBE inherits BusinessEntity:
     method protected void ValidatePurchaseOrder(input dataset dsPurchaseOrder ):
         for each ttPurchaseOrder where row-state(ttPurchaseOrder) = row-created:
             if ttPurchaseOrder.ReceiveDate lt today then 
-                BufferError(buffer ttPurchaseOrder:handle,substitute("Receive date &1 is in the past",ttPurchaseOrder.ReceiveDate),"ReceiveDate").   
+                BufferError(buffer ttPurchaseOrder:handle,
+                            substitute("Receive date &1 is in the past",
+                                        ttPurchaseOrder.ReceiveDate),
+                            "ReceiveDate").   
+            
+            if ttPurchaseOrder.POStatus = "Received" 
+            and (ttPurchaseOrder.ReceiveDate gt today or ttPurchaseOrder.ReceiveDate = ?) then
+            do: 
+                AddWarning("Receive Date was adjusted to today since status is 'Received'").
+                ttPurchaseOrder.ReceiveDate = today.
+            end.
             
             if ttPurchaseOrder.DateEntered ne today then 
             do:
