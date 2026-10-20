@@ -4,7 +4,7 @@
         "dateEntered": "2025-10-30",
         "purchaseOrderNum": 1,
         "purchaseOrderStatus": "Ordered",
-        "receiveDate": "2026-01-24",
+        "receiveDate": null,
         "supplierIDNum": 1,
         "purchaseOrderLines": [
           {
