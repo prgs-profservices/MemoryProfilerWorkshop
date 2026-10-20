@@ -73,17 +73,28 @@ class Business.SupplierBE inherits BusinessEntity:
         define variable oQuery               as IQueryGroup     no-undo.
         define variable hPurchaseOrderTable  as handle          no-undo.
         define variable oPurchaseOrderBE     as IBusinessEntity no-undo.
-         
-        oPurchaseOrderBE = ServiceManager:CreateBusinessEntity("purchaseOrders").
+        
         // collect deleted supplierids   
         for each biSupplier where row-state(biSupplier) = row-deleted:
             extent(iDeleteSupplerIdNums) = (if extent(iDeleteSupplerIdNums) = ? then 0 else extent(iDeleteSupplerIdNums)) + 1.
             iDeleteSupplerIdNums[extent(iDeleteSupplerIdNums)] = biSupplier.SupplierIDNum.
         end.    
         
+        for each ttSupplier where row-state(ttSupplier) = row-created:
+            if ttSupplier.name = "" or ttSupplier.name = ? then   
+                undo, throw new BadRequestError("New Supplier Name must be provided").
+            
+            if ttSupplier.LoginDate <> today then 
+            do:
+                ttSupplier.LoginDate = today.
+                AddWarning(substitute("New supplier '&1' Login Date is set to today",ttSupplier.Name)).
+            end.    
+        end.    
+        
         // if any deleted found fetch not received purchaseOrders to the supplier
         if extent(iDeleteSupplerIdNums) <> ? then 
         do:
+            oPurchaseOrderBE = ServiceManager:CreateBusinessEntity("purchaseOrders").
             oQuery = new QueryGroup().
             oQuery:AddEntry(new QueryPredicate("SupplierIDNum",QueryOperatorEnum:InList,iDeleteSupplerIdNums)).
             oQuery:AddEntry(new QueryPredicate("PoStatus",QueryOperatorEnum:Ne,EXPECTED_PO_STATUS_FOR_DELETE)).

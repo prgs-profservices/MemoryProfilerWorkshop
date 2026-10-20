@@ -46,6 +46,18 @@ class Business.PurchaseOrderBE inherits BusinessEntity:
     end method.    
     
     method protected void ValidatePurchaseOrder(input dataset dsPurchaseOrder ):
+        for each ttPurchaseOrder where row-state(ttPurchaseOrder) = row-created:
+            if ttPurchaseOrder.ReceiveDate lt today then 
+                BufferError(buffer ttPurchaseOrder:handle,substitute("Receive date &1 is in the past",ttPurchaseOrder.ReceiveDate),"ReceiveDate").   
+            
+            if ttPurchaseOrder.DateEntered ne today then 
+            do:
+                if ttPurchaseOrder.DateEntered lt today then  
+                    AddWarning("Date Entered was adjusted to today").
+                ttPurchaseOrder.DateEntered = today.
+            end.
+        end.    
+         
         // Call Item Be to validate and update item onorder - the updates items will be added to the submiot dataset in SubmitData
         ItemBE = cast(ServiceManager:CreateBusinessEntity('items'),ItemBE).
         ItemBe:ValidateAndUpdateInventory(table ttPurchaseOrder by-reference, table ttPurchaseOrderLine by-reference).
