@@ -38,15 +38,18 @@ class Pmfo.Tools.Test.ErrorHandler:
     
        
     method public void  Showerror (pError as Error):
-       
         define variable hWindow as handle no-undo.
         define variable oJson as JsonObject no-undo.
         define variable oJsonArray as JsonArray no-undo.
         define variable cLong as longchar no-undo.
         define variable cCaller as character no-undo.
         
+        
         if ShowErrorsInWindow then
         do:
+            if valid-object(ErrorEntity) then 
+                delete object ErrorEntity.
+            
             WriteError(pError).
             DisplayError(ErrorEntity,"").
         end.
@@ -80,9 +83,10 @@ class Pmfo.Tools.Test.ErrorHandler:
         define variable cCaller as character no-undo.
         
         run Pmfo/Tools/Gui/Wincode.w persistent set hWindow.
+        
         if type-of(pJson,JsonObject) then
         do:
-           oJson = cast(pJson,JsonObject).
+            oJson = cast(pJson,JsonObject).
             oJson:Write(input-output cLong, yes).
         end.
         else if type-of(ErrorEntity,JsonArray) then
@@ -174,6 +178,7 @@ class Pmfo.Tools.Test.ErrorHandler:
             end.
             oResponse:Add('Errors':u, oErrorList).
 /*        end.*/
+         
         case true:
             // single error? add an simple JSON object
             when not valid-object(this-object:ErrorEntity) then

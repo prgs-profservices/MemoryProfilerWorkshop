@@ -207,7 +207,11 @@ class Pmfo.Tools.Test.TestBase abstract inherits DataService:
     
     // can be added to catch to assist with debugging of errors
     method public void HandleError (pError as Error):
+        
+        if valid-object(ErrorEntity) then delete object ErrorEntity.
+        
         ErrorEntity = ?.
+        
         if ShowErrors then
         do:         
             ErrorHandler:Showerror(pError).  
