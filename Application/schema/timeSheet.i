@@ -20,6 +20,6 @@ define temp-table ttTimeSheet no-undo serialize-name "timeSheets" {1}  before-ta
    field TimeIn                           as datetime    serialize-name "timeIn"
    field TimeOut                          as datetime    serialize-name "timeOut"
    field zz_seq                           as int64       serialize-hidden
-   index EmpNoDayRecorded as unique EmpNum DayRecorded
+   index EmpNumDayRecorded as unique EmpNum DayRecorded
    index zz_seq as primary zz_seq
    .
