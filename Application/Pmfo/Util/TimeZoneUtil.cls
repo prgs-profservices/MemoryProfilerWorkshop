@@ -268,30 +268,30 @@ class Pmfo.Util.TimeZoneUtil:
     
         
         if iTargetSize > 0 then do:
+            // set back to 0 first since it was set to 1 above
             set-size(mTargetAnsi) = 0. 
-            /* DYNAMICALLY ALLOCATE THE TARGET MEMORY BUFFER */
+            /* then allocate the size returned from the call done to find the size above */
             set-size(mTargetAnsi) = iTargetSize.
 
-            /* 2. EXECUTE THE ACTUAL TRANSCODING CONVERSION
-               Now we pass the actual allocated 'mTargetAnsi' pointer and the verified size ceiling. */
+            // Convert the utf-16 string to mTargetAnsi as single byte 
             run WideCharToMultiByte in windowsAPI
                 (input  0,
                 input  0,
                 input  putf16String,
                 input  -1,
-                input  mTargetAnsi,    /* Pass the actual target pointer memory address */
-                input  iTargetSize, /* Pass the exact byte length we just allocated */
+                input  mTargetAnsi, // Pass the actual target pointer memory address 
+                input  iTargetSize, // Pass the exact byte length we just allocated 
                 input  0,
                 input  0,
                 output iFinalBytes
                 ).
+            
             if iFinalBytes > 0 then 
             do: 
-               // return codepage-convert(get-string(mTargetAnsi, 1),session:cpinternal,"windows-1252").
                 return get-string(mTargetAnsi, 1).
             end.
         end.
-         
+        
     end method.    
         
     
