@@ -127,18 +127,17 @@ class DataSource.AddressDS inherits DataSource:
          
         do while phBuffer:avail:
             
-            lFound =  buffer ttAddress:find-unique(
+            lFound = buffer ttAddress:find-unique(
                 substitute(
-                "where address = '&1' and address2 = '&2' and City = '&3' and Country = '&4' and postalCode = '&5' and state = '&6'",
-                phBuffer::address,
-                phBuffer::address2,
-                phBuffer::city,
-                if valid-handle(hCountryField) then hCountryField:buffer-value else "USA",
-                phBuffer::postalCode,
-                phBuffer::state
-                     
+                    "where address = '&1' and address2 = '&2' and City = '&3' and Country = '&4' and postalCode = '&5' and state = '&6'",
+                    phBuffer::address,
+                    phBuffer::address2,
+                    phBuffer::city,
+                    if valid-handle(hCountryField) then hCountryField:buffer-value else "USA",
+                    phBuffer::postalCode,
+                    phBuffer::state
                 )
-                ) no-error.
+            ) no-error.
            
             if not lFound then do: 
                 create ttAddress.
@@ -158,9 +157,8 @@ class DataSource.AddressDS inherits DataSource:
             entry(piKeyNumber,ttAddress.AddressId,"|") = GetBufferKey(phbuffer,phBuffer:rowid).
             
             hQuery:get-next.
-             
+            
         end. // do while phBuffer:avail
-        
     end method.
     
     method protected character GetBufferKey(phSourceBuffer as handle,pRowid as rowid):
