@@ -26,7 +26,6 @@ class Business.CustomerBE inherits BusinessEntity:
     
     {schema/salesrep.i}
     {schema/state.i}
-    
     {schema/invoice.i}
     
     define dataset dsCustomer for ttCustomer.
@@ -65,7 +64,6 @@ class Business.CustomerBE inherits BusinessEntity:
             or ttCustomer.SalesRep <> biCustomer.SalesRep
             or ttCustomer.State <> biCustomer.State then 
             do:
-                
                 find ttSalesRep where ttSalesRep.SalesRep = ttCustomer.Salesrep no-error.
                 if not avail ttSalesRep then 
                     BufferError(buffer ttCustomer:handle,
@@ -78,7 +76,6 @@ class Business.CustomerBE inherits BusinessEntity:
                 if ttCustomer.Country = "USA" then 
                 do:
                     find ttState where ttState.State = ttCustomer.State no-error.
-                
                     if not avail ttState then 
                         BufferError(buffer ttCustomer:handle,
                                    substitute("&1. State '&2' is not valid",
