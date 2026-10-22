@@ -65,7 +65,7 @@ class Business.InvoiceBE inherits BusinessEntity:
             hOrderLineTable = hDataset:get-buffer-handle(2):table-handle.
             
             UpdateInvoiceFromOrder(buffer ttinvoice, input table-handle hOrderTable by-reference, input table-handle hOrderLineTable by-reference).  
-        end.     
+        end. // for each ttInvoice      
     end method.
     
     
