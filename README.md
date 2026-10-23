@@ -161,12 +161,12 @@ Default starttup parameters:__-debugalert -inp 32000 -tok 4096 -rereadnolock -s 
 The parameters that have number values are based on long time use of PDSOE but may not necessarilty be optimal. The -h number of database connections is likely too high, but keep in mind that it also includes the SQL connection if that is defined for a database. 
 
 ### Compilation 
-It is typically not necessary to recompile code manually if  the PDSOE is setup to compile on save as shown in the preferences section above.
+It is typically not necessary to recompile code manually if the PDSOE is setup to compile on save as shown in the preferences section above.
 
 If the temp-table definition in one of the includes in the _schema_ directory is changed, both the corresponding *BE and *DS need to be recompiled. 
 
 #### Compilation issue
-If the Application project is recompiled the  _Pmfo.Core.Manager.Manager_ may fail to compile. This assumption is that this can be avoided by cleaning the project before it is compiled (Menu Project > Clean). It can also be fixed by  opening the file (i.e. from the Problem View) and right-click and compile it (right-click  _compile_.). 
+If the Application project is recompiled without first cleaning (_Project > Clean_) the project, the  _Pmfo.Core.Manager.Manager_ may fail to compile. This is likely due to the static class reference in the class. If it does happen, opening the file (i.e. from the Problem View) and right-click and compile it (right-click  _compile_) will fix the problem. 
 
 It is not known if this problem exists when r-code and source are in separate directories.  
 
