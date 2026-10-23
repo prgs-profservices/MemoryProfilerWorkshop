@@ -85,7 +85,7 @@ class Business.OrderBE inherits BusinessEntity:
               needed for serialization to client */
            if valid-object(hDataset) and hDataset <> phDataset and hDataset:dynamic  then
                 delete object hDataset.
-        end.
+        end finally.
     end method.    
     
     // override to use exiting static dataset if GET with expand orderlines
