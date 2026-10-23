@@ -113,7 +113,7 @@ Additional startup parameters: __-memoryProfiler MemProfConfig.config__
 Note that the Memory Profiler _PreCleanup snapshot from ABLUnit does not reflect memory as it would be present after a PAS request. ALso note that the _Exit snapshot has a dataset and temp-tables that are from the compile xref that the ABL Unit runs. Adding one or more test methods that invokes MemoryProfiler:TakeSnapShot("sometestinfo") will produce snapshots comparable to what would be seen after a PAS request, but some of the tests runs so fast that multiple snapshots before and after the predefined test methods will not show up in the Memory Profiler graph since they have the same time stamp. This can be worked around using a PAUSE statment.            
 
 ###### Summary
-The experience from one 3 hour workshop is that students do not have time to use the ABL Unit tests. The fact that Memory Profiler report files from Progress version 12.8.12 can be uploaded to the Memory Profiler without stopping PAS means that the students can test their fixes directly in the REST tool immediately. __NOTE:__ The 12.8.12 patch installed on top of an older Progress version did not show this behavior. The assumption/guess is that the reason is that the oemp PAS instance in this case was form an earlier version and that it needs to be reinstalled or refreshed/reset somehow.      
+The experience from one 3 hour workshop is that students do not have time to use the ABL Unit tests. The fact that Memory Profiler report files from Progress version 12.8.12 can be uploaded to the Memory Profiler without stopping PAS means that the students can test their fixes directly in the REST tool immediately.
 
 ##### Work
 This is also optional for the workshop. 
