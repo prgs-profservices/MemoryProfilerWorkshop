@@ -159,6 +159,10 @@ class DataSource.AddressDS inherits DataSource:
             hQuery:get-next.
             
         end. // do while phBuffer:avail
+        finally:
+            if valid-handle(hQuery) then 
+                delete object hQuery.         
+        end finally.
     end method.
     
     method protected character GetBufferKey(phSourceBuffer as handle,pRowid as rowid):

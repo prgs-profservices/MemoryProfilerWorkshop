@@ -80,11 +80,15 @@ class Business.OrderBE inherits BusinessEntity:
        
         super:SubmitData(poUpdateDataRequest, input-output dataset-handle hDataset by-reference). 
         finally:
-           /* Delete the hdataset if it is dynamic and was created for server only 
-              Do not delete if hdataset equals phdataset and is dynamci since it is 
-              needed for serialization to client */
-           if valid-object(hDataset) and hDataset <> phDataset and hDataset:dynamic  then
+            /* Delete the hdataset if it is dynamic and was created for server only 
+               Do not delete if hdataset equals phdataset and is dynamci since it is 
+               needed for serialization to client */
+            if valid-handle(hDataset) and hDataset <> phDataset and hDataset:dynamic then
                 delete object hDataset.
+            // must delete - has cross reference -ValidateOrder call to ValidateAndUpdateInventory
+            // TODO: Fix ItemBE to not have cross reference - very likely anti-pattern  
+            if valid-object(ItemBE) then
+                delete object ItemBE.     
         end finally.
     end method.    
     

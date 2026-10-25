@@ -186,6 +186,8 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
     define protected property WarningMessageTableHandle as handle no-undo 
         get().
             if not valid-handle(WarningMessageTableHandle) then 
+               if not valid-object(WarningMessages) then
+                   WarningMessages = new WarningMessages(). 
                if type-of(WarningMessages,IWarningMessageTableHolder) then 
                     WarningMessageTableHandle = cast(WarningMessages,IWarningMessageTableHolder):tableHandle.
             return WarningMessageTableHandle.  

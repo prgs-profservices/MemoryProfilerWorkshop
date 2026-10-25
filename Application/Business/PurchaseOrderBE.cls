@@ -154,7 +154,7 @@ class Business.PurchaseOrderBE inherits BusinessEntity:
             /* Delete the hdataset if it is dynamic and was created for server only 
                Do not delete if hdataset equals phdataset and is dynamci since it is 
                needed for serialization to client */
-            if valid-object(hDataset) and hDataset <> phDataset and hDataset:dynamic  then
+            if valid-handle(hDataset) and hDataset <> phDataset and hDataset:dynamic  then
                 delete object hDataset.
         
         end.
