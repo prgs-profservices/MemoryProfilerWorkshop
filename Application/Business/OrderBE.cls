@@ -85,10 +85,6 @@ class Business.OrderBE inherits BusinessEntity:
                needed for serialization to client */
             if valid-handle(hDataset) and hDataset <> phDataset and hDataset:dynamic then
                 delete object hDataset.
-            // must delete - has cross reference -ValidateOrder call to ValidateAndUpdateInventory
-            // TODO: Fix ItemBE to not have cross reference - very likely anti-pattern  
-            if valid-object(ItemBE) then
-                delete object ItemBE.     
         end finally.
     end method.    
     
