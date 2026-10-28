@@ -436,7 +436,7 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
     end method.  
     
         
-    method public logical GetData(  output table-handle phTable):
+    method public logical GetData( output table-handle phTable ):
         define variable hNewDataset     as handle no-undo.
            
         if DefaultDataset:num-top-buffers > 1 then 
