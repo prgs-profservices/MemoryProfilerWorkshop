@@ -1,0 +1,26 @@
+{
+  "response": {
+    "customers": [
+      {
+        "address": "1359 VETERANS MEMORIAL BLVD",
+        "address2": "",
+        "balance": 24389.03,
+        "city": "Kenner",
+        "comments": "",
+        "contact": "Charles Dennis",
+        "country": "USA",
+        "creditLimit": 36500.0,
+        "custNum": 4505,
+        "discount": 20,
+        "emailAddress": "",
+        "fax": "",
+        "name": "Aaa Sporting Goods Inc",
+        "phone": "(504) 469-7060",
+        "postalCode": "70062",
+        "salesRep": "DOS",
+        "state": "LA",
+        "terms": "Net30"
+      }
+    ]  
+  }
+}
