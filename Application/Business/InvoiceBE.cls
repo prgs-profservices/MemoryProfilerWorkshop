@@ -74,7 +74,7 @@ class Business.InvoiceBE inherits BusinessEntity:
         
         find ttOrder no-error.
         if ambiguous ttOrder then 
-            undo, throw new IllegalArgumentError("UpdateInvoiceFromOrder called with more than on ttOrder present").  
+            undo, throw new IllegalArgumentError("UpdateInvoiceFromOrder called with more than one order present").  
             
         if not avail ttOrder then
             ThrowBufferError(buffer ttInvoice:handle, 
