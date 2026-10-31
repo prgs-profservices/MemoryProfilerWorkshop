@@ -15,7 +15,6 @@ block-level on error undo, throw.
 using Ccs.Common.Application from propath.
 using Pmfo.Core.Common.INameService from propath.
 using Pmfo.Core.Common.IWarning from propath.
-using Pmfo.Core.Common.IWarningMessageTableHolder from propath.
 using Pmfo.Core.Common.IWarningMessages from propath.
 using Pmfo.Core.Common.Warning from propath.
 using Pmfo.Core.Error.IllegalOperationError from propath.
@@ -23,7 +22,7 @@ using Pmfo.Core.Error.IllegalStateError from propath.
 using Pmfo.Util.DatasetUtil from propath.
 using Progress.Json.ObjectModel.JsonArray from propath.
 
-class Pmfo.Core.Common.WarningMessages implements IWarningMessages, IWarningMessageTableHolder: 
+class Pmfo.Core.Common.WarningMessages implements IWarningMessages: 
 
     {Pmfo/Core/schema/warning.i}
     
@@ -87,7 +86,6 @@ class Pmfo.Core.Common.WarningMessages implements IWarningMessages, IWarningMess
         return this-object:Add(pcEntity, poWarning:Message, poWarning:FieldName).
     end method.
     
-    // IFetchDelegator - NOT in IBusinessEntity
     method public logical Add(pcEntity as character, pcMsg as character):
         return this-object:Add(pcentity,pcMsg,"").
     end method. 
@@ -167,12 +165,6 @@ class Pmfo.Core.Common.WarningMessages implements IWarningMessages, IWarningMess
         return oWarnings.   
     end method. 
     
-    method public void GetWarningTableData(output table-handle phTable) .   
-        GetStaticWarningTableData(output table-handle phTable by-reference).
-    end method. 
-    
-    method protected void GetStaticWarningTableData(output table ttWarning) .        
-    end method.    
-    
+   
 
 end class.

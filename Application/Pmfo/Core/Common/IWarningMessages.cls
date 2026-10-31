@@ -16,7 +16,8 @@ using Pmfo.Core.Common.IWarning from propath.
 using Pmfo.Core.Common.IWarningMessages from propath.
 
 interface Pmfo.Core.Common.IWarningMessages: 
-    define public property HasData as logical  no-undo get. 
+    define public property TableHandle as handle  no-undo get. set. 
+    define public property HasData     as logical no-undo get. 
     method public logical Add(pcEntity as character, poWarning as IWarning).
     method public logical Add(pcEntity as character, pcMessage as character).
     method public logical Add(pcEntity as character, pcMessage as character, pcFieldName as character).

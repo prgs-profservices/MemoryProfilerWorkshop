@@ -55,7 +55,6 @@ using Pmfo.Core.BusinessLogic.IUpdateDataRequest from propath.
 using Pmfo.Core.BusinessLogic.IUpdateDataResponse from propath.
 using Pmfo.Core.BusinessLogic.UpdateDataRequest from propath.
 using Pmfo.Core.Common.DataService from propath.
-using Pmfo.Core.Common.IWarningMessageTableHolder from propath.
 using Pmfo.Core.Common.IWarningMessages from propath.
 using Pmfo.Core.DataLayer.IDataAccess from propath.
 using Pmfo.Core.Error.ApplicationError from propath.
@@ -86,14 +85,14 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
     define public property Datasets as handle extent no-undo get. protected set.
     
     define protected property SessionManager as ISessionManager no-undo 
-       get():
+        get():
             return cast(Application:SessionManager,ISessionManager).
-       end.
+        end.
   
-   define protected property ServiceManager as IServiceManager no-undo 
-       get():
+    define protected property ServiceManager as IServiceManager no-undo 
+        get():
             return cast(Application:ServiceManager,IServiceManager).
-       end.
+        end.
   
     define protected property DefaultDataset as handle no-undo 
         get():
@@ -182,18 +181,6 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
                undo, throw new IllegalOperationError("Cannot set WarningMessages when the existing WarningMessages has data").
            WarningMessages = pWarningMessages.         
         end. 
-    
-    define protected property WarningMessageTableHandle as handle no-undo 
-        get().
-            if not valid-handle(WarningMessageTableHandle) then 
-               if not valid-object(WarningMessages) then
-                   WarningMessages = new WarningMessages(). 
-               if type-of(WarningMessages,IWarningMessageTableHolder) then 
-                    WarningMessageTableHandle = cast(WarningMessages,IWarningMessageTableHolder):tableHandle.
-            return WarningMessageTableHandle.  
-        end. 
-        set.
-    
     
     define protected property Initialized as logical no-undo get. set. 
     
@@ -394,48 +381,43 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
         oTableRequest:AddQueryEntry(pQueryEntry).
         oRequest = new GetDataRequest(oTableRequest).
         return GetData(oTableRequest, output table-handle phTable by-reference).
-        
     end method.
     
     
     // for requests for just the table - does not support by-reference
     method public logical GetData( input pTableRequest as IGetDataTableRequest, output table-handle phTable):
-        define variable oRequest as IGetDataRequest  no-undo.
-        if valid-handle(phTable) then 
-            // The BE is dataset oriented - Use one of the GetData with Dataset output  if by-reference is needed  
-            undo, throw new UnsupportedOperationError("GetData with IGetTableRequest parameter and valid handle in output table by-reference parameter. Use one of the GetData methods with Dataset output if by-reference is needed.").  
+        define variable oRequest    as IGetDataRequest  no-undo.
+        define variable hNewDataset as handle no-undo.
         if pTableRequest:TableName <> Datasets[1]:get-buffer-handle(1):table-handle:name then 
             undo, throw new IllegalArgumentError(subst("TableRequest for table '&1' passed to Business Entity for table '&2'",pTableRequest:TableName,Datasets[1]:get-buffer-handle(1):table-handle:name)).
         oRequest = new GetDataRequest(pTableRequest).
         
         this-object:Clear(). // clear for request for table 
-        GetData(oRequest). 
-        phTable = Datasets[1]:get-buffer-handle(1):table-handle.
+        
+        if valid-handle(phTable) = false 
+        or phTable = DefaultDataset:get-top-buffer (1):table-handle then
+        do: 
+            GetData(oRequest). 
+            if not valid-handle(phTable) then 
+                phTable = DefaultDataset:get-top-buffer (1):table-handle. 
+        end.
+        else do:
+            if phTable:serialize-name = Resource
+            or phTable:name = DefaultDataset:get-top-buffer (1):table-handle:name then
+            do on error undo, throw: 
+                create dataset hNewDataset.
+                hNewDataset:serialize-name = Resource.
+                hNewDataset:add-buffer(phTable:default-buffer-handle). 
+                GetData(oRequest,output dataset-handle hNewDataset by-reference).
+                finally:
+                    if valid-handle(hNewDataset) then 
+                         delete object hNewDataset.    
+                end finally.
+            end.
+        end.        
         return phTable:has-records.     
     end method.
     
-    
-    method public logical GetData( input poRequest as IGetDataRequest):
-        define variable hDataset as handle no-undo.
-        hdataset = DefaultDataset.
-        GetData(poRequest,output dataset-handle hdataset by-reference).
-      
-        return hDataset:get-buffer-handle(poRequest:TableRequests[1]:tablename):table-handle:has-records.
-    end method.
-    
-    
-    method public IGetDataResponse CreateDataResponse(poRequest as IGetDataRequest):
-        define variable iTable as integer no-undo.
-        define variable oTableResponses as IGetDataTableResponse extent no-undo.
-        
-        extent(oTableResponses) = extent(poRequest:TableRequests).
-        do iTable = 1 to extent(poRequest:TableRequests):
-            oTableResponses[iTable] = new GetDataTableResponse(poRequest:TableRequests[iTable]:TableName).
-        end.    
-        return new GetDataResponse(oTableResponses).
-    end method.  
-    
-        
     method public logical GetData( output table-handle phTable ):
         define variable hNewDataset     as handle no-undo.
            
@@ -469,6 +451,27 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
         return true. //  we throw error for all unsupported cases    
         
     end method.     
+    
+    
+    method public logical GetData( input poRequest as IGetDataRequest):
+        define variable hDataset as handle no-undo.
+        hdataset = DefaultDataset.
+        GetData(poRequest,output dataset-handle hdataset by-reference).
+      
+        return hDataset:get-buffer-handle(poRequest:TableRequests[1]:tablename):table-handle:has-records.
+    end method.
+    
+    
+    method public IGetDataResponse CreateDataResponse(poRequest as IGetDataRequest):
+        define variable iTable as integer no-undo.
+        define variable oTableResponses as IGetDataTableResponse extent no-undo.
+        
+        extent(oTableResponses) = extent(poRequest:TableRequests).
+        do iTable = 1 to extent(poRequest:TableRequests):
+            oTableResponses[iTable] = new GetDataTableResponse(poRequest:TableRequests[iTable]:TableName).
+        end.    
+        return new GetDataResponse(oTableResponses).
+    end method.  
     
     method public int64 Count().
        // AssertInitialized().    
@@ -550,13 +553,18 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
     end method.    
     
     method protected Object SubmitData(input poUpdateDataRequest as IUpdateDataRequest, input-output dataset-handle phDataset):
-        define variable oResponse as Object no-undo. 
+        define variable oResponse     as Object no-undo. 
+        define variable hWarningTable as handle no-undo.
         // Use of BufferError outside managed hooks may end here if not managed  
         // (this is considered part of the framework, as it allows BufferError to be used also outside of 
         // the validate hooks
         if phDataset:error then
             ThrowDatasetError(phDataset).
-        oResponse = DataAccess:SubmitData(poUpdateDataRequest, input-output dataset-handle phDataset, output table-handle WarningMessageTableHandle append).        
+       
+        if valid-object(WarningMessages) then 
+            hWarningTable = WarningMessages:tableHandle.
+        
+        oResponse = DataAccess:SubmitData(poUpdateDataRequest, input-output dataset-handle phDataset, output table-handle hWarningTable append).        
         
         return oResponse. 
     end method.
