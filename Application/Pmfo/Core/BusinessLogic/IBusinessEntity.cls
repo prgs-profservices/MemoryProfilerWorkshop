@@ -38,13 +38,20 @@ interface Pmfo.Core.BusinessLogic.IBusinessEntity inherits IEntity, IService.
    
     // get requested dataset  
     method public IGetDataResponse GetData( input pRequest as IGetDataRequest,output dataset-handle phDataset ).
-   
+    
+    // get dataset for query entry applied to the first table  
+    method public IGetDataResponse GetData( input pQueryEntry as IQueryEntry, output dataset-handle phDataset ).
+    
+    // get dataset for table request to the first table 
+    method public IGetDataResponse GetData( input pTableRequest as IGetDataTableRequest, output dataset-handle phDataset).
+     
     // get requested main table - implementation is not expected to support by-reference. (use dataset methods for that) 
     method public logical GetData( input pTableRequest as IGetDataTableRequest, output table-handle phTable).
     
     // get requested main table - implementation is not expected to support by-reference.  (use dataset methods for that)
     method public logical GetData( input pQueryEntry as IQueryEntry, output table-handle phTable). 
    
+    // get all data by table - implementation is not expected to support by-reference.  (use dataset methods for that)
     method public logical GetData( output table-handle phTable).
     
     method public int64 Count().

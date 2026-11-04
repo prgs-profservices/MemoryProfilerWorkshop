@@ -292,6 +292,13 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
     method protected void ReceiveBuffer( pRequest as IGetDataTableRequest,pResponse as IGetDataTableResponse, phBuffer as handle):
     end method.
      
+    method protected void AssertTableOutput(input phtable as handle):
+        if valid-handle(phTable) then 
+            // The BE is dataset oriented - Use FindService  or one of the GetData with Dataset output  
+            undo, throw new UnsupportedOperationError("Table request with output to a valid table-handle (i.e. by-reference). Use GetData with output dataset-handle if by-reference is needed.").  
+        
+    end method.      
+     
     method protected void AssertDatasetName(phDataset as handle):
         define variable i as integer no-undo.
         /* The dataset:serialize-name is exposed as resource name, to be used in 
@@ -327,10 +334,10 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
     end method.    
     
     method public IGetDataResponse GetData( output dataset-handle phDataset ):
-        define variable oRequest as Pmfo.Core.BusinessLogic.IGetDataRequest no-undo.
-        define variable oResponse as Pmfo.Core.BusinessLogic.IGetDataResponse no-undo. 
+        define variable oRequest as IGetDataRequest no-undo.
+        define variable oResponse as IGetDataResponse no-undo. 
          
-        define variable oTableRequests as Pmfo.Core.BusinessLogic.IGetDataTableRequest extent no-undo.
+        define variable oTableRequests as IGetDataTableRequest extent no-undo.
         define variable i as integer no-undo.
         
         if not valid-handle(phDataset) then
@@ -373,83 +380,89 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
          
     end method.
     
-    // for requests for just the table - does not support by-reference
+    /* for requests for just the table - does not support by-reference 
+      (see comments in GetData(IGetDataTableRequest, output table-handle phTable) */
     method public logical GetData( input pQueryEntry as IQueryEntry, output table-handle phTable): 
-        define variable oTableRequest as Pmfo.Core.BusinessLogic.IGetDataTableRequest no-undo.
-        define variable oRequest as Pmfo.Core.BusinessLogic.IGetDataRequest  no-undo.
+        define variable oTableRequest as IGetDataTableRequest no-undo.
+        define variable oRequest      as IGetDataRequest      no-undo.
+        
         oTableRequest = new GetDataTableRequest(Datasets[1]:get-buffer-handle(1):table-handle:name).
         oTableRequest:AddQueryEntry(pQueryEntry).
         oRequest = new GetDataRequest(oTableRequest).
         return GetData(oTableRequest, output table-handle phTable by-reference).
     end method.
     
+    /* for requests for just the table - does not support by-reference 
+      (see comments in GetData(IGetDataTableRequest, output table-handle phTable) */
+    method public IGetDataResponse GetData( input pQueryEntry as IQueryEntry, output dataset-handle phDataset): 
+        define variable oTableRequest as IGetDataTableRequest no-undo.
+        define variable oRequest      as IGetDataRequest      no-undo.
+        
+        oTableRequest = new GetDataTableRequest(Datasets[1]:get-buffer-handle(1):table-handle:name).
+        oTableRequest:AddQueryEntry(pQueryEntry).
+        oRequest = new GetDataRequest(oTableRequest).
+        return GetData(oTableRequest, output dataset-handle phDataset by-reference).
+    end method.
     
-    // for requests for just the table - does not support by-reference
+    method public IGetDataResponse GetData( input pTableRequest as IGetDataTableRequest, output dataset-handle phDataset):
+        define variable oRequest    as IGetDataRequest  no-undo.
+        
+        if pTableRequest:TableName <> DefaultDataset:get-buffer-handle(1):table-handle:name then 
+            undo, throw new IllegalArgumentError(subst("Table request for table '&1' passed to Business Entity for table '&2'",pTableRequest:TableName,Datasets[1]:get-buffer-handle(1):table-handle:name)).
+       
+        oRequest = new GetDataRequest(pTableRequest).
+        return GetData(oRequest, output dataset-handle phDataset by-reference).
+    end method.
+    
+    /* Request for the table - does not support by-reference
+      NOTE: It is possible to extend this to support by-reference by creating a dynamic
+            dataset and add the passed buffer to the dataset and pass the 
+            dataset to the data access. This dataaset would have to be deleted 
+            before rerturning the table. 
+            This would be convenient, but it is nore efficient to use 
+            a GetData method that returns the dataset.              
+    */          
     method public logical GetData( input pTableRequest as IGetDataTableRequest, output table-handle phTable):
         define variable oRequest    as IGetDataRequest  no-undo.
-        define variable hNewDataset as handle no-undo.
-        if pTableRequest:TableName <> Datasets[1]:get-buffer-handle(1):table-handle:name then 
-            undo, throw new IllegalArgumentError(subst("TableRequest for table '&1' passed to Business Entity for table '&2'",pTableRequest:TableName,Datasets[1]:get-buffer-handle(1):table-handle:name)).
+        
+        if pTableRequest:TableName <> DefaultDataset:get-buffer-handle(1):table-handle:name then 
+            undo, throw new IllegalArgumentError(subst("Table request for table '&1' passed to Business Entity for table '&2'",pTableRequest:TableName,Datasets[1]:get-buffer-handle(1):table-handle:name)).
+       
+        AssertTableOutput(input phTable).
+        
         oRequest = new GetDataRequest(pTableRequest).
         
         this-object:Clear(). // clear for request for table 
         
-        if valid-handle(phTable) = false 
-        or phTable = DefaultDataset:get-top-buffer (1):table-handle then
-        do: 
-            GetData(oRequest). 
-            if not valid-handle(phTable) then 
-                phTable = DefaultDataset:get-top-buffer (1):table-handle. 
-        end.
-        else do:
-            if phTable:serialize-name = Resource
-            or phTable:name = DefaultDataset:get-top-buffer (1):table-handle:name then
-            do on error undo, throw: 
-                create dataset hNewDataset.
-                hNewDataset:serialize-name = Resource.
-                hNewDataset:add-buffer(phTable:default-buffer-handle). 
-                GetData(oRequest,output dataset-handle hNewDataset by-reference).
-                finally:
-                    if valid-handle(hNewDataset) then 
-                         delete object hNewDataset.    
-                end finally.
-            end.
-        end.        
+        GetData(oRequest). 
+        
+        phTable = DefaultDataset:get-top-buffer (1):table-handle. 
+        
         return phTable:has-records.     
     end method.
     
+    /* Request for the table - does not support by-reference
+      NOTE: It is possible to extend this to support by-reference by creating a dynamic
+            dataset and add the passed buffer to the dataset and pass the 
+            dataset to the data access. This dataset would have to be deleted 
+            before returning the table. 
+            This would be convenient, but it is more efficient to use 
+            a GetData method that returns the dataset that is defined here.              
+    */          
     method public logical GetData( output table-handle phTable ):
         define variable hNewDataset     as handle no-undo.
            
         if DefaultDataset:num-top-buffers > 1 then 
             undo, throw new IllegalArgumentError(subst("Request to GetData(output table-handle) in Resource &1 that has more than one top buffer in the default dataset",Resource)).
-         
-        if valid-handle(phTable) = false 
-        or phTable = DefaultDataset:get-top-buffer (1):table-handle then
-        do: 
-            GetData(output dataset-handle DefaultDataset by-reference).
-            if not valid-handle(phTable) then 
-                phTable = DefaultDataset:get-top-buffer (1):table-handle.
-        end.    
-        else do:    
-            if phTable:serialize-name = Resource
-            or phTable:name = DefaultDataset:get-top-buffer (1):table-handle:name then
-            do on error undo, throw: 
-                create dataset hNewDataset.
-                hNewDataset:serialize-name = Resource.
-                hNewDataset:add-buffer(phTable:default-buffer-handle).
-                GetData(output dataset-handle hNewDataset by-reference).
-                finally:
-                    if valid-handle(hNewDataset) then 
-                         delete object hNewDataset.    
-                end finally.
-            end.
-            else
-                undo, throw new IllegalArgumentError(subst("Request to GetData(output table-handle &1) in Resource '&2'",phTable:name, Resource)).
-       
-        end.
-        return true. //  we throw error for all unsupported cases    
         
+        AssertTableOutput(phtable). 
+        
+        this-object:Clear(). // clear for request for table 
+        
+        GetData(output dataset-handle DefaultDataset by-reference).
+        phTable = DefaultDataset:get-top-buffer (1):table-handle.
+        
+        return true. // errors are thrown for all unsupported cases    
     end method.     
     
     
@@ -493,7 +506,7 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
         define variable oError as Error no-undo.
         
         Assert:NotNull(phdataset,"Dataset passed to UpdateData").
-        Assert:NotNull(poUpdateDataRequest,"UpdateDataRequest passed to UpdateData").
+        Assert:NotNull(poUpdateDataRequest,"UpdateDataRequest passedPmfo to UpdateData").
         
         
         do on error undo, throw :
@@ -769,7 +782,7 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
     end method.    
     
     method protected final void RefreshData(poUpdateRequest as IUpdateDataRequest, phDataset as handle, plUpdateError as logical):
-        define variable oGetRequest as Pmfo.Core.BusinessLogic.IGetDataRequest no-undo.
+        define variable oGetRequest as IGetDataRequest no-undo.
         oGetRequest = CreateGetRequestForRefresh(poUpdateRequest,phDataset).
         // this is called also after an error, but if an error occurs here it will only cause a warning 
         // the lError passed in is just for information to the event  
