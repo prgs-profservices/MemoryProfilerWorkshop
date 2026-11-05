@@ -78,7 +78,7 @@ class Pmfo.Util.Array:
     // Implement this without the findArrayMethod include to use Equals - it is possible to do this based on
     // preprocessor parameters but it is messy - this is understandable 
     method public static integer Find (pValue as Progress.Lang.Object, pArray as Progress.Lang.Object extent):
-        define variable i       as integer no-undo.
+        var integer i.
         do i = 1 to extent(pArray):
             if pArray[i]:Equals(pValue) then 
                 return i. 
@@ -302,9 +302,8 @@ class Pmfo.Util.Array:
     end method.   
          
     method public static character ToString (pcStrings as character extent, pcDelimiter as char):
-        define variable cList as character  no-undo.
-        define variable i       as integer no-undo.
-        define variable cDlm  as character no-undo.
+        var character cList, cDlm.
+        var integer   i. 
         do i = 1 to extent(pcStrings):
             assign
                 cList = cList + cDLm + pcStrings[i]
@@ -314,10 +313,9 @@ class Pmfo.Util.Array:
     end method.
     
     method public static character ToString (piIntegers as integer extent, pcDelimiter as char):
-        define variable cList as character  no-undo.
-        define variable i       as integer no-undo.
-        define variable cDlm  as character no-undo.
-        do i = 1 to extent(piIntegers):
+       var character cList, cDlm.
+       var integer   i. 
+       do i = 1 to extent(piIntegers):
             assign
                 cList = cList + cDLm + string(piIntegers[i])
                 cDlm  = pcDelimiter.
@@ -326,10 +324,9 @@ class Pmfo.Util.Array:
     end method.
     
     method public static character ToString (piDecimals as decimal extent, pcDelimiter as char):
-        define variable cList as character  no-undo.
-        define variable i       as integer no-undo.
-        define variable cDlm  as character no-undo.
-        do i = 1 to extent(piDecimals):
+       var character cList, cDlm.
+       var integer   i. 
+       do i = 1 to extent(piDecimals):
             assign
                 cList = cList + cDLm + string(piDecimals[i])
                 cDlm  = pcDelimiter.
