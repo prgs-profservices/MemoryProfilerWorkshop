@@ -92,7 +92,6 @@ class Pmfo.Util.TimeZoneUtil:
         var memptr  mSysTime = GetSysTime(pdate).
         var memptr  mLocalTime.
          
-        msystime = GetSysTime(pdate).
         set-size(mLocaltime) = 16. 
         
         run SystemTimeToTzSpecificLocalTimeEx in windowsAPI
@@ -151,24 +150,21 @@ class Pmfo.Util.TimeZoneUtil:
         (pdateTime as datetime  ):
         
         /* Define trackers for the arithmetic breakdown */
-        var integer millisecondsSinceMidnight,
+        var integer millisecondsSinceMidnight = mtime(pdateTime),
                     calculatedHour,
                     calculatedMinute,
                     calculatedSecond,
                     calculatedMSec.
         
         var memptr mSystemTime.
-                                        
-        /* 1. Grab the total milliseconds since midnight from the DATETIME block */
-        millisecondsSinceMidnight = mtime(pdateTime).
         
-        set-size(mSystemTime) = 16.
-        
-        /* 2. Break down the time components mathematically */
-        calculatedMsec   = millisecondsSinceMidnight modulo 1000.
-        calculatedSecond = truncate(millisecondsSinceMidnight / 1000, 0) modulo 60.
-        calculatedMinute = truncate(millisecondsSinceMidnight / 1000 / 60, 0) modulo 60.
-        calculatedHour   = truncate(millisecondsSinceMidnight / 1000 / 60 / 60, 0).
+	set-size(mSystemTime) = 16.        
+	
+	/* 2. Break down the time components mathematically */
+	calculatedMsec   = millisecondsSinceMidnight modulo 1000.
+	calculatedSecond = truncate(millisecondsSinceMidnight / 1000, 0) modulo 60.
+	calculatedMinute = truncate(millisecondsSinceMidnight / 1000 / 60, 0) modulo 60.
+	calculatedHour   = truncate(millisecondsSinceMidnight / 1000 / 60 / 60, 0).
         
         /* 3. Assign the mathematically extracted variables safely into the Win32 structure */
         put-short(mSystemTime, 1)  = year(pdateTime).
@@ -185,13 +181,13 @@ class Pmfo.Util.TimeZoneUtil:
     
     method private static character PopulateDynamicTimeInformation(pcName as character): 
         /* Win32 Constant Codes */
-        var integer   ERROR_NO_MORE_ITEMS = 259.
-        var integer   ERROR_SUCCESS.  // 0 
-        var integer   iResult, ICurrentIndex.
-        var character cStandardname.
-        var memptr    mDynamicStruct, mUtf16Struct.
-        
-        do while true:
+	var integer   ERROR_NO_MORE_ITEMS = 259.
+	var integer   ERROR_SUCCESS.  // 0 
+	var integer   iResult, ICurrentIndex.
+	var character cStandardname.        
+	var memptr    mDynamicStruct, mUtf16Struct.        
+	
+	do while true:
             /* Clear structure memory before each iteration pass */
             set-size(mDynamicStruct) = 0.    
             set-size(mDynamicStruct) = 432. 
