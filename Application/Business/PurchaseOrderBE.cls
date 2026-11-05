@@ -76,11 +76,9 @@ class Business.PurchaseOrderBE inherits BusinessEntity:
     /* create purchaseOrders for a list of items and corresponding supplierItemXref   
        called from ItemBE:GetItemInventoryDataForSubmit when Orderlines ioncreases allocated so that OnOhand is to small */    
     method public handle CreatePurchaseOrdersForItems(input table ttitem, input table ttsupplierItemXref, output dataset dsPurchaseOrder):  
-        define variable oSupplierItemXrefBE as IBusinessEntity no-undo.
-        define variable iMinOrder           as integer no-undo.
-        define variable iPoNum              as integer no-undo.
-        define variable iPolinenum          as integer no-undo.
-        define variable oSupplierBE         as IBusinessEntity no-undo.
+        var IBusinessEntity oSupplierBE, oSupplierItemXrefBE.
+        
+        var integer iMinOrder, IPoNum, iPolineNum.
         
         temp-table ttPurchaseOrder:tracking-changes     = true.
         temp-table ttPurchaseOrderLine:tracking-changes = true.
@@ -143,7 +141,8 @@ class Business.PurchaseOrderBE inherits BusinessEntity:
     
     // override to submit the server dataset with xrefs to dataacces 
     method protected override Object SubmitData(input poUpdateDataRequest as IUpdateDataRequest, input-output dataset-handle phDataset):
-        define variable hDataset as handle no-undo.
+        var handle hDataset.
+        
         if valid-object(ItemBE) then  
             hDataset = DatasetUtil:CreateDatasetFromMultipleDatasets(Array:ToArray(phDataset,ItemBE:GetItemInventoryDataForSubmit())).
         else 

@@ -27,15 +27,13 @@ class DataSource.WarehouseDS inherits DataSource:
     end method.
 
     method override protected void PrepareBuffer( input pBuffer as handle ):
-        define variable hTable as handle no-undo.
+        var handle hTable = pBuffer:table-handle.
         pBuffer:set-callback("After-Row-fill","AfterRow").
-        hTable = pBuffer:table-handle.
         Bind (table-handle hTable bind).        
     end method.
     
     method override protected void PrepareSaveBuffer( input pBuffer as handle ):
-        define variable hTable as handle no-undo.
-        hTable = pBuffer:table-handle.
+        var handle hTable = pBuffer:table-handle.
         Bind (table-handle hTable bind).        
     end method.
     
@@ -44,7 +42,7 @@ class DataSource.WarehouseDS inherits DataSource:
     end method.
     
     method protected character GetChildList(pWarehouseNum as integer):
-        define variable cChildren as character no-undo.
+        var character cChildren.
         if can-find(first Bin where Bin.WarehouseNum = pWarehousenum) then 
             cChildren = "Bin".
         
@@ -56,8 +54,7 @@ class DataSource.WarehouseDS inherits DataSource:
     end method.
     
     method override protected void DeleteBeginTransValidate( input dataset-handle  phDataset):
-        define variable cChildren as character no-undo.
-        cChildren = GetChildList(biWarehouse.WarehouseNum).
+        var character cChildren = GetChildList(biWarehouse.WarehouseNum).
         if cChildren > "" then
             ThrowBufferError( 
                 substitute("Cannot delete employee &1 that has &2 records", 
@@ -68,7 +65,8 @@ class DataSource.WarehouseDS inherits DataSource:
     end method.
     
     method override protected void WriteBeginTransValidate( input dataset-handle  phDataset):
-       define variable cChildren as character no-undo.
+       var character cChildren.
+        
        if row-state(ttWarehouse) = row-modified 
                                    and ttWarehouse.WarehouseNum <> biWarehouse.WarehouseNum then
        do: 

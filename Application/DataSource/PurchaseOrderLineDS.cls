@@ -26,15 +26,13 @@ class DataSource.PurchaseOrderLineDS inherits DataSource:
     end method.
 
     method override protected void PrepareBuffer( input pBuffer as handle ):
-        define variable hTable as handle no-undo.
+        var handle hTable = pBuffer:table-handle.
         pBuffer:set-callback("After-Row-fill","AfterRow").
-        hTable = pBuffer:table-handle.
         Bind (table-handle hTable bind).        
     end method.
     
     method override protected void PrepareSaveBuffer( input pBuffer as handle ):
-        define variable hTable as handle no-undo.
-        hTable = pBuffer:table-handle.
+        var handle hTable = pBuffer:table-handle.
         Bind (table-handle hTable bind).        
     end method.
     

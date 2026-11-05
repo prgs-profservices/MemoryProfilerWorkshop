@@ -40,16 +40,13 @@ class DataSource.SalesRepQuotaDS inherits DataSource:
     end method.
 
     method override protected void PrepareBuffer( input pBuffer as handle ):
-        define variable hTable as handle no-undo.
+        var handle hTable = pBuffer:table-handle.
         pBuffer:set-callback("Before-fill","BeforeFill").
-        hTable = pBuffer:table-handle.
         this-object:Bind (table-handle hTable bind).        
     end method.
     
     method override protected void PrepareSaveBuffer( input pBuffer as handle ):
-        define variable hTable as handle no-undo.
-        
-        hTable = pBuffer:table-handle.
+        var handle hTable = pBuffer:table-handle.
         Bind (table-handle hTable bind).        
     end method.
    
@@ -87,9 +84,9 @@ class DataSource.SalesRepQuotaDS inherits DataSource:
        and pass to super tso that startids is set to the salesrep 
        log month in FirstPageMonth property - cannot pass month to super since it is not in salesrep    */    
     method protected override void PreparePaging(pRequest as IGetDataTableRequest, pQueryBuilder as QueryBuilder) :
-        define variable pSalesReprequest  as IGetDataTableRequest no-undo.
-        define variable oMonthPredicate   as IQueryPredicate no-undo.
-        define variable oContextQuery     as IQueryGroup no-undo.
+        var IGetDataTableRequest pSalesReprequest.
+        var IQueryPredicate      oMonthPredicate.
+        var IQueryGroup          oContextQuery.
         
         if valid-object(pRequest:PagingContextEntry) then 
         do:
@@ -107,13 +104,9 @@ class DataSource.SalesRepQuotaDS inherits DataSource:
     end method.
     
     method public void BeforeFill( input dataset-handle phDataset ):
-        define variable iSeqNo      as integer   no-undo.
-        define variable iTran       as integer   no-undo.
-        define variable cQuery      as character no-undo.
-        define variable iGroup      as integer   no-undo.
-        define variable iMonth      as integer   no-undo.
-        define variable iBatch      as int64     no-undo.
-        define variable iStartMonth as integer no-undo.
+        var integer   iSeqNo, iTran, iGroup, iMonth, IStartMonth.
+        var int64     iBatch.
+        var character cQuery.
         
         QueryHandle:Query-open().
         

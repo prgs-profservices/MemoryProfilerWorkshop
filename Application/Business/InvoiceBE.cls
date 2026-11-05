@@ -43,22 +43,18 @@ class Business.InvoiceBE inherits BusinessEntity:
     end method.    
    
     method protected void ValidateInvoice(input dataset dsInvoice ):
-        define variable oOrderBE             as IBusinessEntity no-undo.
-        define variable oRequest             as IGetDataRequest no-undo.
-        define variable oTableRequest        as IGetDataTableRequest no-undo.
-        define variable oQueryDefinition     as IQueryDefinition  no-undo.
-        define variable hDataset             as handle no-undo.
-        define variable hOrderTable          as handle no-undo.
-        define variable hOrderLineTable      as handle no-undo.
+        var handle hDataset, hOrderTable, hOrderLineTable.
         
-        oOrderBE = ServiceManager:CreateBusinessEntity("orders").
-        oRequest = CreateGetRequest(oOrderBE:datasets[1]).
+        var IQueryDefinition     oQueryDefinition.
+        
+        var IBusinessEntity oOrderBE = ServiceManager:CreateBusinessEntity("orders").
+        var IGetDataRequest oRequest = CreateGetRequest(oOrderBE:datasets[1]).
+        
         
         for each ttInvoice where row-state(ttInvoice) = row-created:
             oQueryDefinition = new QueryDefinition().
             oQueryDefinition:AddEntry(new QueryPredicate("OrderNum",QueryOperatorEnum:Eq,ttInvoice.OrderNum)).
             oRequest:TableRequests[1]:QueryDefinition = oQueryDefinition.
-            
             oOrderBE:GetData(oRequest, output dataset-handle hDataset).
             
             hOrderTable     = hDataset:get-buffer-handle(1):table-handle.
@@ -70,7 +66,6 @@ class Business.InvoiceBE inherits BusinessEntity:
     
     
     method protected void UpdateInvoiceFromOrder(buffer ttinvoice for ttinvoice, input table ttOrder, input table ttorderline ):
-        define variable iCount as integer no-undo.
         
         find ttOrder no-error.
         if ambiguous ttOrder then 

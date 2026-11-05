@@ -49,8 +49,8 @@ class Business.ItemBE inherits BusinessEntity:
     
     // validate orderline item and add or remove qty to/from allocated
     method public void ValidateAndUpdateInventory(input pOwner as IBusinessEntity, input table ttOrderline):
-        define variable iItemNums   as integer extent no-undo.
-        define variable oGetRequest as IGetDataRequest no-undo.
+        var integer[]       iItemNums.
+        var IGetDataRequest oGetRequest.
         
         for each ttOrderline where row-state(ttorderLine) > 0 break by ttOrderline.ItemNum :
             if last-of(ttOrderline.ItemNum) then 
@@ -103,8 +103,8 @@ class Business.ItemBE inherits BusinessEntity:
     
     // validate purchaseorderline item and add or remove qty to/from onorder
     method public void ValidateAndUpdateInventory(input table ttPurchaseOrder, input table ttPurchaseOrderline):
-        define variable iItemNums   as integer extent no-undo.
-        define variable oGetRequest as IGetDataRequest no-undo.
+        var integer[] iItemNums.
+        var IGetDataRequest oGetRequest.
         
         for each ttPurchaseOrderline break by ttPurchaseOrderline.ItemNum:
             if last-of(ttPurchaseOrderline.ItemNum) then 
@@ -142,14 +142,11 @@ class Business.ItemBE inherits BusinessEntity:
     end method.     
     
     method public handle GetItemInventoryDataForSubmit():
-        define variable iReorderItemNums        as integer extent no-undo.
-        define variable oSupplierItemXrefBE     as IBusinessEntity no-undo.
-        define variable oPurchaseOrderBE        as PurchaseOrderBE no-undo.
-        define variable hPurchaseOrderDS        as handle no-undo.
-        define variable hPurchaseOrderTable     as handle no-undo.
-        define variable hPurchaseOrderLineTable as handle no-undo.
-        define variable iPoNum                  as integer no-undo.
-        define variable iPolinenum              as integer no-undo.
+        var handle    hPurchaseOrderDS, hPurchaseOrderTable, hPurchaseOrderLineTable.  
+        var integer   iPoNum, iPolinenum. 
+        var integer[] iReorderItemNums.
+        var IBusinessEntity oSupplierItemXrefBE.
+        var PurchaseOrderBE  oPurchaseOrderBE.
         
         temp-table ttItem:tracking-changes = false.
               

@@ -30,17 +30,14 @@ class DataSource.SalesRepDS inherits DataSource:
     end method.
     
     method override protected void PrepareBuffer( input pBuffer as handle ):
-        define variable hTable as handle no-undo.
+        var handle hTable = pBuffer:table-handle.
         pBuffer:set-callback("After-Row-fill","AfterRow").
-        hTable = pBuffer:table-handle.
         Bind (table-handle hTable bind).        
     end method.
     
     method override protected void PrepareSaveBuffer( input pBuffer as handle ):
-        define variable hTable as handle no-undo.
-        define variable i as integer no-undo.
-        hTable = pBuffer:table-handle.
-        
+        var handle hTable = pBuffer:table-handle.
+        var integer i.
         Bind (table-handle hTable bind).
         do i = 1 to pBuffer:num-child-relations:
             if pBuffer:get-child-relation (i):child-buffer:name = "ttSalesRepQuota" then
@@ -53,9 +50,9 @@ class DataSource.SalesRepDS inherits DataSource:
     end method.
   
     method public override void BeforeUpdate (input dataset-handle phDataset).
-        define variable lTrack    as logical no-undo.
-        define variable cSalesrep as character no-undo.
-        define variable iMonth    as integer no-undo.
+        var logical   lTrack.
+        var character cSalesRep.
+        var integer   iMonth.
         
         // turn off row-state so they are ignored by SalesrepQuotaDS
         // treat create as update 
@@ -85,8 +82,8 @@ class DataSource.SalesRepDS inherits DataSource:
     end method.
     
     method public override logical SaveRow(phBeforeBuffer as handle):
-        define variable lOk as logical no-undo.
-        define variable rid as rowid no-undo.       
+        var rowid rid.
+        var logical lOk. 
         if phBeforeBuffer:row-state = row-deleted then
         do: 
             FindAndCompareSource(phBeforeBuffer).

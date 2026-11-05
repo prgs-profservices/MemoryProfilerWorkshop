@@ -38,9 +38,8 @@ class DataSource.AddressDS inherits DataSource:
     end method.
  
     method override protected void PrepareBuffer( input pBuffer as handle ):
-        define variable hTable as handle no-undo.
+        var handle hTable = pBuffer:table-handle.
         pBuffer:set-callback("before-fill","BeforeFill").
-        hTable = pBuffer:table-handle.
         this-object:Bind (table-handle hTable bind).
     end method.
     
@@ -54,12 +53,9 @@ class DataSource.AddressDS inherits DataSource:
     end method.                                                                                                                        
                                                                                                                                        
     method public void BeforeFill( input dataset-handle phDataset ):
-        define variable hQuery      as handle    no-undo.
-        define variable cSort       as character no-undo.
-        define variable iCount      as integer   no-undo.
-        define variable iNumRecords as integer   no-undo.
-        define variable iBuffer     as integer   no-undo.
-        define variable cFilter     as character no-undo.
+        var integer   iCount, iNumRecords, iBuffer.
+        var character cSort, CFilter.
+        var handle    hQuery.        
         
         do iBuffer = 1 to extent(BufferHandles):
             FillFromSource(input table ttAddress by-reference, BufferHandles[iBuffer],iBuffer).
@@ -109,10 +105,8 @@ class DataSource.AddressDS inherits DataSource:
     
     // fill ttaddress with data from database tables with address info
     method protected void FillFromSource(input table ttAddress, phBuffer as handle, piKeyNumber as integer):
-        define variable hQuery        as handle no-undo.
-        define variable lFound        as logical no-undo.
-        define variable hCountfield   as handle no-undo.  
-        define variable hCountryfield as handle no-undo.  
+        var handle  hQuery, hCountfield, hCountryField.        
+        var logical lFound.
         
         create query hQuery.
         
@@ -166,15 +160,10 @@ class DataSource.AddressDS inherits DataSource:
     end method.
     
     method protected character GetBufferKey(phSourceBuffer as handle,pRowid as rowid):
-          
-        define variable iField          as integer   no-undo.
-        
-        define variable hFld            as handle    no-undo.
-        define variable cField          as character no-undo.
-        define variable cValue          as character no-undo.
-        define variable cRowKey         as character no-undo.
-        define variable lHasSpaceOrPlus as logical   no-undo.
-        define variable cKeys           as character no-undo.
+        var character cField, cValue, cRowKey, cKeys.   
+        var integer   iField.
+        var handle    hField. 
+        var logical   lHasSpaceOrPlus.
         
         phSourceBuffer:find-by-rowid (pRowid,no-lock).
         
@@ -183,21 +172,21 @@ class DataSource.AddressDS inherits DataSource:
             cKeys = phSourceBuffer:Keys.
             do iField = 1 to num-entries(cKeys).
                 cField = entry(iField,cKeys).
-                hFld   = phSourceBuffer:buffer-field(cField).
-                if hFld:data-type begins "date" then
+                hField = phSourceBuffer:buffer-field(cField).
+                if hField:data-type begins "date" then
                 do:
-                    cValue = quoter(iso-date(hFld:buffer-value),"'").
+                    cValue = quoter(iso-date(hField:buffer-value),"'").
                 end.
-                else if (hfld:data-type = "character" or hFld:data-type = "longchar") then
+                else if (hField:data-type = "character" or hField:data-type = "longchar") then
                 do:
                     assign
-                        cValue          = hFld:buffer-value
+                        cValue          = hField:buffer-value
                         lHasSpaceOrPlus = index(CValue,StringConstant:SPACE) > 0 or index(cValue,"+") > 0
                         cValue      = quoter(cValue,"'")
                         .
                 end.        
                 else
-                    cValue = hFld:buffer-value.
+                    cValue = hField:buffer-value.
                
                 /* if hasspaceorplus use field name in expression so we can safely decode bad encoders like certain REST testing tools...
                    some REST tools will encode space as +, but not if there already is a + 

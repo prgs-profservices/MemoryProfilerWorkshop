@@ -27,15 +27,13 @@ class DataSource.InventoryTransactionDS inherits DataSource:
     end method.
 
     method override protected void PrepareBuffer( input pBuffer as handle ):
-        define variable hTable as handle no-undo.
+        var handle hTable = pBuffer:table-handle.
         pBuffer:set-callback("After-Row-fill","AfterRow").
-        hTable = pBuffer:table-handle.
         Bind (table-handle hTable bind).        
     end method.
     
     method override protected void PrepareSaveBuffer( input pBuffer as handle ):
-        define variable hTable as handle no-undo.
-        hTable = pBuffer:table-handle.
+        var handle hTable = pBuffer:table-handle.
         Bind (table-handle hTable bind).        
     end method.
     
@@ -45,7 +43,8 @@ class DataSource.InventoryTransactionDS inherits DataSource:
     
     method override protected void CreateBeginTransValidate( input dataset-handle phDataset):
         define buffer bInvTransaction for InventoryTrans.
-        define variable ILastTransNum as integer no-undo.
+        
+        var integer iLastTransNum.
         // get last transnum from db
         for each bInvTransaction by bInvTransaction.InvTransNum desc:
             ILastTransNum = bInvTransaction.InvTransNum.
@@ -132,9 +131,8 @@ class DataSource.InventoryTransactionDS inherits DataSource:
     
     
     method public override void AfterRow(input dataset-handle phDataset):
-        define variable dTransDateTime as datetime no-undo.
         //convert to datetime from date and time
-        dTransDateTime = 
+        var datetime dTransDateTime = 
             datetime(substitute("&1 &2",string(InventoryTrans.TransDate,"99-99-9999"),InventoryTrans.TransTime)).
           
         // convert from UTC (GSM) in database to local time as defined by TimeZoneUtil:TimeZoneName 

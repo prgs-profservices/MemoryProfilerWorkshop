@@ -27,22 +27,18 @@ class DataSource.OrderDS inherits DataSource:
     end method.
     
     method override protected void PrepareBuffer( input pBuffer as handle ):
-        define variable hTable as handle no-undo.
+        var handle hTable = pBuffer:table-handle.
         pBuffer:set-callback("After-Row-fill","AfterRow").
-        hTable = pBuffer:table-handle.
         this-object:Bind (table-handle hTable bind).        
     end method.
     
     method override protected void PrepareSaveBuffer( input pBuffer as handle ):
-        define variable hTable      as handle  no-undo.
- 
-        hTable = pBuffer:table-handle.
+        var handle hTable = pBuffer:table-handle.
         this-object:Bind (table-handle hTable bind).    
     end method.
     
     method override protected void CreateBeginTransValidate( input dataset-handle  phDataset):
-        define variable iNewOrderNum as integer no-undo.
-        iNewOrderNum = next-value (NextOrdnum).
+        var integer iNewOrderNum = next-value (NextOrdnum).
         // propagate key change to all related tables and assign to self 
         UpdateUtil:UpdateKey(buffer ttOrder:handle, "OrderNum",iNewOrderNum).
         
