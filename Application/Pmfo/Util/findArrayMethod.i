@@ -12,7 +12,7 @@
     Notes       :
   ----------------------------------------------------------------------*/
     method public static integer Find (pValue as {1}, pArray as {1} extent):
-        define variable i       as integer no-undo.
+        var integer i.
         do i = 1 to extent(pArray):
             if pArray[i] = pValue then 
                 return i. 

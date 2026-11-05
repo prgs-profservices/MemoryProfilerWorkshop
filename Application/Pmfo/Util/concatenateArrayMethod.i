@@ -1,8 +1,6 @@
 method public static {1} extent concatenateArrays(array1 as {1} extent, array2 as {1} extent):
-    define variable array1Length as integer no-undo.
-    define variable array2Length as integer no-undo.
-    define variable mergedArray  as {1}     extent no-undo.
-    define variable i            as integer no-undo.
+    var integer i, array1Length, array2Length.
+    var {1}[] mergedArray.  
     
     assign
         array1Length        = if extent(array1) <> ? then extent(array1) else 0

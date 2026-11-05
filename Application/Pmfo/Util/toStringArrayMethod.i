@@ -13,8 +13,8 @@
   ----------------------------------------------------------------------*/
    
     method public static character extent ToStringArray(pArray as {1} extent):
-        define variable cValues as character extent no-undo.
-        define variable i       as integer no-undo.
+        var character[] cValues.
+        var integer i. 
         extent(cValues) = extent(pArray).
         do i = 1 to extent(cValues):
             cValues[i] = string(pArray[i]).

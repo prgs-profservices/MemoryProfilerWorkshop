@@ -1,6 +1,6 @@
 
 /*------------------------------------------------------------------------
-    File        : toStringArrayMethod.i
+    File        : substituteArrayMethod.i
     Purpose     : 
 
     Syntax      : 

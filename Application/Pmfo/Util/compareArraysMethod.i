@@ -12,10 +12,8 @@
     Notes       :
   ----------------------------------------------------------------------*/
     method public static logical CompareArrays(p1 as {1} extent, p2 as {1} extent, output pNotInP1 as {1} extent, output pNotInP2 as {1} extent):
-        define variable vArray as {1} extent no-undo.
-        define variable i as integer no-undo.
-        define variable i1length as integer no-undo.
-        define variable i2length as integer no-undo.
+        var {1}[] vArray.
+        var integer i, i1length, i2length.
         
         if extent(p1) = ? then
         do: 

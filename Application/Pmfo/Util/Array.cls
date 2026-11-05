@@ -166,9 +166,10 @@ class Pmfo.Util.Array:
     end method.    
     
     method public static character extent Split (pcString as character, pcDelimiter as char, plIgnoreDelimInQuotes as logical):
-        define variable cValues       as character extent no-undo.
-        define variable i             as integer no-undo.
-        define variable cMask         as character no-undo.
+        var character[] cValues.
+        var character   cMask.
+        var integer     i.
+  
         if pcString > "" then
         do:
             if plIgnoreDelimInQuotes and (index(pcString,"'") > 0 or index(pcString,'"') > 0) then
@@ -201,9 +202,10 @@ class Pmfo.Util.Array:
     end method.
     
     method public static integer extent SplitToInteger (pcString as character, pcDelimiter as char):
-        define variable iValues as integer extent no-undo.
-        define variable i       as integer no-undo.
-        define variable cValue  as character no-undo. 
+        var integer[] iValues.
+        var character cValue.
+        var integer   i.
+  
         if pcString > "" then
         do:
             extent(iValues) = num-entries(pcString,pcDelimiter).
@@ -223,8 +225,8 @@ class Pmfo.Util.Array:
     end method.
     
     method public static handle extent SplitToHandle (pcString as character, pcDelimiter as char):
-        define variable hValues as handle extent no-undo.
-        define variable i       as integer no-undo.
+        var handle[] hValues.
+        var integer  i.
         if pcString > "" then
         do:
             extent(hValues) = num-entries(pcString,pcDelimiter).
@@ -337,9 +339,8 @@ class Pmfo.Util.Array:
     
     
     method public static character ToString (pStrings as String extent, pcDelimiter as char):
-        define variable cList as character  no-undo.
-        define variable i       as integer no-undo.
-        define variable cDlm  as character no-undo.
+        var character cList, cDlm.
+        var integer i.
         do i = 1 to extent(pStrings):
             assign
                 cList = cList + cDLm + pStrings[i]:Value

@@ -12,8 +12,7 @@
     Notes       :
   ----------------------------------------------------------------------*/
     method public static integer Count (pValue as {1}, pArray as {1} extent):
-        define variable iCount as integer no-undo.
-        define variable i      as integer no-undo.
+        var integer i, iCount.
         
         do i = 1 to extent(pArray):
             if pArray[i] = pValue then 

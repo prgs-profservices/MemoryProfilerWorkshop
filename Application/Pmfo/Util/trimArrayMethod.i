@@ -12,9 +12,8 @@
     Notes       :
   ----------------------------------------------------------------------*/
     method public static {1} extent TrimArray(pVar as {1} extent):
-        define variable vArray as {1} extent no-undo.
-        define variable i as integer no-undo.
-        define variable iLength as integer no-undo.
+        var {1}[] vArray.
+        var integer i, Ilength.  
         
         if extent(pVar) > 0 then
         do: 

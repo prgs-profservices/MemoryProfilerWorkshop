@@ -1,11 +1,6 @@
 method public static {1} extent mergeArrays(array1 as {1} extent, array2 as {1} extent):
-    define variable i               as integer no-undo.
-    define variable array1Length    as integer no-undo.
-    define variable array2Length    as integer no-undo.
-    define variable mergedArray     as {1} extent no-undo.
-    define variable parsedDupsArray as {1} extent no-undo.
-    define variable countRight      as integer no-undo.
-    define variable countLeft       as integer no-undo.
+    var integer i, array1Length, array2Length, countRight, countLeft.
+    var {1}[] mergedArray, parsedDupsArray.  
     
     if extent(array1) = ? then
         return array2.  
