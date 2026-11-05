@@ -51,10 +51,8 @@ class Pmfo.Util.TimeZoneUtil:
     */            
     define public static property TimeZone as integer no-undo 
         get():  
-            define variable dNow   as datetime no-undo.
-            define variable dLocal as datetime no-undo.
-            dNow = now.
-            dLocal = GetLocalTimeFromSysTime(dNow).
+            var datetime dNow = now.
+            var datetime dLocal = GetLocalTimeFromSysTime(dNow).
             return integer(interval(dLocal,dNow,"minutes")).
         end.
     
@@ -90,11 +88,10 @@ class Pmfo.Util.TimeZoneUtil:
     end method.            
     
     method public static datetime GetLocalTimeFromSysTime(pdate as datetime): 
-        define variable mSystime   as memptr no-undo.
-       
-        define variable mLocaltime as memptr no-undo. 
-        define variable iResult as integer no-undo.
-        
+        var integer iResult.
+        var memptr  mSysTime = GetSysTime(pdate).
+        var memptr  mLocalTime.
+         
         msystime = GetSysTime(pdate).
         set-size(mLocaltime) = 16. 
         
@@ -115,9 +112,7 @@ class Pmfo.Util.TimeZoneUtil:
     // since this class xan override the opsys timezone converting the timezone offset 
     // must also come from here 
     method public static datetime-tz GetLocalTimeTZFromSysTime(pdate as datetime): 
-        define variable dLocalDateTime as datetime no-undo.
-        dLocalDateTime = GetLocalTimeFromSysTime(pdate).
-         
+        var datetime dLocalDateTime = GetLocalTimeFromSysTime(pdate).
         return datetime-tz(dLocalDateTime,interval(dLocalDateTime,pdate,"minutes")).
     end method.     
     
@@ -134,9 +129,9 @@ class Pmfo.Util.TimeZoneUtil:
     time bias. */
     
     method public static datetime GetSysTimeFromLocalTime(pdate as datetime): 
-        define variable mSystime   as memptr no-undo.
-        define variable mLocaltime as memptr no-undo. 
-        define variable iResult as integer no-undo.
+        var integer iResult.
+        var memptr  mSysTime.
+        var memptr  mLocalTime = GetSysTime(pdate).
         
         mLocaltime = GetSysTime(pdate).
         set-size(mSysTime) = 16. 
@@ -154,18 +149,20 @@ class Pmfo.Util.TimeZoneUtil:
     // get a SYSTIME memptr from ABL datetime
     method public static memptr GetSysTime 
         (pdateTime as datetime  ):
-       
+        
         /* Define trackers for the arithmetic breakdown */
-        define variable millisecondsSinceMidnight as integer no-undo.
-        define variable calculatedHour            as integer no-undo.
-        define variable calculatedMinute          as integer no-undo.
-        define variable calculatedSecond          as integer no-undo.
-        define variable calculatedMsec            as integer no-undo.
-        define variable pSystemtime               as memptr  no-undo.
+        var integer millisecondsSinceMidnight,
+                    calculatedHour,
+                    calculatedMinute,
+                    calculatedSecond,
+                    calculatedMSec.
+        
+        var memptr mSystemTime.
+                                        
         /* 1. Grab the total milliseconds since midnight from the DATETIME block */
         millisecondsSinceMidnight = mtime(pdateTime).
         
-        set-size(pSystemTime) = 16.
+        set-size(mSystemTime) = 16.
         
         /* 2. Break down the time components mathematically */
         calculatedMsec   = millisecondsSinceMidnight modulo 1000.
@@ -174,27 +171,25 @@ class Pmfo.Util.TimeZoneUtil:
         calculatedHour   = truncate(millisecondsSinceMidnight / 1000 / 60 / 60, 0).
         
         /* 3. Assign the mathematically extracted variables safely into the Win32 structure */
-        put-short(pSystemTime, 1)  = year(pdateTime).
-        put-short(pSystemTime, 3)  = month(pdateTime).
-        put-short(pSystemTime, 5)  = weekday(pdateTime) - 1. /* Sunday maps from ABL 1 to Win32 0 */
-        put-short(pSystemTime, 7)  = day(pdateTime).
-        put-short(pSystemTime, 9)  = calculatedHour.
-        put-short(pSystemTime, 11) = calculatedMinute.
-        put-short(pSystemTime, 13) = calculatedSecond.
-        put-short(pSystemTime, 15) = calculatedMsec.
+        put-short(mSystemTime, 1)  = year(pdateTime).
+        put-short(mSystemTime, 3)  = month(pdateTime).
+        put-short(mSystemTime, 5)  = weekday(pdateTime) - 1. /* Sunday maps from ABL 1 to Win32 0 */
+        put-short(mSystemTime, 7)  = day(pdateTime).
+        put-short(mSystemTime, 9)  = calculatedHour.
+        put-short(mSystemTime, 11) = calculatedMinute.
+        put-short(mSystemTime, 13) = calculatedSecond.
+        put-short(mSystemTime, 15) = calculatedMsec.
                
-        return pSystemTime.       
+        return mSystemTime.       
     end method.       
     
     method private static character PopulateDynamicTimeInformation(pcName as character): 
-        define variable mDynamicStruct as memptr no-undo.
-        define variable iCurrentindex  as integer no-undo.
         /* Win32 Constant Codes */
-        define variable ERROR_SUCCESS       as integer initial 0   no-undo.
-        define variable ERROR_NO_MORE_ITEMS as integer initial 259 no-undo.
-        define variable iResult             as integer   no-undo.
-        define variable cStandardname       as character no-undo.
-        define variable mUtf16Struct        as memptr    no-undo.
+        var integer   ERROR_NO_MORE_ITEMS = 259.
+        var integer   ERROR_SUCCESS.  // 0 
+        var integer   iResult, ICurrentIndex.
+        var character cStandardname.
+        var memptr    mDynamicStruct, mUtf16Struct.
         
         do while true:
             /* Clear structure memory before each iteration pass */
@@ -243,12 +238,11 @@ class Pmfo.Util.TimeZoneUtil:
     
     
     method private static character ConvertToAnsii(putf16String as memptr):
-        define variable mTargetAnsi as memptr   no-undo.
-        define variable iTargetSize as integer  no-undo.
-        define variable iFinalBytes as integer  no-undo.
-        define variable cLongchar   as longchar no-undo.
-        set-size(mTargetAnsi) = 1. // should really be 0, but Progress does not allow this
-    
+        var integer  iFinalBytes, iTargetSize.
+        var longchar cLongChar.
+        var memptr   mTargetAnsi.
+	
+	set-size(mTargetAnsi) = 1. // should really be 0, but Progress does not allow this    
         // 1 first call to get the target size   
         // Never allocate wide buffers based purely on the get-size() or length of the input memptr. 
         // Multi-byte strings vary in length per character (UTF-8 strings use 1�4 bytes), whereas wide strings always take 
@@ -295,7 +289,4 @@ class Pmfo.Util.TimeZoneUtil:
             set-size(mTargetAnsi) = 0. 
         end.
     end method.    
-        
-    
-    
 end class.
