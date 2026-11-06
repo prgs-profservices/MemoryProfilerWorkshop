@@ -69,10 +69,11 @@ class Business.SupplierBE inherits BusinessEntity:
     end method.    
    
     method protected void ValidateSupplier(input dataset dsSupplier ):
-        define variable iDeleteSupplerIdNums as integer extent  no-undo. 
-        define variable oQuery               as IQueryGroup     no-undo.
-        define variable hPurchaseOrderTable  as handle          no-undo.
-        define variable oPurchaseOrderBE     as IBusinessEntity no-undo.
+        var integer[] iDeleteSupplerIdNums.
+        var handle    hPurchaseOrderTable.
+        
+        var IQueryGroup oQuery.
+        var IBusinessEntity oPurchaseOrderBE.
         
         // collect deleted supplierids   
         for each biSupplier where row-state(biSupplier) = row-deleted:
@@ -98,7 +99,6 @@ class Business.SupplierBE inherits BusinessEntity:
             oQuery = new QueryGroup().
             oQuery:AddEntry(new QueryPredicate("SupplierIDNum",QueryOperatorEnum:InList,iDeleteSupplerIdNums)).
             oQuery:AddEntry(new QueryPredicate("PoStatus",QueryOperatorEnum:Ne,EXPECTED_PO_STATUS_FOR_DELETE)).
-            // NOTE GetData(with output table does not support by-reference -    
             oPurchaseOrderBE:GetData(oQuery, output table-handle hPurchaseOrderTable).
             // if any records returned that are not received we cannot delete so throw error 
             if hPurchaseOrderTable:has-records then    
@@ -135,10 +135,11 @@ class Business.SupplierBE inherits BusinessEntity:
     
     // override to use the server dataset to fetch data from data access
     method protected override IGetDataResponse FetchData(input pRequest as IGetDataRequest, input-output dataset-handle phDataset):
-        define variable i as integer no-undo.
-        define variable oResponse as IGetDataResponse no-undo.
-        define variable oServerRequest as IGetDataRequest no-undo.
-        define variable oGetTableRequests as IGetDataTableRequest no-undo extent.
+        var integer i.
+        var IGetDataResponse oResponse.
+        var IGetDataTableRequest[] oGetTableRequests. 
+        var IGetDataRequest        oServerRequest. 
+        
         
         /*
         Throw not implemented  errror if extarnal dataset is passed. 
@@ -149,7 +150,6 @@ class Business.SupplierBE inherits BusinessEntity:
         */   
         if phDataset <> dataset dsSupplier:handle then 
             undo, throw new NotImplementedError("Submit of external dataset", "The SupplierBE internal dataset must be used to fetch suppliers.").
-     
         
         extent(oGetTableRequests) = dataset dsSupplierServer:num-buffers.
         // use the suppler request with request properties from client   
@@ -171,9 +171,11 @@ class Business.SupplierBE inherits BusinessEntity:
     
     // override to submit the server dataset with xrefs to data access 
     method protected override Object SubmitData(input poUpdateDataRequest as IUpdateDataRequest, input-output dataset-handle phDataset):
+        var Object oResponse.
         /*
         Throw not implemented  errror if external dataset is passed. 
-        Since another static dataset with the static ttSuppler is submitted to data access we can only allow the internal dataset to be submitted
+        Since another static dataset with the static ttSupplier is used for data access 
+        we only allow the internal dataset to be submitted
         Support for external would either require copy from the external to the internal or a dynamic dataset with a buffer for the static ttSupplier
         to send to data access   
         */   
@@ -183,14 +185,15 @@ class Business.SupplierBE inherits BusinessEntity:
         // create xrefs and items   
         CreateSupplierXrefsForSubmit(dataset-handle phDataset by-reference, input dataset dsSupplierServer by-reference).
         
-        super:SubmitData(poUpdateDataRequest,  input-output dataset dsSupplierServer by-reference).    
+        oResponse = super:SubmitData(poUpdateDataRequest,  input-output dataset dsSupplierServer by-reference).    
         
         if dataset dsSupplierServer:error then  
             ThrowDatasetError(dataset dsSupplierServer:handle). 
         
         // create supplier items to return to UI - pass true to empty first 
         CreateSupplierItems(dataset-handle phDataset by-reference, input dataset dsSupplierServer by-reference).
-    
+        
+        return oResponse.
     end method.
     
     /* Create data for server dataset from UI dataset 
