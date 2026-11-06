@@ -41,7 +41,7 @@ class Business.OrderBE inherits BusinessEntity:
     end method.    
    
     method protected void ValidateOrder(input dataset dsOrder ):
-        define variable dExtendedPrice as decimal no-undo.
+        var decimal dExtendedPrice.
         
         for each ttOrder where row-state(ttOrder) > 0:
            
@@ -71,17 +71,18 @@ class Business.OrderBE inherits BusinessEntity:
     
     // override to submit the server dataset with xrefs to dataacces 
     method protected override Object SubmitData(input poUpdateDataRequest as IUpdateDataRequest, input-output dataset-handle phDataset):
-        define variable hDataset as handle no-undo.
-        // use itembe to submit items with onorder updated  
+        var handle hDataset
+        .
+        // Get updated data from itembe to submit items with onorder together with order  
         if valid-object(ItemBE) then    
             hDataset = DatasetUtil:CreateDatasetFromMultipleDatasets(Array:ToArray(ItemBE:GetItemInventoryDataForSubmit(),phDataset)).
         else 
             hDataset = phDataset.
        
-        super:SubmitData(poUpdateDataRequest, input-output dataset-handle hDataset by-reference). 
+        return super:SubmitData(poUpdateDataRequest, input-output dataset-handle hDataset by-reference). 
         finally:
             /* Delete the hdataset if it is dynamic and was created for server only 
-               Do not delete if hdataset equals phdataset and is dynamci since it is 
+               Do not delete if hdataset equals phdataset and is dynamic since it is 
                needed for serialization to client */
             if valid-handle(hDataset) and hDataset <> phDataset and hDataset:dynamic then
                 delete object hDataset.
