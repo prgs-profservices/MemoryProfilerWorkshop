@@ -16,8 +16,6 @@ class Business.SupplierItemXrefBE inherits BusinessEntity:
 
     {schema/supplierItemXref.i}
 
-    {schema/purchaseOrderLine.i}
-    
     define dataset dsSupplierItemXref for ttSupplierItemXref.
 
     constructor SupplierItemXrefBE():
