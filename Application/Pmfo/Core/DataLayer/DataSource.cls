@@ -13,14 +13,19 @@
 block-level on error undo, throw.
 
 using Ccs.BusinessLogic.IQuerySortEntry from propath.
+using OpenEdge.Core.Collections.Collection from propath.
 using OpenEdge.Core.Collections.ICollection from propath.
 using OpenEdge.Core.Collections.IIterator from propath.
+using OpenEdge.Core.Collections.IList from propath.
+using OpenEdge.Core.Collections.List from propath.
 using OpenEdge.Core.StringConstant from propath.
 using Pmfo.Core.BusinessLogic.IGetDataTableRequest from propath.
 using Pmfo.Core.BusinessLogic.IQueryEntry from propath.
 using Pmfo.Core.BusinessLogic.IQueryPredicate from propath.
 using Pmfo.Core.BusinessLogic.IUpdateDataRequest from propath.
 using Pmfo.Core.BusinessLogic.QueryBuilder.QueryBuilder from propath.
+using Pmfo.Core.Common.IWarning from propath.
+using Pmfo.Core.Common.Warning from propath.
 using Pmfo.Core.DataLayer.DbQuery from propath.
 using Pmfo.Core.DataLayer.IDataSource from propath.
 using Pmfo.Core.DataLayer.IUpdateTarget from propath.
@@ -44,12 +49,7 @@ using Pmfo.Util.ServiceInfo from propath.
 using Pmfo.Util.StringUtil from propath.
 using Progress.Lang.AppError from propath.
 using Progress.Lang.Error from propath.
-using Pmfo.Core.Common.Warning from propath.
-using Pmfo.Core.Common.IWarning from propath.
-using OpenEdge.Core.Collections.IList from propath.
-using OpenEdge.Core.Collections.List from propath.
 using Progress.Lang.Object from propath.
-using OpenEdge.Core.Collections.Collection from propath.
 
 class Pmfo.Core.DataLayer.DataSource inherits DbQuery implements IDataSource, IUpdateTarget abstract: 
     
