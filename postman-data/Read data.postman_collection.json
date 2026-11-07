@@ -223,9 +223,9 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{BaseUrl}}orderlines",
+          "raw": "{{BaseUrl}}orderLines",
           "host": [
-            "{{BaseUrl}}orderlines"
+            "{{BaseUrl}}orderLines"
           ]
         }
       },
@@ -388,28 +388,51 @@
   ],
   "event": [
     {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "requests": {},
-        "exec": [
-          ""
-        ]
-      }
-    },
-    {
       "listen": "test",
       "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "requests": {},
         "exec": [
           "pm.test(\"Status code is 200\", function () {\r",
           "    pm.response.to.have.status(200);\r",
           "});\r",
-          "   "
-        ]
+          "\r",
+          "if (pm.response.code === 200) {\r",
+          "\r",
+          "    const contentType = pm.response.headers.get(\"Content-Type\");\r",
+          "\r",
+          "    // Bail unless the response declares JSON\r",
+          "    pm.test(\"Response is JSON\", function () {\r",
+          "        pm.expect(contentType).to.include(\"application/json\");\r",
+          "    });\r",
+          "\r",
+          "    if (contentType && contentType.includes(\"application/json\")) {\r",
+          "\r",
+          "        const json = pm.response.json();\r",
+          "\r",
+          "        const path = pm.request.url.path;\r",
+          "        const collectionName = path[path.length - 1];\r",
+          "\r",
+          "        pm.test(\"Response has response node\", function () {\r",
+          "            pm.expect(json).to.have.property(\"response\");\r",
+          "        });\r",
+          "\r",
+          "        if (json.response) {\r",
+          "\r",
+          "            pm.test(`Response has '${collectionName}' collection`, function () {\r",
+          "                pm.expect(json.response).to.have.property(collectionName);\r",
+          "            });\r",
+          "\r",
+          "            if (json.response[collectionName]) {\r",
+          "\r",
+          "                pm.test(`'${collectionName}' collection contains data`, function () {\r",
+          "                    pm.expect(json.response[collectionName])\r",
+          "                        .to.be.an(\"array\").that.is.not.empty;\r",
+          "                });\r",
+          "            }\r",
+          "        }\r",
+          "    }\r",
+          "}   "
+        ],
+        "type": "text/javascript"
       }
     }
   ]
