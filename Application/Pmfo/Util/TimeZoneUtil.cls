@@ -281,8 +281,5 @@ class Pmfo.Util.TimeZoneUtil:
                 return get-string(mTargetAnsi, 1).
             end.
         end.
-        finally:
-            set-size(mTargetAnsi) = 0. 
-        end.
     end method.    
 end class.
