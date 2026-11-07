@@ -159,9 +159,7 @@ class Pmfo.Core.DataLayer.DataSource inherits DbQuery implements IDataSource, IU
             end.
             return NextRowKey.
         end.     
-        protected set(pkey as char):
-            NextRowKey = pKey.
-        end.      
+        protected set.      
 
     define public  property Warnings  as IList   no-undo 
         get. 
@@ -752,8 +750,7 @@ class Pmfo.Core.DataLayer.DataSource inherits DbQuery implements IDataSource, IU
         define variable iSource as integer no-undo.
         
         if pRequest:NumRecords > 0 then 
-        do:
-             
+        do:             
                 //  if UseBeforeFillWithPaging = false then
                 // we need to set this also when UseBeforeFillWithPaging = false 
                 // otherwise AfterRow continiues to fill data (TODO research this)
