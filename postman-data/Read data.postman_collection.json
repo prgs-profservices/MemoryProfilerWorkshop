@@ -177,6 +177,17 @@
     },
     {
       "name": "Get items",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -205,6 +216,26 @@
     },
     {
       "name": "Get orders",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.variables.set(\"expectedChildCollection\", \"orderLines\");"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -233,6 +264,26 @@
     },
     {
       "name": "Get purchase orders",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "\r\n"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.variables.set(\"expectedChildCollection\", \"purchaseOrderLines\");"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -317,6 +368,17 @@
     },
     {
       "name": "Get suppliers",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.variables.set(\"expectedChildCollection\", \"items\");"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "header": [],
@@ -396,7 +458,7 @@
           "});\r",
           "\r",
           "if (pm.response.code === 200) {\r",
-          "\r",
+          "    const expectedChildCollection = pm.variables.get(\"expectedChildCollection\");\r",
           "    const contentType = pm.response.headers.get(\"Content-Type\");\r",
           "\r",
           "    // Bail unless the response declares JSON\r",
@@ -427,10 +489,27 @@
           "                    pm.expect(json.response[collectionName])\r",
           "                        .to.be.an(\"array\").that.is.not.empty;\r",
           "                });\r",
+          "                if (expectedChildCollection) {\r",
+          "                    pm.test(\r",
+          "                        `At least one node has ${expectedChildCollection} with data`,\r",
+          "                         function () {\r",
+          "\r",
+          "                            const hasChildCollection =\r",
+          "                                json.response[collectionName].some(\r",
+          "                                    node =>\r",
+          "                                        Array.isArray(node[expectedChildCollection]) &&\r",
+          "                                        node[expectedChildCollection].length > 0\r",
+          "                                );\r",
+          "\r",
+          "                            pm.expect(hasChildCollection).to.be.true;\r",
+          "                        }\r",
+          "                    );\r",
+          "                }\r",
           "            }\r",
           "        }\r",
           "    }\r",
-          "}   "
+          "}   \r",
+          "pm.variables.set(\"expectedChildCollection\", null);"
         ],
         "type": "text/javascript"
       }
