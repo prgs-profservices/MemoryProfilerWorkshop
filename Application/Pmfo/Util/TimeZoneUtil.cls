@@ -9,27 +9,23 @@
    Notes       : Highly experimantal. 
                  All time zone related functions in ABL uses the session:time-source
                  This may have different timezone and dates from here may conflict 
-                 with datetime-tz from regfular ABL   
+                 with datetime-tz from regfular ABL. 
+               - Only windows -   
  ----------------------------------------------------------------------*/
-
-
-
 block-level on error undo, throw.
 
 using Pmfo.Core.Error.BadRequestError from propath.
 using Pmfo.Core.Error.NotImplementedError from propath.
 
 class Pmfo.Util.TimeZoneUtil:
-    define public property cachemempr as memptr get. set.
-     
+    
     define public static property TimeZoneName as character no-undo  
         get():
             return TimeZoneName.     
         end. 
         set(pcName as character).
-            if TimeZoneName <> pcName then do: 
+            if TimeZoneName <> pcName then  
                 TimeZoneName = PopulateDynamicTimeInformation(pcName).
-            end.    
         end.
    
     // NOTE - caches a 420 byte memptr 
@@ -40,10 +36,9 @@ class Pmfo.Util.TimeZoneUtil:
             DynamicTimeZoneInformation = pTimeZone.
         end. 
         
-    
     /* time zone offset - readonly.
        Can be used to set session:timezone temporarily during a request that 
-       processes dates so that all ABL udatye processing uses this time zone
+       processes dates so that all ABL udate processing uses this time zone
        NOTE: Keep in mind that session:timezone will not reflect daylight time 
              switch. w 
        CAUTION: If you do, make sure to track what it was and set it back 
@@ -76,12 +71,12 @@ class Pmfo.Util.TimeZoneUtil:
         ( pSysType as memptr ):
      
         return datetime(
-            get-short(pSysType, 3), //month
-            get-short(pSysType, 7), //day
-            get-short(pSysType, 1), //year
-            get-short(pSysType, 9), //hour
-            get-short(pSysType, 11), //minute
-            get-short(pSysType, 13), //second
+            get-short(pSysType, 3), // month
+            get-short(pSysType, 7), // day
+            get-short(pSysType, 1), // year
+            get-short(pSysType, 9), // hour
+            get-short(pSysType, 11), // minute
+            get-short(pSysType, 13), // second
             get-short(pSysType, 15)  // millisecond
             ).
           
@@ -96,9 +91,9 @@ class Pmfo.Util.TimeZoneUtil:
         
         run SystemTimeToTzSpecificLocalTimeEx in windowsAPI
             (DynamicTimeZoneInformation,
-            mSysTime,
-            mLocaltime,
-            output iResult).
+             mSysTime,
+             mLocaltime,
+             output iResult).
         
         return GetDateTime(mLocaltime).
         finally:
@@ -108,7 +103,7 @@ class Pmfo.Util.TimeZoneUtil:
     end method.     
     
     // Get local time with time zone offset 
-    // since this class xan override the opsys timezone converting the timezone offset 
+    // since this class can override the opsys timezone converting the timezone offset 
     // must also come from here 
     method public static datetime-tz GetLocalTimeTZFromSysTime(pdate as datetime): 
         var datetime dLocalDateTime = GetLocalTimeFromSysTime(pdate).
@@ -146,7 +141,7 @@ class Pmfo.Util.TimeZoneUtil:
     end method.     
     
     // get a SYSTIME memptr from ABL datetime
-    method public static memptr GetSysTime 
+    method private static memptr GetSysTime 
         (pdateTime as datetime  ):
         
         /* Define trackers for the arithmetic breakdown */
@@ -158,13 +153,13 @@ class Pmfo.Util.TimeZoneUtil:
         
         var memptr mSystemTime.
         
-	set-size(mSystemTime) = 16.        
-	
-	/* 2. Break down the time components mathematically */
-	calculatedMsec   = millisecondsSinceMidnight modulo 1000.
-	calculatedSecond = truncate(millisecondsSinceMidnight / 1000, 0) modulo 60.
-	calculatedMinute = truncate(millisecondsSinceMidnight / 1000 / 60, 0) modulo 60.
-	calculatedHour   = truncate(millisecondsSinceMidnight / 1000 / 60 / 60, 0).
+    	set-size(mSystemTime) = 16.        
+    	
+    	/* 2. Break down the time components mathematically */
+    	calculatedMsec   = millisecondsSinceMidnight modulo 1000.
+    	calculatedSecond = truncate(millisecondsSinceMidnight / 1000, 0) modulo 60.
+    	calculatedMinute = truncate(millisecondsSinceMidnight / 1000 / 60, 0) modulo 60.
+    	calculatedHour   = truncate(millisecondsSinceMidnight / 1000 / 60 / 60, 0).
         
         /* 3. Assign the mathematically extracted variables safely into the Win32 structure */
         put-short(mSystemTime, 1)  = year(pdateTime).
@@ -181,21 +176,20 @@ class Pmfo.Util.TimeZoneUtil:
     
     method private static character PopulateDynamicTimeInformation(pcName as character): 
         /* Win32 Constant Codes */
-	var integer   ERROR_NO_MORE_ITEMS = 259.
-	var integer   ERROR_SUCCESS.  // 0 
-	var integer   iResult, ICurrentIndex.
-	var character cStandardname.        
-	var memptr    mDynamicStruct, mUtf16Struct.        
-	
-	do while true:
+    	var integer   ERROR_NO_MORE_ITEMS = 259.
+    	var integer   ERROR_SUCCESS.  // 0 
+    	var integer   iResult, ICurrentIndex.
+    	var character cStandardname.        
+    	var memptr    mDynamicStruct, mUtf16Struct.        
+    	
+    	do while true:
             /* Clear structure memory before each iteration pass */
             set-size(mDynamicStruct) = 0.    
             set-size(mDynamicStruct) = 432. 
              
             /* Call the Enumerator */
-            run EnumDynamicTimeZoneInformation in windowsAPI 
-                (
-                input ICurrentIndex, 
+            run EnumDynamicTimeZoneInformation in windowsAPI
+               (input ICurrentIndex, 
                 input mDynamicStruct,
                 output iResult).
    
@@ -209,16 +203,7 @@ class Pmfo.Util.TimeZoneUtil:
                 /* Check if this matches the remote time zone you are looking for */
                 if cStandardname = pcName then do: 
                     DynamicTimeZoneInformation = mDynamicStruct.
-                    /*                                                                                          */
-                    /*                    message                                                               */
-                    /*                                                                                          */
-                    /*                        "Found Target Name"  cStandardname skip                           */
-                    /*                        "Index Position: " icurrentIndex skip                             */
-                    /*                        "Remote Base Bias (Minutes): " get-long(mDynamicStruct, 1) skip   */
-                    /*                        "Dynamic DST Disabled here? " (get-byte(mDynamicStruct, 429) <> 0)*/
-                    /*                        view-as alert-box information title "Remote Time Zone Lookup".    */
                     // return the requested name (called from TimeZoneName setter)     
-                            
                     return pcname.
                 end. 
             end.
@@ -232,28 +217,28 @@ class Pmfo.Util.TimeZoneUtil:
         end finally.    
     end method.    
     
-    
     method private static character ConvertToAnsii(putf16String as memptr):
         var integer  iFinalBytes, iTargetSize.
-        var longchar cLongChar.
         var memptr   mTargetAnsi.
 	
-	set-size(mTargetAnsi) = 1. // should really be 0, but Progress does not allow this    
-        // 1 first call to get the target size   
-        // Never allocate wide buffers based purely on the get-size() or length of the input memptr. 
-        // Multi-byte strings vary in length per character (UTF-8 strings use 1�4 bytes), whereas wide strings always take 
-        // 2 bytes (wchar_t) per character element.
+    	set-size(mTargetAnsi) = 1. // should really be 0, but Progress does not allow this    
+        
+        /* 1 first call to get the target size   
+             Never allocate wide buffers based purely on the get-size() or length of the input memptr. 
+             Multi-byte strings vary in length per character (UTF-8 strings use 1�4 bytes), whereas wide strings always take 
+             2 bytes (wchar_t) per character element. */
+             
         run WideCharToMultiByte in windowsAPI
-            (input  0,             /* CodePage (CP_ACP) */
-            input  0,             /* dwFlags */
-            input  putf16String,  /* lpWideCharStr (Your source pointer) */
-            input  -1,            /* cchWideChar (Read until null terminator) */
+           (input  0,             // code page = 0 is default ansi of opsys 
+            input  0,             // conversion type 
+            input  putf16String,  // source pointer
+            input  -1,            // read until terminator -1 until null 
             input  mTargetAnsi,   /* PASS UNALLOCATED MEMPTR - not possible for progress memptr
                                      (we cheat and set it to 1 above / NULL) */
-            input  0,             /* cbMultiByte (Pass 0 to request size calculation) */
-            input  0,             /* lpDefaultChar */
-            input  0,             /* lpUsedDefaultChar */
-            output iTargetSize /* Returns the count of bytes required */
+            input  0,             // target size - Pass 0 to request size calculation */
+            input  0,             /* default Char (optioal )*/
+            input  0,             /* Used Default Char (optinoal) */
+            output iTargetSize // Returns the count of bytes required 
             ).
     
         
@@ -265,7 +250,7 @@ class Pmfo.Util.TimeZoneUtil:
 
             // Convert the utf-16 string to mTargetAnsi as single byte 
             run WideCharToMultiByte in windowsAPI
-                (input  0,
+               (input  0,
                 input  0,
                 input  putf16String,
                 input  -1,
@@ -273,7 +258,7 @@ class Pmfo.Util.TimeZoneUtil:
                 input  iTargetSize, // Pass the exact byte length we just allocated 
                 input  0,
                 input  0,
-                output iFinalBytes
+                output iFinalBytes  // count of bytes uaed
                 ).
             
             if iFinalBytes > 0 then 
