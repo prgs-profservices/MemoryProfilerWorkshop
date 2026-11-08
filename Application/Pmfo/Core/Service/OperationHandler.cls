@@ -150,7 +150,6 @@ class Pmfo.Core.Service.OperationHandler abstract implements IOperationHandler,I
         define variable oHeader               as HttpHeader            no-undo.
         define variable lSetEntity            as logical               no-undo.
         define variable cNames                as character extent      no-undo.
-        define variable iComNum               as integer               no-undo.
         // allow subclasses to override
         SetRequest(poRequest).
         
@@ -207,12 +206,7 @@ class Pmfo.Core.Service.OperationHandler abstract implements IOperationHandler,I
                     do: 
                         poResponse:ContentType = "text/plain".
                         cnames = jsonResponse:GetNames().
-                        iComNum = integer(poRequest:URI:GetQueryMap():Get("ComNum")) no-error. 
-                        /** uncomment this if PLC improves error handling
-                                   if error-status:get-number(1) = 76 then 
-                                       undo, throw new IllegalOperationError("URL Query Option ComNum must be an integer"). 
-                                   **/
-                        poResponse:Entity = GetTextPlainResponse(jsonResponse,iComNum,'&').
+                        poResponse:Entity = GetTextPlainResponse(jsonResponse,'&').
                         lSetEntity = true.
                     end.
                 end. 
@@ -245,30 +239,22 @@ class Pmfo.Core.Service.OperationHandler abstract implements IOperationHandler,I
      
     end method. /* Execute */                                        
     
-    method protected String GetTextPlainResponse(pJson as JsonObject, piComNum as integer, pcDLm as character):
+    method protected String GetTextPlainResponse(pJson as JsonObject, pcDLm as character):
         define variable cNames as character extent no-undo.
         cnames = pJson:GetNames().
-        return GetTextPlainResponse(JsonUtil:GetTextPlain(pJson:GetJsonObject(cnames[1]), pcDlm), piComNum, pcDLm).
+        return GetTextPlainResponse(JsonUtil:GetTextPlain(pJson:GetJsonObject(cnames[1]), pcDlm), pcDLm).
     end.    
     
-    method protected String GetTextPlainResponse(pcText as character, piComNum as integer, pcDLm as character):
+    method protected String GetTextPlainResponse(pcText as character, pcDLm as character):
         define variable i      as integer no-undo.
         define variable cEntry as character no-undo.
         define variable iEntries as integer no-undo.
-        if piComNum > 0 then 
-        do: 
-            if index(subst("&1&2",pcDlm,pcText),subst("&1&2=",pcDlm,"ComNum")) = 0 then        
-                pcText = subst("&1=&2&3&4","ComNum",piComnum,pcDLm,pcText).  
-            else do:
-                iEntries = num-entries(pcText,pcDlm).
-                do i = 1 to iEntries:
-                    cEntry = entry(i,pcText,pcDlm).
-                    if cEntry begins "ComNum=" then 
-                    do:
-                        entry(i,pcText,pcDlm) = subst("&1=&2","ComNum",piComnum).
-                        leave.
-                    end.        
-                end. 
+        iEntries = num-entries(pcText,pcDlm).
+        do i = 1 to iEntries:
+            cEntry = entry(i,pcText,pcDlm).
+            if cEntry matches "*=*" then 
+            do:
+                entry(i,pcText,pcDlm) = subst("&1=&2",entry(1,cEntry,"="),entry(3,cEntry,"=")).
             end.
         end. 
         return new String(pcText).   

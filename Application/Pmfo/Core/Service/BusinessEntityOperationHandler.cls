@@ -214,10 +214,9 @@ class Pmfo.Core.Service.BusinessEntityOperationHandler inherits OperationHandler
  
         oResponse = oBusinessEntity:UpdateData(input-output dataset-handle hDataset by-reference,oUpdateDataRequest).
         
-             
         oJsonResponse = new JsonObject().
         hDataset:write-json ("JsonObject",oJsonResponse,no,?,no,yes).
-        if valid-object(oBusinessEntity:WarningMessages) then
+        if valid-object(oBusinessEntity:WarningMessages) and oBusinessEntity:WarningMessages:HasData then
         do:
             ojsonResponse:Add(WarningEntityName,oBusinessEntity:WarningMessages:ToJsonArray()).
             lReturnDataAfterDelete = true.              
