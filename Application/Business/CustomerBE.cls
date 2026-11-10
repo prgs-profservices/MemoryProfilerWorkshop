@@ -13,15 +13,13 @@ block-level on error undo, throw.
 using Ccs.BusinessLogic.QueryOperatorEnum from propath.
 using Pmfo.Core.BusinessLogic.BusinessEntity from propath.
 using Pmfo.Core.BusinessLogic.IBusinessEntity from propath.
+using Pmfo.Core.BusinessLogic.IQueryPredicate from propath.
 using Pmfo.Core.BusinessLogic.IUpdateDataRequest from propath.
 using Pmfo.Core.BusinessLogic.QueryPredicate from propath.
+using Pmfo.Core.Error.BadRequestError from propath.
 using Pmfo.Core.Manager.ServiceManager from propath.
 using Pmfo.Util.BufferUtil from propath.
-using Pmfo.Util.DatasetUtil from propath.
-using Pmfo.Core.BusinessLogic.IQueryPredicate from propath.
 using Pmfo.Util.StringUtil from propath.
-using Progress.Lang.Object from propath.
-using Pmfo.Core.Error.BadRequestError from propath.
 
 class Business.CustomerBE inherits BusinessEntity:
 
