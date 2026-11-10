@@ -171,7 +171,6 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
             CanRead = plCanRead.
         end.    
     
-    
     define public property ClientOnly     as logical        no-undo get. protected set.
     
     define public property WarningMessages as IWarningMessages no-undo 
@@ -327,12 +326,19 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
        phDataset = defaultDataset. 
     end method.    
     
+    // request for all data (without returning the dataset) 
     method public void GetData():    
         define variable hDataset as handle no-undo.
         hdataset = DefaultDataset.
         GetData(output dataset-handle hdataset by-reference).
     end method.    
     
+    // fill all data for the requested tables     
+    method public void GetData( input poRequest as IGetDataRequest):
+        GetData(poRequest,output dataset-handle DefaultDataset by-reference).
+    end method.
+     
+    // request for all data in dataset
     method public IGetDataResponse GetData( output dataset-handle phDataset ):
         define variable oRequest as IGetDataRequest no-undo.
         define variable oResponse as IGetDataResponse no-undo. 
@@ -344,136 +350,128 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
         do:
             phdataset = DefaultDataset.
         end.    
+        // create table requests for all buffers in dataset
         extent(oTableRequests) = phDataset:num-buffers.
         do i = 1 to phDataset:num-buffers:
             oTableRequests[i] = new GetDataTableRequest(phDataset:get-buffer-handle(i):table-handle:name).
         end.
             
         oRequest = new GetDataRequest(oTableRequests).
-        this-object:Clear().
-        oResponse = GetData(oRequest, output dataset-handle phDataset by-reference).
-     
-     //   if phdataset = DefaultDataset then
-      //      AllDataIsFetched = true.
-        return oResponse.
+        return GetData(oRequest, output dataset-handle phDataset by-reference).
     end method. 
     
+    // request using IGetDataRequest that can have request for some or all tables in the dataset    
+    // All GetData overloads are funneled through this method 
+    method public IGetDataResponse GetData( input pRequest as IGetDataRequest, output dataset-handle phDataset ).
+        define variable oResponse as IGetDataResponse no-undo.
         
-    method public IGetDataResponse GetData( input pRequest as IGetDataRequest,output dataset-handle phDataset ).
-        define variable oGetResponse         as IGetDataResponse no-undo.
         AssertInitialized().    
+         
         if not valid-handle(phDataset) then
         do:
             phdataset = DefaultDataset.
         end.    
-        
+       
+        this-object:Clear().
+       
         if ClientOnly = true then 
-            oGetResponse = CreateDataResponse(pRequest). 
+            oResponse = CreateDataResponse(pRequest). 
         else  
-            oGetResponse = FetchData(pRequest, input-output dataset-handle phdataset by-reference).
+            oResponse = FetchData(pRequest, input-output dataset-handle phdataset by-reference).
       
-        ReceiveData(pRequest, oGetResponse, phDataset).
-        if valid-object(oGetResponse) then 
-            oGetResponse:SetRequestProperties(pRequest).   
+        ReceiveData(pRequest, oResponse, phDataset).
         
-        return oGetResponse.
+        if valid-object(oResponse) then 
+            oResponse:SetRequestProperties(pRequest).   
+        
+        return oResponse.
          
     end method.
     
-    /* for requests for just the table - does not support by-reference 
-      (see comments in GetData(IGetDataTableRequest, output table-handle phTable) */
-    method public logical GetData( input pQueryEntry as IQueryEntry, output table-handle phTable): 
-        define variable oTableRequest as IGetDataTableRequest no-undo.
-        define variable oRequest      as IGetDataRequest      no-undo.
+    /* support passing  table request for the top table only - fill all tables */   
+    method public IGetDataResponse GetData( input pTableRequest as IGetDataTableRequest, output dataset-handle phDataset):
+        define variable oRequest       as IGetDataRequest  no-undo.
+        define variable oTableRequests as IGetDataTableRequest extent no-undo.
+        define variable i              as integer no-undo.
+      
+        if pTableRequest:TableName <> DefaultDataset:get-buffer-handle(1):table-handle:name then 
+            undo, throw new IllegalArgumentError(subst("Table request for table '&1' passed to Business Entity for table '&2'",pTableRequest:TableName,Datasets[1]:get-buffer-handle(1):table-handle:name)).
         
-        oTableRequest = new GetDataTableRequest(Datasets[1]:get-buffer-handle(1):table-handle:name).
-        oTableRequest:AddQueryEntry(pQueryEntry).
-        oRequest = new GetDataRequest(oTableRequest).
-        return GetData(oTableRequest, output table-handle phTable by-reference).
+        extent(oTableRequests) = phDataset:num-buffers.
+        
+        oTableRequests[1] = pTableRequest.
+        
+        // create table requests for all other buffers in the dataset
+        do i = 2 to phDataset:num-buffers:
+            oTableRequests[i] = new GetDataTableRequest(phDataset:get-buffer-handle(i):table-handle:name).
+        end.
+            
+        oRequest = new GetDataRequest(pTableRequest).
+        
+        return GetData(oRequest, output dataset-handle phDataset by-reference).
     end method.
     
-    /* for requests for just the table - does not support by-reference 
-      (see comments in GetData(IGetDataTableRequest, output table-handle phTable) */
+    /* support passing query for the top table only - fill all tables */   
     method public IGetDataResponse GetData( input pQueryEntry as IQueryEntry, output dataset-handle phDataset): 
         define variable oTableRequest as IGetDataTableRequest no-undo.
         define variable oRequest      as IGetDataRequest      no-undo.
         
-        oTableRequest = new GetDataTableRequest(Datasets[1]:get-buffer-handle(1):table-handle:name).
+        oTableRequest = new GetDataTableRequest(DefaultDataset:get-buffer-handle(1):table-handle:name).
         oTableRequest:AddQueryEntry(pQueryEntry).
-        oRequest = new GetDataRequest(oTableRequest).
+        // pass the table request to the method that will add request for all the other tables in the dataset 
         return GetData(oTableRequest, output dataset-handle phDataset by-reference).
     end method.
-    
-    method public IGetDataResponse GetData( input pTableRequest as IGetDataTableRequest, output dataset-handle phDataset):
-        define variable oRequest    as IGetDataRequest  no-undo.
-        
-        if pTableRequest:TableName <> DefaultDataset:get-buffer-handle(1):table-handle:name then 
-            undo, throw new IllegalArgumentError(subst("Table request for table '&1' passed to Business Entity for table '&2'",pTableRequest:TableName,Datasets[1]:get-buffer-handle(1):table-handle:name)).
-       
-        oRequest = new GetDataRequest(pTableRequest).
-        return GetData(oRequest, output dataset-handle phDataset by-reference).
-    end method.
-    
-    /* Request for the table - does not support by-reference
-      NOTE: It is possible to extend this to support by-reference by creating a dynamic
+ 
+    /***************** GetData methods with output table - does not support by-referece *****
+      NOTE: It is possible to extend these  to support by-reference by creating a dynamic
             dataset and add the passed buffer to the dataset and pass the 
-            dataset to the data access. This dataaset would have to be deleted 
+            dataset to the data access. This dataaset would then have to be deleted 
             before rerturning the table. 
-            This would be convenient, but it is nore efficient to use 
-            a GetData method that returns the dataset.              
-    */          
-    method public logical GetData( input pTableRequest as IGetDataTableRequest, output table-handle phTable):
-        define variable oRequest    as IGetDataRequest  no-undo.
+          - This would be convenient, but it is nore efficient to use a GetData method that 
+            returns the dataset if by-reference is desired/needed.              
+    ******************************************************************************************/ 
+    
+    // Request for all records of the main table - does not support by-reference
+    method public void GetData( output table-handle phTable ):
+        define variable oTableRequest as IGetDataTableRequest  no-undo.
+        
+        oTableRequest = new GetDataTableRequest(DefaultDataset:get-top-buffer(1):table-handle:name).
+        
+        GetData(oTableRequest,output table-handle phTable by-reference).
+          
+    end method.     
+    
+    // Request for the table - does not support by-reference
+    method public IGetDataTableResponse GetData( input pTableRequest as IGetDataTableRequest, output table-handle phTable):
+        define variable oRequest  as IGetDataRequest  no-undo.
+        define variable oResponse as IGetDataResponse no-undo.
         
         if pTableRequest:TableName <> DefaultDataset:get-buffer-handle(1):table-handle:name then 
             undo, throw new IllegalArgumentError(subst("Table request for table '&1' passed to Business Entity for table '&2'",pTableRequest:TableName,Datasets[1]:get-buffer-handle(1):table-handle:name)).
-       
+        
+        if DefaultDataset:num-top-buffers > 1 then 
+            undo, throw new IllegalArgumentError(subst("Request to GetData with output table-handle in Resource &1 that has more than one top buffer in the default dataset",Resource)).
+        
         AssertTableOutput(input phTable).
         
+        // create request for one table only
         oRequest = new GetDataRequest(pTableRequest).
         
-        this-object:Clear(). // clear for request for table 
-        
-        GetData(oRequest). 
+        oResponse = GetData(oRequest,output dataset-handle DefaultDataset by-reference). 
         
         phTable = DefaultDataset:get-top-buffer (1):table-handle. 
         
-        return phTable:has-records.     
+        return oResponse:TableResponses[1].     
     end method.
     
-    /* Request for the table - does not support by-reference
-      NOTE: It is possible to extend this to support by-reference by creating a dynamic
-            dataset and add the passed buffer to the dataset and pass the 
-            dataset to the data access. This dataset would have to be deleted 
-            before returning the table. 
-            This would be convenient, but it is more efficient to use 
-            a GetData method that returns the dataset that is defined here.              
-    */          
-    method public logical GetData( output table-handle phTable ):
-        define variable hNewDataset     as handle no-undo.
-           
-        if DefaultDataset:num-top-buffers > 1 then 
-            undo, throw new IllegalArgumentError(subst("Request to GetData(output table-handle) in Resource &1 that has more than one top buffer in the default dataset",Resource)).
-        
-        AssertTableOutput(phtable). 
-        
-        this-object:Clear(). // clear for request for table 
-        
-        GetData(output dataset-handle DefaultDataset by-reference).
-        phTable = DefaultDataset:get-top-buffer (1):table-handle.
-        
-        return true. // errors are thrown for all unsupported cases    
-    end method.     
     
-    
-    method public logical GetData( input poRequest as IGetDataRequest):
-        define variable hDataset as handle no-undo.
-        hdataset = DefaultDataset.
-        GetData(poRequest,output dataset-handle hdataset by-reference).
-      
-        return hDataset:get-buffer-handle(poRequest:TableRequests[1]:tablename):table-handle:has-records.
+    /* request for the table - does not support by-reference  */
+    method public IGetDataTableResponse GetData( input pQueryEntry as IQueryEntry, output table-handle phTable): 
+        define variable oTableRequest as IGetDataTableRequest no-undo.
+        oTableRequest = new GetDataTableRequest(DefaultDataset:get-buffer-handle(1):table-handle:name).
+        oTableRequest:AddQueryEntry(pQueryEntry).
+        return GetData(oTableRequest, output table-handle phTable by-reference).
     end method.
-    
     
     method public IGetDataResponse CreateDataResponse(poRequest as IGetDataRequest):
         define variable iTable as integer no-undo.
@@ -583,8 +581,8 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
     end method.
     
     method protected IGetDataResponse FetchData(input pRequest as IGetDataRequest, input-output dataset-handle phDataset):        
-        // input-output is to pass schema since all Datasources used reference-only- 
-        // get rid of data - if we need to support append the add dedicated support somehow   
+        // input-output is to pass schema since all Datasources use reference-only- 
+        // get rid of data - if we need to support append then add dedicated api   
         this-object:Clear().
         return DataAccess:FetchData(pRequest, input-output dataset-handle phdataset).
     end method.
@@ -600,7 +598,7 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
         Initialized = true. 
     end method.    
    
-    method public override void Dispose(). // IService
+    method public final override void Dispose(). // IService
         Destroy().
     end method.    
     
