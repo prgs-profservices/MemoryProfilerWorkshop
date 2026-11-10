@@ -34,8 +34,7 @@ class DataSource.TimeSheetDS inherits DataSource:
     ------------------------------------------------------------------------------*/
 
     method public character GetStringTime(pDatetime as datetime,output pTimeIsPm as logical):
-        define variable cString as character no-undo.
-        cString = replace(string(interval (pDatetime,date(pDatetime),"seconds"),"hh:mm"),":","").
+        var character cString = replace(string(interval (pDatetime,date(pDatetime),"seconds"),"hh:mm"),":","").
         if integer(cString) lt 0100 then
             cString = string(integer(cString) + 1200).
         if integer(cString) ge 1300 then do:    
@@ -53,26 +52,21 @@ class DataSource.TimeSheetDS inherits DataSource:
     end method.
 
     method override protected void PrepareBuffer( input pBuffer as handle ):
-        define variable hTable as handle no-undo.
+        var handle hTable = pBuffer:table-handle.
         pBuffer:set-callback("After-Row-fill","AfterRow").
-        hTable = pBuffer:table-handle.
         this-object:Bind (table-handle hTable bind).        
     end method.
     
     method override protected void PrepareSaveBuffer( input pBuffer as handle ):
-        define variable hTable as handle no-undo.
-        
-        hTable = pBuffer:table-handle.
+        var handle hTable = pBuffer:table-handle.
         this-object:Bind (table-handle hTable bind).        
     end method.
     
     // override to manage the timein and timeput date tiem fields not mapped 
     // database fields directly
     method override protected void WriteEndTransValidate( input dataset-handle  phDataset):
-        define variable cStringIn  as character no-undo.
-        define variable cStringOut as character no-undo.
-        define variable lIsTimeInPM as logical no-undo. 
-        define variable lIsTimeOutPM as logical no-undo.   
+        var character cStringIn, cStringOut.
+        var logical lIsTimeInPM, lIsTimeOutPM.   
         
         findSource(exclusive-lock).
         
@@ -108,18 +102,14 @@ class DataSource.TimeSheetDS inherits DataSource:
            TimeSheet.PMTimeOut = cStringOut.
         else     
            TimeSheet.AMTimeOut = cStringOut.
-        
-        
     end method.
     
     
     method public override void AfterRow(input dataset-handle phDataset):
-        define variable cTimeIn as character init "00:00" no-undo.  
-        define variable cTimeOut  as character no-undo.
-        define variable dDateOut as date  no-undo.  
-        define variable iSec as integer no-undo.
-        
-   
+        var character cTimeIn = "00:00", cTimeOut.   
+        var date dDateOut.   
+        var integer iSec.
+       
         if TimeSheet.AMTimeIn > "" then do:
             if TimeSheet.AMTimeIn begins "12" then
                 iSec = DateUtil:GetTimeInSecondsFromHoursAndMinutes(integer(substring(TimeSheet.AMTimeIn,4))). 
