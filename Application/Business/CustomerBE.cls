@@ -19,6 +19,9 @@ using Pmfo.Core.Manager.ServiceManager from propath.
 using Pmfo.Util.BufferUtil from propath.
 using Pmfo.Util.DatasetUtil from propath.
 using Pmfo.Core.BusinessLogic.IQueryPredicate from propath.
+using Pmfo.Util.StringUtil from propath.
+using Progress.Lang.Object from propath.
+using Pmfo.Core.Error.BadRequestError from propath.
 
 class Business.CustomerBE inherits BusinessEntity:
 
@@ -26,7 +29,9 @@ class Business.CustomerBE inherits BusinessEntity:
     
     {schema/salesrep.i}
     {schema/state.i}
-    {schema/invoice.i}
+
+    {schema/invoice.i reference-only}
+    {schema/order.i reference-only}
     
     define dataset dsCustomer for ttCustomer.
 
@@ -43,8 +48,9 @@ class Business.CustomerBE inherits BusinessEntity:
         ValidateDelete(input table ttCustomer by-reference).   
     end method.
     
-    /* define ttCustomer as parameter since it may not be the internally defined ttCustomer 
-       ttSalesRep and ttState are internal so not paramter needed */ 
+   /* define ttCustomer as parameter since the BE supports managing 
+       an externally defined ttCustomer table with same schema.  
+       ttSalesRep and ttState are internal so no parameter is needed */ 
     method protected void ValidateUpdate(input table ttCustomer):
         define buffer bSalesRep for ttSalesRep.
         
@@ -54,10 +60,10 @@ class Business.CustomerBE inherits BusinessEntity:
               
         // if we do not already have states copy all to the temp-table here  
         if not can-find(first ttState) then
-            FetchData(temp-table ttState:serialize-name, output table ttState).
+            FetchTable(temp-table ttState:serialize-name, output table ttState).
         
         // Copy to the ttSalesrep defined here 
-        FetchData(temp-table ttSalesrep:serialize-name, output table ttSalesRep).
+        FetchTable(temp-table ttSalesrep:serialize-name, output table ttSalesRep).
         
         for each ttCustomer where row-state(ttCustomer) > 0:
             if row-state(ttCustomer) = row-created 
@@ -137,54 +143,62 @@ class Business.CustomerBE inherits BusinessEntity:
         end. // for each ttCustomer where row-state(ttCustomer) > 0:
     end method. // ValidateUpdate    
     
-     /* define ttCustomer as parameter since it may not be the internally defined ttCustomer 
-        ttSalesRep and ttState are internal so not paramter needed */ 
+    /* define ttCustomer as parameter since the BE supports managing 
+       an externally defined ttCustomer table with same schema. */ 
     method protected void ValidateDelete(input table ttCustomer):
-        define variable oInvoiceBE    as IBusinessEntity no-undo.
-        define variable oOrderBE      as IBusinessEntity no-undo.
-        define variable hOrderTable   as handle no-undo.
-        define variable lHasOrders    as logical no-undo.
-        define variable oQuery        as IQueryPredicate no-undo.
+        var handle hOrderTable, hInvoiceTable.
+        var IQueryPredicate oQuery. 
         
         // start the BEs needed to check if related data prevents delete
-        oInvoiceBE = ServiceManager:CreateBusinessEntity("invoices").
-        oOrderBE   = ServiceManager:CreateBusinessEntity("orders").
+        var IBusinessentity oInvoiceBE = ServiceManager:CreateBusinessEntity("invoices").
+        var IBusinessentity oOrderBE   = ServiceManager:CreateBusinessEntity("orders").
         
         for each biCustomer where row-state(biCustomer) = row-deleted:
             oQuery = new QueryPredicate("CustNum",QueryOperatorEnum:Eq,biCustomer.CustNum).
-                  
-            oInvoiceBE:GetData(oQuery,output table ttInvoice). 
-            // as of current no need to use ttOrder data TODO? add list of open orders to message    
-            oOrderBE:GetData(oQuery,output table-handle hOrderTable).
-            lHasOrders = hOrderTable:has-records.
             
-            for each ttInvoice where ttInvoice.CustNum = biCustomer.CustNum:  
-                // is invoice paid?
-                if ttInvoice.amount <= ttInvoice.totalpaid + ttInvoice.adjustment then
-                    if lHasOrders = false then 
-   /* NEXT! */          next. // ok to delete if no orders    
-                    else 
-                        ThrowOutstandingOrdersError(buffer biCustomer:handle).
-                else 
-                    ThrowBufferError(buffer biCustomer:handle,
-                                     substitute("Outstanding Unpaid Invoice Exists, cannot delete Customer &1",biCustomer.custnum)).  
+            oInvoiceBE:GetData(oQuery,output table-handle hInvoiceTable).
+            AssertPaidInvoices(biCustomer.CustNum, input table-handle hInvoiceTable by-reference). 
             
-            end.
-            
-            if lHasOrders then
-                ThrowOutstandingOrdersError(buffer biCustomer:handle).
+            oOrderBE:GetData(oQuery,output table-handle hOrderTable). 
+            AssertNoOutstandingOrders(biCustomer.CustNum, input table-handle hOrderTable by-reference).
         end.
         finally:
-            empty temp-table ttInvoice.
+            if valid-handle(hInvoiceTable) then 
+                delete object hInvoiceTable.
             if valid-handle(hOrderTable) then 
                 delete object hOrderTable.
-        end.    
+        end finally.
     end method. //  ValidateDelete
     
-    method protected void ThrowOutstandingOrdersError(phBiHandle as handle): 
-        ThrowBufferError(phBiHandle,
-                         substitute ("Open orders exist for Customer &1. Cannot delete.",phBiHandle::CustNum)).  
+    method protected void AssertPaidInvoices(piCustnum as integer, input table ttInvoice):
+        var character cUnpaidInvoiceNums.
+        
+        for each ttInvoice where ttInvoice.CustNum = piCustnum: 
+            if ttInvoice.amount > ttInvoice.totalpaid + ttInvoice.adjustment then 
+               cUnpaidInvoiceNums = left-trim(substitute("&1,&2",cUnpaidInvoiceNums,ttInvoice.InvoiceNum),",").
+        end.
+        if cUnpaidInvoiceNums > "" then
+            undo, throw new BadRequestError(
+                substitute("Customer &1 has unpaid invoice&2: &3 and cannot be deleted.",
+                            piCustNum,
+                            if num-entries(cUnpaidInvoiceNums) > 1 then "s" else "",
+                            StringUtil:GetMessageFromEntries(cUnpaidInvoiceNums))
+                           ).
+    end method.    
     
+    method protected void AssertNoOutstandingOrders(piCustNum as integer,input table ttOrder):
+        var character cOrderNums.
+        
+        for each ttOrder where ttOrder.CustNum = piCustNum:
+            cOrderNums  = left-trim(substitute("&1,&2",cOrderNums,ttOrder.OrderNum),",").
+        end.
+        if cOrderNums > "" then     
+            undo, throw new BadRequestError(
+                substitute("Customer &1 has existing order&2: &3 and cannot be deleted.",
+                            piCustNum,
+                            if num-entries(cOrderNums) > 1 then "s" else "",
+                            StringUtil:GetMessageFromEntries(cOrderNums))
+                           ).  
     end method.
     
     // get customer key value info for error
@@ -214,12 +228,9 @@ class Business.CustomerBE inherits BusinessEntity:
     end method.     
     
     // Fetch all data for a table using public name 
-    method protected void FetchData(pcService as character, output table-handle phTable):
-        define variable oBE      as IBusinessEntity no-undo.
-        define variable hDataset as handle no-undo.
-        oBE = ServiceManager:CreateBusinessEntity(pcService). 
-        oBe:GetData(output dataset-handle hDataset).
-        phTable = DatasetUtil:GetBufferByTableSerializeName(hDataset, pcService):table-handle.
+    method protected void FetchTable(pcService as character, output table-handle phTable):
+        var IBusinessEntity oBe = ServiceManager:CreateBusinessEntity(pcService).
+        oBe:GetData(output table-handle phTable).
     end method.     
-    
+     
 end class.
