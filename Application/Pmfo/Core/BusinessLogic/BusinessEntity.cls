@@ -288,15 +288,9 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
         WarningMessages = new WarningMessages().
     end method.
     
+    // hook to override for client behavior when the main bugger is received  
     method protected void ReceiveBuffer( pRequest as IGetDataTableRequest,pResponse as IGetDataTableResponse, phBuffer as handle):
     end method.
-     
-    method protected void AssertTableOutput(input phtable as handle):
-        if valid-handle(phTable) then 
-            // The BE is dataset oriented - Use FindService  or one of the GetData with Dataset output  
-            undo, throw new UnsupportedOperationError("Table request with output to a valid table-handle (i.e. by-reference). Use GetData with output dataset-handle if by-reference is needed.").  
-        
-    end method.      
      
     method protected void AssertDatasetName(phDataset as handle):
         define variable i as integer no-undo.
@@ -445,21 +439,40 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
     method public IGetDataTableResponse GetData( input pTableRequest as IGetDataTableRequest, output table-handle phTable):
         define variable oRequest  as IGetDataRequest  no-undo.
         define variable oResponse as IGetDataResponse no-undo.
-        
-        if pTableRequest:TableName <> DefaultDataset:get-buffer-handle(1):table-handle:name then 
-            undo, throw new IllegalArgumentError(subst("Table request for table '&1' passed to Business Entity for table '&2'",pTableRequest:TableName,Datasets[1]:get-buffer-handle(1):table-handle:name)).
+        define variable hNewDataset as handle no-undo.
         
         if DefaultDataset:num-top-buffers > 1 then 
             undo, throw new IllegalArgumentError(subst("Request to GetData with output table-handle in Resource &1 that has more than one top buffer in the default dataset",Resource)).
         
-        AssertTableOutput(input phTable).
+        if pTableRequest:TableName <> DefaultDataset:get-buffer-handle(1):table-handle:name then 
+            undo, throw new IllegalArgumentError(subst("Table request for table '&1' passed to Business Entity for table '&2'",pTableRequest:TableName,Datasets[1]:get-buffer-handle(1):table-handle:name)).
         
-        // create request for one table only
         oRequest = new GetDataRequest(pTableRequest).
         
-        oResponse = GetData(oRequest,output dataset-handle DefaultDataset by-reference). 
-        
-        phTable = DefaultDataset:get-top-buffer (1):table-handle. 
+        // if called without by-reference to an exisiting table or with the actual table of the dataset use the the dataset 
+        if valid-handle(phTable) = false 
+        or phTable = DefaultDataset:get-top-buffer (1):table-handle then
+        do: 
+            oResponse = GetData(oRequest,output dataset-handle DefaultDataset by-reference).
+            if not valid-handle(phTable) then 
+                phTable = DefaultDataset:get-top-buffer (1):table-handle. 
+        end.
+        // if a different table with same resource or table name 
+        // create a dynamic dataset for the phtable buffer
+        else do:
+            if phTable:serialize-name = Resource
+            or phTable:name = DefaultDataset:get-top-buffer (1):table-handle:name then
+            do on error undo, throw: 
+                create dataset hNewDataset.
+                hNewDataset:serialize-name = Resource.
+                hNewDataset:add-buffer(phTable:default-buffer-handle). 
+                GetData(oRequest,output dataset-handle hNewDataset by-reference).
+                finally:
+                    if valid-handle(hNewDataset) then 
+                         delete object hNewDataset.    
+                end finally.
+            end.
+        end.        
         
         return oResponse:TableResponses[1].     
     end method.
