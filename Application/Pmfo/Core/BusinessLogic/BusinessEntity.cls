@@ -459,7 +459,7 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
                 create dataset hNewDataset.
                 hNewDataset:serialize-name = Resource.
                 hNewDataset:add-buffer(phTable:default-buffer-handle). 
-                GetData(oRequest,output dataset-handle hNewDataset by-reference).
+                oResponse = GetData(oRequest,output dataset-handle hNewDataset by-reference).
                 finally:
                     if valid-handle(hNewDataset) then 
                          delete object hNewDataset.    
