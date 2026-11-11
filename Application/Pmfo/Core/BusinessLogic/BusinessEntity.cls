@@ -41,6 +41,7 @@ using Ccs.BusinessLogic.CommitScopeEnum from propath.
 using Ccs.Common.Application from propath.
 using OpenEdge.Core.Assert from propath.
 using OpenEdge.Core.String from propath.
+using Pmfo.Core.BusinessLogic.DatasetBuilder from propath.
 using Pmfo.Core.BusinessLogic.GetDataRequest from propath.
 using Pmfo.Core.BusinessLogic.GetDataResponse from propath.
 using Pmfo.Core.BusinessLogic.GetDataTableRequest from propath.
@@ -56,6 +57,7 @@ using Pmfo.Core.BusinessLogic.IUpdateDataResponse from propath.
 using Pmfo.Core.BusinessLogic.UpdateDataRequest from propath.
 using Pmfo.Core.Common.DataService from propath.
 using Pmfo.Core.Common.IWarningMessages from propath.
+using Pmfo.Core.Common.WarningMessages from propath.
 using Pmfo.Core.DataLayer.IDataAccess from propath.
 using Pmfo.Core.Error.ApplicationError from propath.
 using Pmfo.Core.Error.BadRequestError from propath.
@@ -67,6 +69,7 @@ using Pmfo.Core.Error.UnsupportedOperationError from propath.
 using Pmfo.Core.Error.ValidationError from propath.
 using Pmfo.Core.Manager.IServiceManager from propath.
 using Pmfo.Core.Manager.ISessionManager from propath.
+using Pmfo.Core.Service.IClientGetRequest from propath.
 using Pmfo.Core.Service.IClientRequest from propath.
 using Pmfo.Core.Service.JsonDatasetErrorProcessor from propath.
 using Pmfo.Util.BufferUtil from propath.
@@ -75,9 +78,6 @@ using Pmfo.Util.ErrorStringUtil from propath.
 using Progress.Json.ObjectModel.JsonObject from propath.
 using Progress.Lang.Error from propath.
 using Progress.Lang.Object from propath.
-using Pmfo.Core.BusinessLogic.DatasetBuilder from propath.
-using Pmfo.Core.Service.IClientGetRequest from propath.
-using Pmfo.Core.Common.WarningMessages from propath.
 
 class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService implements IBusinessEntity : 
     define public property Resource as character no-undo get. protected set.
@@ -435,10 +435,10 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
         define variable hNewDataset as handle no-undo.
         
         if DefaultDataset:num-top-buffers > 1 then 
-            undo, throw new IllegalArgumentError(subst("Request to GetData with output table-handle in Resource &1 that has more than one top buffer in the default dataset",Resource)).
+            undo, throw new UnsupportedOperationError(subst("Request to GetData with output table-handle in Resource &1 that has more than one top buffer in the default dataset",Resource)).
         
         if pTableRequest:TableName <> DefaultDataset:get-buffer-handle(1):table-handle:name then 
-            undo, throw new IllegalArgumentError(subst("Table request for table '&1' passed to Business Entity for table '&2'",pTableRequest:TableName,Datasets[1]:get-buffer-handle(1):table-handle:name)).
+            undo, throw new UnsupportedOperationError(subst("Table request for table '&1' passed to Business Entity for table '&2'",pTableRequest:TableName,Datasets[1]:get-buffer-handle(1):table-handle:name)).
         
         oRequest = new GetDataRequest(pTableRequest).
         
@@ -465,6 +465,9 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
                          delete object hNewDataset.    
                 end finally.
             end.
+            else
+                undo, throw new UnsupportedOperationError(subst("Request for table '&1' passed to Business Entity for table '&2'",phTable:name,DefaultDataset:get-buffer-handle(1):table-handle:name)).
+        
         end.        
         
         return oResponse:TableResponses[1].     
