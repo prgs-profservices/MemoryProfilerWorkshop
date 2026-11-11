@@ -1,11 +1,13 @@
  
  /*------------------------------------------------------------------------
     File        : AssertUtil
-    Purpose     : 
+    Purpose     : Assert(s) not supported in the OpenEdge.Core Assert 
+                  classes 
     Syntax      : 
-    Description : Methods that are language related and dnoes not fit  in the other utilities for Buffer, Dataset, Json, Date, Relation, Query, Number, String and others.     
+    Description : Methods that are language related and does not fit in the other 
+                  utilities for Buffer, Dataset, Json, Date, Relation, Query, 
+                  Number, String and others.     
     Author(s)   : hdaniels
-    Created     : Thu Apr 15 12:31:11 EDT 2021
     Notes       : 
   ----------------------------------------------------------------------*/
 

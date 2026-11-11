@@ -1,11 +1,9 @@
- 
  /*------------------------------------------------------------------------
     File        : BufferUtil
-    Purpose     : 
+    Purpose     : Buffer and buffer-field related Utilities 
     Syntax      : 
     Description : 
     Author(s)   : hdaniels
-    Created     : Thu Apr 18 08:47:10 EDT 2019
     Notes       : 
   ----------------------------------------------------------------------*/
 
@@ -36,7 +34,7 @@ using Pmfo.Util.NumberUtil from propath.
  
 class Pmfo.Util.BufferUtil: 
      // cannot have field that start with _ since index-information throws STOP 
-    define public  static  property SeqFieldName as character no-undo init "zz_seq" get. set.
+    define public static property SeqFieldName as character no-undo init "zz_seq" get. set.
    
     method public static character GetAlreadyExistsMessage (phDataset as handle, pError as Error):
         define variable cTable  as character no-undo.
