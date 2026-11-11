@@ -416,14 +416,7 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
         return GetData(oTableRequest, output dataset-handle phDataset by-reference).
     end method.
  
-    /***************** GetData methods with output table - does not support by-referece *****
-      NOTE: It is possible to extend these  to support by-reference by creating a dynamic
-            dataset and add the passed buffer to the dataset and pass the 
-            dataset to the data access. This dataaset would then have to be deleted 
-            before rerturning the table. 
-          - This would be convenient, but it is nore efficient to use a GetData method that 
-            returns the dataset if by-reference is desired/needed.              
-    ******************************************************************************************/ 
+    /***************** GetData methods with output table *********************/ 
     
     // Request for all records of the main table - does not support by-reference
     method public void GetData( output table-handle phTable ):
