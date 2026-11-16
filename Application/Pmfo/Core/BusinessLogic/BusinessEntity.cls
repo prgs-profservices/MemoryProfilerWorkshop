@@ -291,6 +291,14 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
     // hook to override for client behavior when the main bugger is received  
     method protected void ReceiveBuffer( pRequest as IGetDataTableRequest,pResponse as IGetDataTableResponse, phBuffer as handle):
     end method.
+    
+    // Assert ouput table handle id not by reference for GetData with output table handle 
+    method protected void AssertTableOutput(input phtable as handle):
+        if valid-handle(phTable) then 
+            // The BE is dataset oriented - Use FindService  or one of the GetData with Dataset output  
+            undo, throw new UnsupportedOperationError("Table request with output to a valid table-handle (i.e. by-reference). Use GetData with output dataset-handle if by-reference is needed.").  
+        
+    end method.      
      
     method protected void AssertDatasetName(phDataset as handle):
         define variable i as integer no-undo.
@@ -416,70 +424,73 @@ class Pmfo.Core.BusinessLogic.BusinessEntity abstract inherits DataService imple
         return GetData(oTableRequest, output dataset-handle phDataset by-reference).
     end method.
  
-    /***************** GetData methods with output table *********************/ 
-    
+     /***************** GetData methods with output table - does not support by-referece *****
+      NOTE: It is possible to extend these  to support by-reference by creating a dynamic
+            dataset and add the passed buffer to the dataset and pass the 
+            dataset to the data access. This dataaset would then have to be deleted 
+            before rerturning the table. 
+          - This would be convenient, but it is nore efficient to use a GetData method that 
+            returns the dataset if by-reference is desired/needed.              
+    ******************************************************************************************/ 
+   
     // Request for all records of the main table - does not support by-reference
     method public void GetData( output table-handle phTable ):
         define variable oTableRequest as IGetDataTableRequest  no-undo.
         
+        // do not allow by-reference
+        AssertTableOutput(input phTable).
+        
         oTableRequest = new GetDataTableRequest(DefaultDataset:get-top-buffer(1):table-handle:name).
         
+        // use the table of the defaUlt DATASET 
+        phTable = DefaultDataset:get-top-buffer (1):table-handle. 
         GetData(oTableRequest,output table-handle phTable by-reference).
           
     end method.     
     
     // Request for the table - does not support by-reference
     method public IGetDataTableResponse GetData( input pTableRequest as IGetDataTableRequest, output table-handle phTable):
-        define variable oRequest  as IGetDataRequest  no-undo.
-        define variable oResponse as IGetDataResponse no-undo.
-        define variable hNewDataset as handle no-undo.
+        // do not allow by-reference
+        AssertTableOutput(input phTable).
         
-        if DefaultDataset:num-top-buffers > 1 then 
-            undo, throw new UnsupportedOperationError(subst("Request to GetData with output table-handle in Resource &1 that has more than one top buffer in the default dataset",Resource)).
-        
-        if pTableRequest:TableName <> DefaultDataset:get-buffer-handle(1):table-handle:name then 
-            undo, throw new UnsupportedOperationError(subst("Table request for table '&1' passed to Business Entity for table '&2'",pTableRequest:TableName,Datasets[1]:get-buffer-handle(1):table-handle:name)).
-        
-        oRequest = new GetDataRequest(pTableRequest).
-        
-        // if called without by-reference to an exisiting table or with the actual table of the dataset use the the dataset 
-        if valid-handle(phTable) = false 
-        or phTable = DefaultDataset:get-top-buffer (1):table-handle then
-        do: 
-            oResponse = GetData(oRequest,output dataset-handle DefaultDataset by-reference).
-            if not valid-handle(phTable) then 
-                phTable = DefaultDataset:get-top-buffer (1):table-handle. 
-        end.
-        // if a different table with same resource or table name 
-        // create a dynamic dataset for the phtable buffer
-        else do:
-            if phTable:serialize-name = Resource
-            or phTable:name = DefaultDataset:get-top-buffer (1):table-handle:name then
-            do on error undo, throw: 
-                create dataset hNewDataset.
-                hNewDataset:serialize-name = Resource.
-                hNewDataset:add-buffer(phTable:default-buffer-handle). 
-                oResponse = GetData(oRequest,output dataset-handle hNewDataset by-reference).
-                finally:
-                    if valid-handle(hNewDataset) then 
-                         delete object hNewDataset.    
-                end finally.
-            end.
-            else
-                undo, throw new UnsupportedOperationError(subst("Request for table '&1' passed to Business Entity for table '&2'",phTable:name,DefaultDataset:get-buffer-handle(1):table-handle:name)).
-        
-        end.        
-        
-        return oResponse:TableResponses[1].     
+        // use the table of th4e defaUlt DATASET 
+        phTable = DefaultDataset:get-top-buffer (1):table-handle. 
+        return GetDataForTopTable(pTableRequest, output table-handle phTable by-reference).
     end method.
-    
     
     /* request for the table - does not support by-reference  */
     method public IGetDataTableResponse GetData( input pQueryEntry as IQueryEntry, output table-handle phTable): 
         define variable oTableRequest as IGetDataTableRequest no-undo.
+        
+        // do not allow by-reference
+        AssertTableOutput(input phTable).
+        
         oTableRequest = new GetDataTableRequest(DefaultDataset:get-buffer-handle(1):table-handle:name).
         oTableRequest:AddQueryEntry(pQueryEntry).
-        return GetData(oTableRequest, output table-handle phTable by-reference).
+        
+        // use the table of th4e defaUlt DATASET 
+        phTable = DefaultDataset:get-top-buffer (1):table-handle. 
+        return GetDataForTopTable(oTableRequest, output table-handle phTable by-reference).
+    end method.
+    
+    // internal method intended to be called with table by-reference from the public GetData methods that do not support output of table by-reference 
+    method protected IGetDataTableResponse GetDataForTopTable( input pTableRequest as IGetDataTableRequest, output table-handle phTable):
+        define variable oRequest  as IGetDataRequest  no-undo.
+        define variable oResponse as IGetDataResponse no-undo.
+        
+        if not valid-handle(phTable) then
+            undo, throw new UnsupportedOperationError(subst("Request to GetDataForTopTable called with unknown output table-handle in Resource &1. This internal method is intended to be called with table by-reference to support the public GetData methods that do not support output of table by-reference.",Resource)).
+        
+        if pTableRequest:TableName <> DefaultDataset:get-buffer-handle(1):table-handle:name then 
+            undo, throw new UnsupportedOperationError(subst("Table request for table '&1' passed to Business Entity for table '&2'",pTableRequest:TableName,Datasets[1]:get-buffer-handle(1):table-handle:name)).
+        
+        // create request for the single requested table only
+        oRequest = new GetDataRequest(pTableRequest).
+        
+        oResponse = GetData(oRequest,output dataset-handle DefaultDataset by-reference). 
+       
+        return oResponse:TableResponses[1].     
+             
     end method.
     
     method public IGetDataResponse CreateDataResponse(poRequest as IGetDataRequest):
