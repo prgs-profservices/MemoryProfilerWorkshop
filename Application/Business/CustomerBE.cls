@@ -32,7 +32,7 @@ class Business.CustomerBE inherits BusinessEntity:
     {schema/order.i reference-only}
     
     define dataset dsCustomer for ttCustomer.
-
+    
     constructor CustomerBE():
         super(dataset dsCustomer:handle).
     end constructor.
@@ -62,7 +62,6 @@ class Business.CustomerBE inherits BusinessEntity:
         
         // Copy to the ttSalesrep defined here 
         FetchTable(temp-table ttSalesrep:serialize-name, output table ttSalesRep).
-        
         for each ttCustomer where row-state(ttCustomer) > 0:
             if row-state(ttCustomer) = row-created 
             or ttCustomer.SalesRep <> biCustomer.SalesRep
@@ -159,13 +158,7 @@ class Business.CustomerBE inherits BusinessEntity:
             
             oOrderBE:GetData(oQuery,output table-handle hOrderTable). 
             AssertNoOutstandingOrders(biCustomer.CustNum, input table-handle hOrderTable by-reference).
-        end.
-        finally:
-            if valid-handle(hInvoiceTable) then 
-                delete object hInvoiceTable.
-            if valid-handle(hOrderTable) then 
-                delete object hOrderTable.
-        end finally.
+        end. 
     end method. //  ValidateDelete
     
     method protected void AssertPaidInvoices(piCustnum as integer, input table ttInvoice):
@@ -229,6 +222,10 @@ class Business.CustomerBE inherits BusinessEntity:
     method protected void FetchTable(pcService as character, output table-handle phTable):
         var IBusinessEntity oBe = ServiceManager:CreateBusinessEntity(pcService).
         oBe:GetData(output table-handle phTable).
+        finally:
+            if valid-handle(phTable) then 
+                delete object phTable.
+        end finally.
     end method.     
      
 end class.
